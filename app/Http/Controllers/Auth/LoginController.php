@@ -27,10 +27,10 @@ class LoginController extends Controller
      */
     protected $redirectTo = '/home';
 
-    //This function allows login by username.
+    //This functions allows for login by name.
     public function username()
     {
-        return 'username';
+        return 'name';
     }
 
     /**
