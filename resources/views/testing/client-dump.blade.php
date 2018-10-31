@@ -3,5 +3,5 @@
 @section('title', 'Home Page')
 
 @section('content')
-    <h1>{{ $clients }}</h1>
+    <p>{{ $clients }}</p>
 @endsection

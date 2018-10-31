@@ -19,10 +19,7 @@ Route::get('/home', function () {
     return view('home');
 })->name('home');
 
-Route::get('/testing/client-dump', function () {
-    $clients = DB::table('Customer')->get();
-    return view('testing.client-dump', ['clients' => $clients]);
-});
+Route::get('testing/client-dump', 'Pantry\ClientController@index');
 
 //Auth Routes
 
