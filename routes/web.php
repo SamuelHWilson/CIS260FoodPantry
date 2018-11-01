@@ -36,13 +36,18 @@ Route::post('register', 'Auth\RegisterController@register');
 
 //Test Routes
 
-Route::get('/testing/calendar', function() {
-    return view('calendar');
-});
+//Test routes are all protected by authentication to safegaurd application if they are forgotten.
+Route::middleware(['auth.basic'])->group(function() {
 
-Route::get('testing/client-dump', 'Pantry\ClientController@index');
-Route::get('testing/appointment-dump', 'Pantry\AppointmentController@index');
-Route::get('testing/status-dump', 'Pantry\StatusController@index');
+    Route::get('/testing/calendar', function() {
+        return view('calendar');
+    });
+    
+    Route::get('testing/client-dump', 'Pantry\ClientController@index');
+    Route::get('testing/appointment-dump', 'Pantry\AppointmentController@index');
+    Route::get('testing/status-dump', 'Pantry\StatusController@index');
+
+});
 
 //Automatically added for default auth.
 // Auth::routes();
