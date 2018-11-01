@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers\Pantry;
 
-use App\Client;
+use App\Status;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class ClientController extends Controller
+class StatusController extends Controller
 {
     
     //Show all clients.
     public function index()
     {
-        return view('testing.client-dump', ['clients' => Client::with('Appointment')->get()]);
+        return view('testing.status-dump', ['statuses' => Status::with('Appointment')->get()]);
     }
 }

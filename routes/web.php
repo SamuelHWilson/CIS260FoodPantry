@@ -19,8 +19,6 @@ Route::get('/home', function () {
     return view('home');
 })->name('home');
 
-Route::get('testing/client-dump', 'Pantry\ClientController@index');
-
 //Auth Routes
 
 //This route must be named, otherwise the auth middleware can't find it.
@@ -35,6 +33,16 @@ Route::get('/register', function () {
 Route::post('login', 'Auth\LoginController@login');
 Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 Route::post('register', 'Auth\RegisterController@register');
+
+//Test Routes
+
+Route::get('/testing/calendar', function() {
+    return view('calendar');
+});
+
+Route::get('testing/client-dump', 'Pantry\ClientController@index');
+Route::get('testing/appointment-dump', 'Pantry\AppointmentController@index');
+Route::get('testing/status-dump', 'Pantry\StatusController@index');
 
 //Automatically added for default auth.
 // Auth::routes();

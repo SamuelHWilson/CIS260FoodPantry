@@ -1,7 +1,11 @@
 @extends('layouts.main-layout')
 
-@section('title', 'Home Page')
+@section('title', 'All Clients')
 
 @section('content')
-    <p>{{ $clients }}</p>
+    @foreach ($clients as $client)
+        <p>{{$client->Last_Name.", ".$client->First_Name}}:</p>
+        <p>{{$client}}</p>
+        <br><br>
+    @endforeach
 @endsection

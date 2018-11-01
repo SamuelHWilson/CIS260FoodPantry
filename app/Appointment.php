@@ -4,10 +4,15 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Client extends Model
+class Appointment extends Model
 {
-    public function Appointment() {
-        return $this->hasMany('App\Appointment', 'Client_ID');
+
+    public function Client() {
+        return $this->belongsTo('App\Client', 'Client_ID');
+    }
+
+    public function Status() {
+        return $this->belongsTo('App\Status', 'Status_ID');
     }
 
     /**
@@ -29,7 +34,7 @@ class Client extends Model
     ];
 
     //These are here to override naming convention.
-    protected $table = 'Client';
-    protected $primaryKey = 'Client_ID';
+    protected $table = 'Appointment';
+    protected $primaryKey = 'Appointment_ID';
     public $timestamps = false;
 }

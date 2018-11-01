@@ -4,10 +4,10 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Client extends Model
+class Status extends Model
 {
     public function Appointment() {
-        return $this->hasMany('App\Appointment', 'Client_ID');
+        return $this->hasMany('App\Appointment', 'Status_ID');
     }
 
     /**
@@ -29,7 +29,7 @@ class Client extends Model
     ];
 
     //These are here to override naming convention.
-    protected $table = 'Client';
-    protected $primaryKey = 'Client_ID';
+    protected $table = 'Status';
+    protected $primaryKey = 'Status_ID';
     public $timestamps = false;
 }
