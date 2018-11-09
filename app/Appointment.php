@@ -7,8 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Appointment extends Model
 {
-    public static $timeDisplayFormat = "h:ia";
-
     public function Client() {
         return $this->belongsTo('App\Client', 'Client_ID');
     }
@@ -22,8 +20,8 @@ class Appointment extends Model
         return $dt;
     }
 
-    public function GetDisplayTime() {
-        return $this->GetDateTime()->format(Appointment::$timeDisplayFormat);
+    public function GetFullName() {
+        return $this->client->First_Name." ".$this->client->LastName;
     }
 
     /**
