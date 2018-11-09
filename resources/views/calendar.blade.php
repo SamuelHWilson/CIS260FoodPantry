@@ -4,11 +4,11 @@
     <head>
         <title>Calendar</title>
         <meta charset='utf-8' />
-        <link href='..css/fullcalendar.css' rel='stylesheet' />
-        <link href='..css/style.css' rel='stylesheet' />
-        <script src='..js/moment.min.js'></script>
-        <script src='..js/jquery.min.js'></script>
-        <script src='..js/fullcalendar.js'></script>
+        <link href="{{ asset('css/fullcalendar.css') }}" rel='stylesheet' />
+        <link href="{{ asset('css/style.css') }}" rel='stylesheet' />
+        <script src="{{ asset('js/moment.min.js') }}"></script>
+        <script src="{{ asset('js/jquery.min.js') }}"></script>
+        <script src="{{ asset('js/fullcalendar.js') }}"></script>
 
         <script>
         $(document).ready(function() {
