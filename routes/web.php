@@ -47,6 +47,7 @@ Route::middleware(['auth.basic'])->group(function() {
     Route::get('testing/appointment-dump', 'Pantry\AppointmentController@index');
     Route::get('testing/status-dump', 'Pantry\StatusController@index');
 
+    Route::get('testing/testcon', 'TestController@test');
 });
 
 //Automatically added for default auth.
