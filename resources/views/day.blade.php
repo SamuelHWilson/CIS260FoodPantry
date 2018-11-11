@@ -29,21 +29,41 @@
                     }
                 },
                 header: {
-                left: 'prev,next today addEvent',
+                left: 'previous addAppointment',
                 center: 'title',
-                right: 'month,agendaWeek,agendaDay,listWeek'
+                right: 'monthView forward'
                 },
                 customButtons: {
-                    addEvent: {
+                    addAppointment: {
                         text: 'add appointment',
                         click: function() {
                             alert('This will open appointment creation page')
+                        }
+                    },
+                    monthView: {
+                        text: "month view",
+                        click: function(){
+                            alert('This will go to page for month view')
+                        }
+                    },
+                    previous: {
+                        text: 'previous',
+                        click: function() {
+                            alert('This will go to page for previous day/month')
+                        }
+                    },
+                    forward: {
+                        text: 'next',
+                        click: function(){
+                            alert('This will go to page for next day/month')
                         }
                     }
                 },
                 defaultView: 'agendaDay',
                 allDaySlot: false,
-                navLinks: true,
+                navLinks: false,
+                nowIndicator: true,
+                slotEventOverlap: false,
                 aspectRatio: 2,
                 slotDuration: '00:15:00',
                 minTime: '06:00:00',
@@ -55,12 +75,28 @@
                 events: [
                     {
                     title: 'Appointment',
-                    start: '2018-11-09 08:30:00',
+                    start: '2018-11-10 08:30:00',
                     url: 'https://www.google.com/',
                     },
                     {
                     title: 'Appointment',
-                    start: '2018-11-09 08:30:00'
+                    start: '2018-11-10 08:30:00'
+                    },
+                    {
+                    title: 'Appointment',
+                    start: '2018-11-10 08:30:00'
+                    },
+                    {
+                    title: 'Appointment',
+                    start: '2018-11-10 08:30:00'
+                    },
+                    {
+                    title: 'Appointment',
+                    start: '2018-11-10 08:30:00'
+                    },
+                    {
+                    title: 'Appointment',
+                    start: '2018-11-10 08:30:00'
                     },
                 ]
                 });
@@ -70,7 +106,7 @@
     <body>
         <ul>
             <li><a class="active" href="#calendar">Calendar</a></li>
-            <li><a href="#news">Reports</a></li>
+            <li><a href="#reports">Reports</a></li>
             <li><a href="#settings">Settings</a></li>
             <li style="float:right"><a href="#lock">Lock Page</a></li>
         </ul>
