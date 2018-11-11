@@ -11,6 +11,6 @@ class AppointmentController extends Controller
     public function test()
     {
         $temp = new DayMap(new DateTime('2018-11-05'));
-        return $temp->appointmentSlots;
+        return $temp->getFCEventJSON();
     }
 }

@@ -30,7 +30,6 @@ class DayMap {
         $this->fifteenMinuteInterval = new DateInterval('PT15M');
         $this->setConfigruation();
         $this->queryAppointments();
-        $this->createAppointmentObjects();
     }
 
     private function setConfigruation() {
@@ -46,7 +45,7 @@ class DayMap {
     public function getFCEventJSON() {
         $eventObjects = [];
         
-        foreach ($allAppointments as $appointment) {
+        foreach ($this->allAppointments as $appointment) {
             $eventObjects[] = new FCEvent($appointment);
         }
 
