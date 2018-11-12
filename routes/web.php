@@ -11,6 +11,8 @@
 |
 */
 
+use App\Scheduling\FCEvent;
+
 Route::get('/', function() {
     return redirect('home');
 });
@@ -39,13 +41,13 @@ Route::post('register', 'Auth\RegisterController@register');
 //Test routes are all protected by authentication to safegaurd application if they are forgotten.
 Route::middleware(['auth.basic'])->group(function() {
 
-    Route::get('/testing/calendar', function() {
-        return view('calendar');
+    Route::get('testing/appointments/day-view/{date}', 'Pantry\AppointmentController@showDay');
+    Route::get('testing/appointments/month-view/{date}', 'Pantry\AppointmentController@showMonth');
+    Route::get('testing/appointments/{view}-view', function($view) {
+        $now = new DateTime();
+        $currentDate = $now->format(FCEvent::$FCDateFormat);
+        return redirect('testing/appointments/'.$view.'-view/'.$currentDate);
     });
-    
-    Route::get('testing/client-dump', 'Pantry\ClientController@index');
-    Route::get('testing/appointment-dump', 'Pantry\AppointmentController@index');
-    Route::get('testing/status-dump', 'Pantry\StatusController@index');
 
     Route::get('testing/testcon', 'AppointmentController@test');
 });

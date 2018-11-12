@@ -12,7 +12,6 @@
 
         <script>
         $(document).ready(function() {
-
             $('#calendar').fullCalendar({
                 eventClick: function(eventObj) {
                     if (eventObj.url) {
@@ -31,7 +30,7 @@
                 header: {
                 left: 'previous addAppointment',
                 center: 'title',
-                right: 'monthView forward'
+                right: 'nextView forward'
                 },
                 customButtons: {
                     addAppointment: {
@@ -40,26 +39,27 @@
                             alert('This will open appointment creation page')
                         }
                     },
-                    monthView: {
-                        text: "month view",
+                    nextView: {
+                        text: 'Go to {{ $view == "day" ? "Month" : "Day" }} View',
                         click: function(){
-                            alert('This will go to page for month view')
+                            window.location = '../{{ $view == "day" ? "month" : "day" }}-view/{{ $currentDate }}'
                         }
                     },
                     previous: {
-                        text: 'previous',
+                        text: 'Previous {{ ucfirst($view) }}',
                         click: function() {
-                            alert('This will go to page for previous day/month')
+                            window.location = '../{{ $view }}-view/{{ $prevDate }}'                            
                         }
                     },
                     forward: {
-                        text: 'next',
+                        text: 'Next  {{ ucfirst($view) }}',
                         click: function(){
-                            alert('This will go to page for next day/month')
+                            window.location = '../{{ $view }}-view/{{ $nextDate }}'                            
                         }
                     }
                 },
-                defaultView: 'agendaDay',
+                defaultView: '{{ $view == "day" ? "agendaDay" : "month" }}',
+                defaultDate: '{{ $currentDate }}',
                 allDaySlot: false,
                 navLinks: false,
                 nowIndicator: true,
@@ -72,33 +72,7 @@
                 defaultTimedEventDuration: '00:15:00',
                 allDayDefault: false,
                 eventLimit: true,
-                events: [
-                    {
-                    title: 'Appointment',
-                    start: '2018-11-10 08:30:00',
-                    url: 'https://www.google.com/',
-                    },
-                    {
-                    title: 'Appointment',
-                    start: '2018-11-10 08:30:00'
-                    },
-                    {
-                    title: 'Appointment',
-                    start: '2018-11-10 08:30:00'
-                    },
-                    {
-                    title: 'Appointment',
-                    start: '2018-11-10 08:30:00'
-                    },
-                    {
-                    title: 'Appointment',
-                    start: '2018-11-10 08:30:00'
-                    },
-                    {
-                    title: 'Appointment',
-                    start: '2018-11-10 08:30:00'
-                    },
-                ]
+                events: {!! $appointments !!}
                 });
             });
         </script>
