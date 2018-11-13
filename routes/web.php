@@ -11,22 +11,33 @@
 |
 */
 
+use Illuminate\Support\Facades\Auth;
 use App\Scheduling\FCEvent;
+
+//Permenent Routes
 
 Route::get('/', function() {
     return redirect('home');
 });
-
 Route::get('/home', function () {
-    return view('home');
+    if (Auth::check()) { 
+        return view('home');
+    } else {
+        return redirect('login');
+    }
+    
 })->name('home');
-
-//Auth Routes
 
 //This route must be named, otherwise the auth middleware can't find it.
 Route::get('/login', function () {
     return view('auth.login');
 })->name('login');
+Route::post('/login', 'Auth\LoginController@login');
+Route::post('logout', 'Auth\LoginController@logout')->name('logout');
+
+Route::get('/view-appointment/{id}', 'Pantry\AppointmentController@viewAppointment')->name('view-appointment');
+
+//Auth Routes
 
 Route::get('/testing/schedule-appointment', function (){
     return view('crud.schedule-appointment');
@@ -40,8 +51,6 @@ Route::get('/register', function () {
     return view('auth.register');
 })->name('register');
 
-Route::post('login', 'Auth\LoginController@login');
-Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 Route::post('register', 'Auth\RegisterController@register');
 
 //Test Routes

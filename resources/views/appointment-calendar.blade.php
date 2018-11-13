@@ -14,18 +14,7 @@
         $(document).ready(function() {
             $('#calendar').fullCalendar({
                 eventClick: function(eventObj) {
-                    if (eventObj.url) {
-                        alert(
-                        'Clicked ' + eventObj.title + '.\n' +
-                        'Will open ' + eventObj.url
-                        );
-
-                        window.location(eventObj.url);
-
-                        return false;
-                    } else {
-                        alert('Clicked ' + eventObj.title);
-                    }
+                    window.location = '/view-appointment' + '/' +  eventObj.id
                 },
                 header: {
                 left: 'previous addAppointment',

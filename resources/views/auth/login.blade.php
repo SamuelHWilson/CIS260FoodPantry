@@ -23,14 +23,17 @@ LAST UPDATE: 11/05/2018-->
 
       <!--Input Elements-->
       <div class="Index_login">
-        <label for="uname"><b>Username: </b></label>
-        <input type="text" placeholder="Enter Username" name="uname" required>
-        <br><br>
-        <label for="psw"><b>Password: </b></label>
-        <input type="password" placeholder="Enter Password" name="psw" required>
-        <br><br>
-        <!--Submit Button-->
-        <button type="submit">Login</button>
+        <form method="POST" action="/login">
+          @csrf
+          <label for="name"><b>Username: </b></label>
+          <input type="text" placeholder="Enter Username" name="name" required>
+          <br><br>
+          <label for="password"><b>Password: </b></label>
+          <input type="password" placeholder="Enter Password" name="password" required>
+          <br><br>
+          <!--Submit Button-->
+          <input type="submit" value='Login'>
+        </form>
       </div>
     </div>
   </div>
