@@ -28,6 +28,14 @@ Route::get('/login', function () {
     return view('auth.login');
 })->name('login');
 
+Route::get('/testing/schedule-appointment', function (){
+    return view('crud.schedule-appointment');
+});
+
+Route::get('/testing/view-appointment', function (){
+    return view('crud.view-appointment');
+});
+
 Route::get('/register', function () {
     return view('auth.register');
 })->name('register');

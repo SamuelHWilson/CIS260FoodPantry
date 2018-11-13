@@ -1,24 +1,39 @@
-@extends('layouts.main-layout')
+<!doctype html>
+<!--
+PROJECT: Appointment MANAGER
+PAGE: Index.html
+LAST UPDATE: 11/05/2018-->
+<html>
+<!--Beginning of header-->
+<head>
+  <title>Login</title>
+  <link rel = "stylesheet" href = "{{ asset('css/styleMichael.css') }}">
+</head>
+<!--Beginning of body-->
+<body class = "Index_body">
+  <div class = "Index_mainDiv">
+    <div class = "Index_container">
 
-@section('title', 'Login Page')
+      <!--Div for Title and Image-->
+      <div class = "header">
+        <h1><font face="Helvetica">APPOINTMENT MANAGER</font></h1>
+        <br>
+        <img class = "Index_image" src ="http://chambermaster.blob.core.windows.net/images/customers/761/members/88/logos/MEMBER_PAGE_HEADER/LOT_Logo.jpg">
+      </div>
 
-@section('content')
-    <form method="POST" action="/login">
-        @csrf
+      <!--Input Elements-->
+      <div class="Index_login">
+        <label for="uname"><b>Username: </b></label>
+        <input type="text" placeholder="Enter Username" name="uname" required>
+        <br><br>
+        <label for="psw"><b>Password: </b></label>
+        <input type="password" placeholder="Enter Password" name="psw" required>
+        <br><br>
+        <!--Submit Button-->
+        <button type="submit">Login</button>
+      </div>
+    </div>
+  </div>
 
-        {{ $errors }}
-
-        <p>What would you like to do?</p>
-        <input type="radio" name="name" value="view" checked='checked'> View appointments.<br>
-        <input type="radio" name="name" value="edit"> View and Edit appointments.<br>
-
-        <p>Password</p>
-        <input id="password" type="password" name="password" required>
-
-        <input type="hidden" name="remember" id="remember" value='true'>
-
-        <button type="submit">
-            {{ __('Login') }}
-        </button>
-    </form>
-@endsection
+</body>
+</html>
