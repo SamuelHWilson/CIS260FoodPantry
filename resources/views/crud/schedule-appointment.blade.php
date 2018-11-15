@@ -15,18 +15,8 @@ LAST UPDATE: 11/05/2018-->
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <script type="text/javascript">
-//Dropdown Calendar
-  $( function() {
-    $( "#datepicker" ).datepicker();
-  } );
 
 //Form Validation
-  function  val(){
-    //Calendar
-    if(frm.date.value==""){
-      alert("You must select a date for the appointment.")
-      return false;
-    }
     //First Name
     if(frm.firstName.value==""){
       alert("You must enter a First Name for the client.")
@@ -74,7 +64,7 @@ LAST UPDATE: 11/05/2018-->
     <div class="Appointment_Form">
 
       <form name="frm">
-      <b>Appointment Date: </b><input type="text" id="datepicker" name="date" />
+      <b>Appointment Date: </b><input type="text" id="date" name="date" readonly />
       <br><br>
 
       <!--Appointment time-->

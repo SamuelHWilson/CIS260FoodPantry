@@ -14,10 +14,10 @@ LAST UPDATE: 11/05/2018-->
 <!--Beginning of body-->
 <body class = "Index_body">
   <div class="Appointment_Body">
-    <h1 class="Appointment_Header"><font face="Helvetica">APPOINTMENT STATUS</font></h1>
+    <h1 class="Appointment_Header"><font face="Helvetica">APPOINTMENT INFORMATION</font></h1>
     <div class="Appointment_Form">
 
-      <b>Appointment Date: </b><b class="Appointment_Time"><b class="Appointment_Date"><font color="red">Insert appointment date/time here</font></b>
+      <b>Appointment Date: </b><b class="Appointment_Time"><input type="text" id="date" name="date" readonly /></b>
 
       <br><br>
       <form name="frm">
@@ -48,20 +48,12 @@ LAST UPDATE: 11/05/2018-->
         <input type="text" id="SB_Eligibility" style="width: 100px" readonly />
         <br><br>
 
-        <!--Appointment Status title and dropdown-->
-        <b>Appointment Status</b>
-        <select>
-          <option value="Scheduled">Scheduled</option>
-          <option value="Rescheduled">Rescheduled</option>
-          <option value="Cancelled" id="cancelled">Cancelled</option>
-          <option value="Complete">Complete</option>
-        </select>
-        <br><br>
 
         <!--buttons-->
-        <input type="submit" value="Submit">
-        <input type="button" value="Create New Appointment">
-        <input type="submit" value="Cancel">
+        <input type="submit" value="Check-in">
+        <input type="submit" value="Reschedule Appointment">
+        <input type="submit" value="Cancel Appointment"><br><br>
+        <input type="submit" value="Go Back">
       </form>
     </div>
   </div>
