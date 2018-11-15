@@ -14,18 +14,13 @@
 use Illuminate\Support\Facades\Auth;
 use App\Scheduling\FCEvent;
 
-//Permenent Routes
-
 Route::get('/', function() {
-    return redirect('home');
-});
-Route::get('/home', function () {
     if (Auth::check()) { 
-        return view('home');
+        $date = new DateTime();
+        return redirect('/appointments/day-view/'.$date->format(FCEvent::$FCDateFormat));
     } else {
         return redirect('login');
     }
-    
 })->name('home');
 
 //This route must be named, otherwise the auth middleware can't find it.
@@ -33,11 +28,18 @@ Route::get('/login', function () {
     return view('auth.login');
 })->name('login');
 Route::post('/login', 'Auth\LoginController@login');
-Route::post('logout', 'Auth\LoginController@logout')->name('logout');
+Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
 
-Route::get('/view-appointment/{id}', 'Pantry\AppointmentController@viewAppointment')->name('view-appointment');
+Route::middleware(['auth.basic'])->group(function() {
+    Route::get('/appointments/day-view/{date}', 'Pantry\AppointmentController@showDay');
+    Route::get('/appointments/month-view/{date}', 'Pantry\AppointmentController@showMonth');
 
-//Auth Routes
+    Route::get('/appointments/view-appointment/{id}', 'Pantry\AppointmentController@viewAppointment')->name('view-appointment');
+    Route::get('/appointments/create-appointment/{date}', 'Pantry\AppointmentController@showCreateForm');
+    Route::post('/appointments/create-appointment', 'Pantry\AppointmentController@createAppointment');
+});
+
+//------
 
 Route::get('/testing/schedule-appointment', function (){
     return view('crud.schedule-appointment');
@@ -58,8 +60,6 @@ Route::post('register', 'Auth\RegisterController@register');
 //Test routes are all protected by authentication to safegaurd application if they are forgotten.
 Route::middleware(['auth.basic'])->group(function() {
 
-    Route::get('testing/appointments/day-view/{date}', 'Pantry\AppointmentController@showDay');
-    Route::get('testing/appointments/month-view/{date}', 'Pantry\AppointmentController@showMonth');
     Route::get('testing/appointments/{view}-view', function($view) {
         $now = new DateTime();
         $currentDate = $now->format(FCEvent::$FCDateFormat);

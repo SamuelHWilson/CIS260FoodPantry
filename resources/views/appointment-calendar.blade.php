@@ -14,18 +14,19 @@
         $(document).ready(function() {
             $('#calendar').fullCalendar({
                 eventClick: function(eventObj) {
-                    window.location = '/view-appointment' + '/' +  eventObj.id
+                    window.location = '/appointments/view-appointment/' +  eventObj.id
                 },
+                height: "auto",
                 header: {
-                left: 'previous addAppointment',
-                center: 'title',
-                right: 'nextView forward'
+                    left: 'previous addAppointment',
+                    center: 'title',
+                    right: 'nextView forward'
                 },
                 customButtons: {
                     addAppointment: {
                         text: 'add appointment',
                         click: function() {
-                            alert('This will open appointment creation page')
+                            window.location = '/appointments/create-appointment/{{ $currentDate }}'
                         }
                     },
                     nextView: {
@@ -67,11 +68,14 @@
         </script>
     </head>
     <body>
+        <form method="POST" action="{{ route('logout') }}" id='logout'>
+            @csrf
+        </form>
         <ul>
             <li><a class="active" href="#calendar">Calendar</a></li>
             <li><a href="#reports">Reports</a></li>
             <li><a href="#settings">Settings</a></li>
-            <li style="float:right"><a href="#lock">Lock Page</a></li>
+            <li style="float:right" onclick='document.forms.namedItem("logout").submit()'><a href="#lock">Lock Page</a></li>
         </ul>
             <div id='calendar'></div>
     </body>

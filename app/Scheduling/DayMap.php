@@ -7,6 +7,7 @@ use DateInterval;
 use App\Appointment;
 use App\Client;
 use App\Scheduling\FCEvent;
+use App\Scheduling\TimeSlot;
 use App\Scheduling\DailyConfiguration;
 
 class DayMap {
@@ -50,6 +51,19 @@ class DayMap {
         }
 
         return json_encode($eventObjects, true);
+    }
+
+    public function getTimeSlots() {
+        $timeSlots = [];
+        $slotTime = $this->openningHours;
+        $close = $this->closingHours->format(FCEvent::$FCTimeDisplayFormat);
+
+        while($slotTime->format(FCEvent::$FCTimeDisplayFormat) != $close) {
+            $timeSlots[] = new TimeSlot($slotTime->format(FCEvent::$FCTimeDisplayFormat), false);
+            $slotTime->modify('+15 minutes');
+        }
+
+        return $timeSlots;
     }
 
 

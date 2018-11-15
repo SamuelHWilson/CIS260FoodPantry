@@ -73,8 +73,9 @@ LAST UPDATE: 11/05/2018-->
     <h1 class="Appointment_Header"><font face="Helvetica">CLIENT INFORMATION</font></h1>
     <div class="Appointment_Form">
 
-      <form name="frm">
-      <b>Appointment Date: </b><input type="text" id="datepicker" name="date" />
+      <form name="frm" method="POST" action='/appointments/create-appointment'>
+        @csrf
+      <b>Appointment Date: </b><input type="text" id="datepicker" name="date" value="{{ $date }}"/>
       <br><br>
 
       <!--Appointment time-->
@@ -107,31 +108,43 @@ LAST UPDATE: 11/05/2018-->
       <br><br>
 
         <!-- First Name Textbox-->
+        @if( $errors->first('firstName'))
+          <p style='color:orangered;'>First name can only include letters. Example: Matthew</p>
+        @endif
         <b>First Name: </b>
         <input type = "text"
         id="First_Name"
         name="firstName"
-        style="width: 139px;" />
+        style="width: 139px;"
+        value="{{ old('firstName') }}" />
         <br><br>
         <!--Last Name Textbox-->
+        @if( $errors->first('lastName'))
+          <p style='color:orangered;'>Last name can only include letters. Example: Smith</p>
+        @endif
         <b>Last Name: </b>
         <input type = "text"
         id = "Last_Name"
-        name = "lastName" />
+        name = "lastName"
+        value = {{ old('lastName') }} />
         <br><br>
         <!--Phone Number Textbox-->
+        @if( $errors->first('phone'))
+          <p style='color:orangered;'>Phone number must be standard 10 digit phone number. Can include only numbers. Do not include formating. Example: 4178654545</p>
+        @endif
         <b>Phone Number: </b>
         <input type = "text"
         id="Phone_Number"
         name="phone"
         placeholder="(xxx) xxx-xxxx"
-        style="width: 110px;" />
+        style="width: 110px;"
+        value = {{ old('phone') }} />
         <br><br>
         <b>Senior Box?</b>
         <br>
         <!--Senior Box Radio buttons-->
-        <input type="radio" name="SB_Eligibility" id="yes" value="Yes"> Yes<br>
-        <input type="radio" name="SB_Eligibility" id="no" value="No"> No<br>
+        <input type="radio" name="SB_Eligibility" id="yes" value="1" @if( old('SB_Eligibility') == true ) checked @endif> Yes<br>
+        <input type="radio" name="SB_Eligibility" id="no" value="0" @if( old('SB_Eligibility') == false ) checked @endif> No<br>
         <br><br>
 
         <!--buttons-->
