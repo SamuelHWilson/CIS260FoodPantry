@@ -17,7 +17,7 @@ LAST UPDATE: 11/05/2018-->
     <h1 class="Appointment_Header"><font face="Helvetica">APPOINTMENT INFORMATION</font></h1>
     <div class="Appointment_Form">
 
-      <b>Appointment Date: </b><b class="Appointment_Time"><input type="text" id="date" name="date" readonly /></b>
+    <b>Appointment Date: </b><b class="Appointment_Time"><input type="text" id="date" name="date" value='{{ $appt->Appointment_Date }}' readonly /></b>
 
       <br><br>
       <form name="frm">

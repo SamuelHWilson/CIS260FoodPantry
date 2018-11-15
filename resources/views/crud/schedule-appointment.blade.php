@@ -65,7 +65,7 @@ LAST UPDATE: 11/05/2018-->
 
       <form name="frm" method="POST" action='/appointments/create-appointment'>
         @csrf
-      <b>Appointment Date: </b><input type="text" id="datepicker" name="date" value="{{ $date }}"/>
+      <b>Appointment Date: </b><input type="text" id="date" name="date" value="{{ $date }}" readonly/>
       <br><br>
 
       <!--Appointment time-->
@@ -116,7 +116,7 @@ LAST UPDATE: 11/05/2018-->
         <input type = "text"
         id = "Last_Name"
         name = "lastName"
-        value = {{ old('lastName') }} />
+        value = "{{ old('lastName') }}"" />
         <br><br>
         <!--Phone Number Textbox-->
         @if( $errors->first('phone'))
@@ -128,7 +128,7 @@ LAST UPDATE: 11/05/2018-->
         name="phone"
         placeholder="(xxx) xxx-xxxx"
         style="width: 110px;"
-        value = {{ old('phone') }} />
+        value = "{{ old('phone') }}" />
         <br><br>
         <b>Senior Box?</b>
         <br>
