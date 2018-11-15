@@ -15,18 +15,8 @@ LAST UPDATE: 11/05/2018-->
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <script type="text/javascript">
-//Dropdown Calendar
-  $( function() {
-    $( "#datepicker" ).datepicker();
-  } );
 
 //Form Validation
-  function  val(){
-    //Calendar
-    if(frm.date.value==""){
-      alert("You must select a date for the appointment.")
-      return false;
-    }
     //First Name
     if(frm.firstName.value==""){
       alert("You must enter a First Name for the client.")

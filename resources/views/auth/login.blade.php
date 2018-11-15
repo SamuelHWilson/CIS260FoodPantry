@@ -25,9 +25,10 @@ LAST UPDATE: 11/05/2018-->
       <div class="Index_login">
         <form method="POST" action="/login">
           @csrf
-          <label for="name"><b>Username: </b></label>
-          <input type="text" placeholder="Enter Username" name="name" required>
-          <br><br>
+        <label for="uname"><b>Account: </b></label><br>
+        <input type="radio" name="username" id="read_write" value="read/write"> Read/Write<br>
+        <input type="radio" name="username" id="ready_only" value="read_only"> Read Only<br>
+        <br><br>
           <label for="password"><b>Password: </b></label>
           <input type="password" placeholder="Enter Password" name="password" required>
           <br><br>
