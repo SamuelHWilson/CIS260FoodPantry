@@ -19,6 +19,7 @@ class FCEvent {
     public function __construct($appt) {
         $this->title = $appt->GetFullName()." - ".$appt->status->Status_Name;
         $this->start = $appt->GetDateTime()->format(FCEvent::$FCStartFormat);
+        $this->id = $appt->Appointment_ID;
 
         // switch($appt->status->Status_Name) {
         //     case "Pending": $this->color = FCEvent::$pendingColor;

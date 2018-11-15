@@ -23,6 +23,7 @@ LAST UPDATE: 11/05/2018-->
 
       <!--Input Elements-->
       <div class="Index_login">
+<<<<<<< HEAD
         <label for="uname"><b>Account: </b></label><br>
         <input type="radio" name="username" id="read_write" value="read/write"> Read/Write<br>
         <input type="radio" name="username" id="ready_only" value="read_only"> Read Only<br>
@@ -32,6 +33,19 @@ LAST UPDATE: 11/05/2018-->
         <br><br>
         <!--Submit Button-->
         <button type="submit">Login</button>
+=======
+        <form method="POST" action="/login">
+          @csrf
+          <label for="name"><b>Username: </b></label>
+          <input type="text" placeholder="Enter Username" name="name" required>
+          <br><br>
+          <label for="password"><b>Password: </b></label>
+          <input type="password" placeholder="Enter Password" name="password" required>
+          <br><br>
+          <!--Submit Button-->
+          <input type="submit" value='Login'>
+        </form>
+>>>>>>> master
       </div>
     </div>
   </div>

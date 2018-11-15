@@ -3,12 +3,18 @@
 namespace App\Http\Controllers\Pantry;
 
 use DateTime;
+use App\Appointment;
 use App\Http\Controllers\Controller;
 use App\Scheduling\DayMap;
 use App\Scheduling\FCEvent;
 
 class AppointmentController extends Controller
 {
+    public function viewAppointment($id) {
+        $appt = Appointment::with('Client')->where('Appointment_ID', $id)->first();
+        return view('crud.view-appointment', ['appt' => $appt]);
+    }
+
     public function showDay($date) {
         $liveDate = new DateTime($date);
         $nextDate = date(FCEvent::$FCDateFormat, strtotime($date.' +1 day'));
