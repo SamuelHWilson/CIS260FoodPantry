@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Appointment extends Model
 {
+    public static $CompletedStatus = 2;
+    public static $CancelledStatus = 3;
+
     public function Client() {
         return $this->belongsTo('App\Client', 'Client_ID');
     }
@@ -22,6 +25,16 @@ class Appointment extends Model
 
     public function GetFullName() {
         return $this->client->First_Name." ".$this->client->LastName;
+    }
+
+    public function CheckIn() {
+        $this->Status_ID = Appointment::$CompletedStatus;
+        $this->save();
+    }
+
+    public function Cancel() {
+        $this->Status_ID = Appointment::$CancelledStatus;
+        $this->save();
     }
 
     /**

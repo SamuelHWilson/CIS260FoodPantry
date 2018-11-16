@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Pantry;
 use DateTime;
 use Illuminate\Http\Request;
 use App\Appointment;
+use App\Client;
 use App\Http\Controllers\Controller;
 use App\Scheduling\DayMap;
 use App\Scheduling\FCEvent;
+use App\Scheduling\PendingAppointment;
 
 class AppointmentController extends Controller
 {
@@ -47,6 +49,48 @@ class AppointmentController extends Controller
                                              'nextDate' => $nextDate, 
                                              'prevDate' => $prevDate,
                                              'appointments' => '[]']);
+    }
+
+    public function checkIn(Request $request) {
+        $appt = Appointment::findOrFail($request->id);
+        $appt->CheckIn();
+        return redirect('/appointments/check-in/schedule-next/'.$appt->Client_ID);
+    }
+
+    public function scheduleNext($id) {
+        return view('crud.schedule-next')->with('client', Client::findOrFail($id));
+    }
+
+    public function createPendingAppointment(Request $request) {
+        $client = Client::findOrFail($request->input('clientID'));
+        if ($request->input('apptID', false)) {
+            $appt = Appointment::findOrFail($request->input('apptID'));
+        } else {
+            $appt = null;
+        }
+
+        $penappt = new PendingAppointment($client, $appt);
+        session(['pendingAppointment' => $penappt]);
+
+        //Jumps forward from today's date because appointments will always be checked in today.
+        $redirectDate = new DateTime();
+        if ($request->input('jumpString', false)) {
+            $redirectDate->modify($request->input('jumpString'));
+        }
+
+        return redirect('/appointments/day-view/'.$redirectDate->format(FCEvent::$FCDateFormat));
+    }
+
+    public function cancelPendingAppointment(Request $request) {
+        session()->forget('pendingAppointment');
+        session()->save();
+        return redirect('/');
+    }
+
+    public function cancel(Request $request) {
+        $appt = Appointment::findOrFail($request->id);
+        $appt->Cancel();
+        return redirect('/appointments/day-view/'.$appt->Appointment_Date);
     }
 
     public function createAppointment(Request $request) {

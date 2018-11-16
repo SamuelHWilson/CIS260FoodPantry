@@ -1,5 +1,11 @@
 <!doctype html>
 
+<?php
+    // session()->forget('pendingAppointment');
+    // session()->save();
+    // dd(session()->all());
+?>
+
 <html>
     <head>
         <title>Calendar</title>
@@ -77,6 +83,7 @@
             <li><a href="#settings">Settings</a></li>
             <li style="float:right" onclick='document.forms.namedItem("logout").submit()'><a href="#lock">Lock Page</a></li>
         </ul>
+        @include('partials.cancel-pending-appointment')
             <div id='calendar'></div>
     </body>
 </html>
