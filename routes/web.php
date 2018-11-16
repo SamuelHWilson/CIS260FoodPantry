@@ -37,6 +37,11 @@ Route::middleware(['auth.basic'])->group(function() {
     Route::get('/appointments/view-appointment/{id}', 'Pantry\AppointmentController@viewAppointment')->name('view-appointment');
     Route::get('/appointments/create-appointment/{date}', 'Pantry\AppointmentController@showCreateForm');
     Route::post('/appointments/create-appointment', 'Pantry\AppointmentController@createAppointment');
+    Route::post('/appointments/check-in', 'Pantry\AppointmentController@checkIn');
+    Route::get('/appointments/check-in/schedule-next/{id}', 'Pantry\AppointmentController@scheduleNext');
+    Route::post('/appointments/create-pending', 'Pantry\AppointmentController@createPendingAppointment');
+    Route::post('/appointments/cancel-pending', 'Pantry\AppointmentController@cancelPendingAppointment');
+    Route::post('/appointments/cancel', 'Pantry\AppointmentController@cancel');
 });
 
 //------

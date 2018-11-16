@@ -1,3 +1,12 @@
+<?php
+  if (session('pendingAppointment', false)) {
+    $hasPending = true;
+    $pendingClient = session('pendingAppointment')->client;
+  } else {
+    $hasPending = false;
+  }
+?>
+
 <!doctype html>
 <!--
 PROJECT: Appointment MANAGER
@@ -59,6 +68,7 @@ LAST UPDATE: 11/05/2018-->
 </head>
 <!--Beginning of body-->
 <body class = "Index_body">
+  @include('partials.cancel-pending-appointment')
   <div class="Appointment_Body">
     <h1 class="Appointment_Header"><font face="Helvetica">CLIENT INFORMATION</font></h1>
     <div class="Appointment_Form">
@@ -67,6 +77,7 @@ LAST UPDATE: 11/05/2018-->
         @csrf
       <b>Appointment Date: </b><input type="text" id="date" name="date" value="{{ $date }}" readonly/>
       <br><br>
+
 
       <!--Appointment time-->
       <b>Appointment Time: </b>
@@ -106,7 +117,14 @@ LAST UPDATE: 11/05/2018-->
         id="First_Name"
         name="firstName"
         style="width: 139px;"
-        value="{{ old('firstName') }}" />
+        
+        @if($hasPending)
+          value="{{ $pendingClient->First_Name }}"
+          readonly
+        @else
+          value="{{ old('firstName') }}"
+        @endif
+        
         <br><br>
         <!--Last Name Textbox-->
         @if( $errors->first('lastName'))
@@ -116,7 +134,15 @@ LAST UPDATE: 11/05/2018-->
         <input type = "text"
         id = "Last_Name"
         name = "lastName"
-        value = "{{ old('lastName') }}"" />
+        
+        @if($hasPending)
+          value="{{ $pendingClient->Last_Name }}"
+          readonly
+        @else
+          value="{{ old('lastName') }}"
+        @endif 
+        
+        />
         <br><br>
         <!--Phone Number Textbox-->
         @if( $errors->first('phone'))
@@ -128,7 +154,15 @@ LAST UPDATE: 11/05/2018-->
         name="phone"
         placeholder="(xxx) xxx-xxxx"
         style="width: 110px;"
-        value = "{{ old('phone') }}" />
+
+        @if($hasPending)
+          value="{{ $pendingClient->Phone_Number }}"
+          readonly
+        @else
+          value="{{ old('phone') }}"
+        @endif 
+        
+        />
         <br><br>
         <b>Senior Box?</b>
         <br>

@@ -13,6 +13,16 @@ LAST UPDATE: 11/05/2018-->
 </head>
 <!--Beginning of body-->
 <body class = "Index_body">
+  <!--Autosubmited forms-->
+  <form id='checkIn' method='POST' action='/appointments/check-in'>
+    @csrf
+    <input type='hidden' name='id' value='{{ $appt->Appointment_ID }}'>
+  </form>
+  <form id='cancel' method='POST' action='/appointments/cancel'>
+    @csrf
+    <input type='hidden' name='id' value='{{ $appt->Appointment_ID }}'>
+  </form>
+
   <div class="Appointment_Body">
     <h1 class="Appointment_Header"><font face="Helvetica">APPOINTMENT INFORMATION</font></h1>
     <div class="Appointment_Form">
@@ -53,11 +63,12 @@ LAST UPDATE: 11/05/2018-->
 
 
         <!--buttons-->
-        <input type="submit" value="Check-in">
         <input type="submit" value="Reschedule Appointment">
-        <input type="submit" value="Cancel Appointment"><br><br>
         <input type="submit" value="Go Back">
       </form>
+
+      <button onclick="document.forms.namedItem('checkIn').submit()">Check-In</button>
+      <button onclick="document.forms.namedItem('cancel').submit()">Cancel</button>
     </div>
   </div>
 </body>
