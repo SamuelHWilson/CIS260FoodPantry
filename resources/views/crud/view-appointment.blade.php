@@ -29,30 +29,30 @@ LAST UPDATE: 11/05/2018-->
         <b>First Name: </b>
         <input type = "text"
         id = "First_Name"
-        readonly
-        style="width: 139px;" 
+        disabled
+        style="width: 139px;"
         value="{{ $appt->Client->First_Name }}"/>
         <br><br>
         <!--Last Name Textbox-->
         <b>Last Name: </b>
         <input type = "text"
-        readonly
-        id = "Last_Name" 
+        disabled
+        id = "Last_Name"
         value="{{ $appt->Client->Last_Name }}"/>
         <br><br>
         <!--Phone Number Textbox-->
         <b>Phone Number: </b>
         <input type = "text"
         id = "Phone_Number"
-        readonly
-        style="width: 110px;" 
+        disabled
+        style="width: 110px;"
         value="{{ $appt->client->Phone_Number }}"/>
         <br><br>
 
         <!--Senior Box Eligibility-->
         <b>Senior Box?</b>
         <br>
-        <input type="text" id="SB_Eligibility" style="width: 100px" readonly />
+        <input type="text" id="SB_Eligibility" style="width: 100px" disabled />
         <br><br>
 
 

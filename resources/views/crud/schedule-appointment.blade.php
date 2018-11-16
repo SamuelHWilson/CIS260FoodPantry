@@ -64,7 +64,7 @@ LAST UPDATE: 11/05/2018-->
     <div class="Appointment_Form">
 
       <form name="frm">
-      <b>Appointment Date: </b><input type="text" id="date" name="date" readonly />
+      <b>Appointment Date: </b><input type="text" id="date" name="date" disabled />
       <br><br>
 
       <!--Appointment time-->

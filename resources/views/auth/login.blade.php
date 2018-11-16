@@ -26,8 +26,8 @@ LAST UPDATE: 11/05/2018-->
         <form method="POST" action="/login">
           @csrf
         <label for="uname"><b>Account: </b></label><br>
-        <input type="radio" name="name" id="read_write" value="edit"> Read/Write<br>
-        <input type="radio" name="name" id="ready_only" value="view"> Read Only<br>
+        <input type="radio" name="name" id="read_write" value="edit"> View and Modify Appointments<br>
+        <input type="radio" name="name" id="ready_only" value="view"> View Appointments Only<br>
         <br><br>
           <label for="password"><b>Password: </b></label>
           <input type="password" placeholder="Enter Password" name="password" required>
