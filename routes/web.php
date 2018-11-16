@@ -14,6 +14,10 @@
 use Illuminate\Support\Facades\Auth;
 use App\Scheduling\FCEvent;
 
+Route::get('/drivers', function() {
+    return view('testing.drivers');
+});
+
 Route::get('/', function() {
     if (Auth::check()) { 
         $date = new DateTime();
