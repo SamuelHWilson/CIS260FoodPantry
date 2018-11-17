@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Pantry;
 
 use DateTime;
+use Illuminate\Http\Request;
 use App\Appointment;
 use App\Http\Controllers\Controller;
 use App\Scheduling\DayMap;
@@ -10,6 +11,11 @@ use App\Scheduling\FCEvent;
 
 class AppointmentController extends Controller
 {
+    public function showCreateForm($date) {
+        $dayMap = new DayMap(new DateTime($date));
+        return view('crud.schedule-appointment')->with(['date' => $date, 'timeSlots' => $dayMap->getTimeSlots()]);
+    }
+
     public function viewAppointment($id) {
         $appt = Appointment::with('Client')->where('Appointment_ID', $id)->first();
         return view('crud.view-appointment', ['appt' => $appt]);
@@ -41,5 +47,15 @@ class AppointmentController extends Controller
                                              'nextDate' => $nextDate, 
                                              'prevDate' => $prevDate,
                                              'appointments' => '[]']);
+    }
+
+    public function createAppointment(Request $request) {
+        $validatedData = $request->validate([
+            'date' => 'required|date',
+            'firstName' => 'required|alpha',
+            'lastName' => 'required|alpha',
+            'phone' => 'required|regex:/^[0-9]{10}$/',
+            'SB_Eligibility' => 'required|bool'
+        ]);
     }
 }

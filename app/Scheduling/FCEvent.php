@@ -10,6 +10,7 @@ class FCEvent {
     //This is the format expected by the FullCalendar event object start field.
     public static $FCStartFormat = "Y-m-d H:i:s";
     public static $FCDateFormat = "Y-m-d";
+    public static $FCTimeDisplayFormat = "h:ia";
     public static $pendingColor = "#03cc00";
     
     public $title;
