@@ -97,6 +97,13 @@ LAST UPDATE: 11/05/2018-->
       <br><br>
 
         <!-- First Name Textbox-->
+<<<<<<< Updated upstream
+=======
+        @if( $errors->first('firstName'))
+          <p style='color:orangered;'>First name can only include letters. Example: Matthew</p>
+        @endif
+        
+>>>>>>> Stashed changes
         <b>First Name: </b>
         <input type = "text"
         id="First_Name"
