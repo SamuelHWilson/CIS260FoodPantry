@@ -17,11 +17,7 @@ LAST UPDATE: 11/05/2018-->
     <h1 class="Appointment_Header"><font face="Helvetica">APPOINTMENT INFORMATION</font></h1>
     <div class="Appointment_Form">
 
-<<<<<<< HEAD
-      <b>Appointment Date: </b><b class="Appointment_Time"><input type="text" id="date" name="date" readonly /></b>
-=======
     <b>Appointment Date: </b><b class="Appointment_Time"><b class="Appointment_Date"><font color="red">{{ $appt->Appointment_Date }}</font></b>
->>>>>>> master
 
       <br><br>
       <form name="frm">
