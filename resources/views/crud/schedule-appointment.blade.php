@@ -150,14 +150,14 @@ LAST UPDATE: 11/05/2018-->
 
         <!-- First Name Textbox-->
         @if( $errors->first('First_Name'))
-          <p style='color:orangered;'>First name can only include letters. Example: Matthew</p>
+          <p style='color:orangered;'><font face="Helvetica"><b>First name can only include letters. Example: Matthew</font></b></p>
         @endif
         <b>First Name: </b>
         <input type = "text"
         id="First_Name"
         name="First_Name"
         style="width: 139px;"
-        
+
         @if($hasPending)
           value="{{ $pendingClient->First_Name }}"
           readonly
@@ -169,7 +169,7 @@ LAST UPDATE: 11/05/2018-->
         <br><br>
         <!--Last Name Textbox-->
         @if( $errors->first('Last_Name'))
-          <p style='color:orangered;'>Last name can only include letters. Example: Smith</p>
+          <p style='color:orangered;'><font face="Helvetica"><b>Last name can only include letters. Example: Smith</font></b></p>
         @endif
         <b>Last Name: </b>
         <input type = "text"
@@ -187,7 +187,7 @@ LAST UPDATE: 11/05/2018-->
         <br><br>
         <!--Phone Number Textbox-->
         @if( $errors->first('Phone_Number'))
-          <p style='color:orangered;'>Phone number must be standard 10 digit phone number. It can only include numbers. Do not include formating. Example: 4178654545</p>
+          <p style='color:orangered;'><font face="Helvetica"><b>Phone number must be standard 10 digit phone number. Can include only numbers. Do not include formating. Example: 4178654545</font></b></p>
         @endif
         <b>Phone Number: </b>
         <input type = "text"
