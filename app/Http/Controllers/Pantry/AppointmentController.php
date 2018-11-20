@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use App\Scheduling\DayMap;
 use App\Scheduling\FCEvent;
 use App\Scheduling\PendingAppointment;
+use App\Scheduling\DayConfiguration;
 
 class AppointmentController extends Controller
 {
@@ -31,11 +32,14 @@ class AppointmentController extends Controller
         $daymap = new DayMap($liveDate);
         $appointments = $daymap->getFCEventJSON();
 
+        $dayConfig = new DayConfiguration($liveDate);
+
         return view('appointment-calendar', ['view' => 'day', 
                                              'currentDate'=> $date, 
                                              'nextDate' => $nextDate, 
                                              'prevDate' => $prevDate,
-                                             'appointments' => $appointments]);
+                                             'appointments' => $appointments,
+                                             'dayConfig' => $dayConfig]);
     }
     
     public function showMonth($date) {
@@ -123,7 +127,7 @@ class AppointmentController extends Controller
             $client = session('pendingAppointment')->client;
         } else {
             // dd($request->First_Name);
-            $client = Client::firstOrNew(
+            $client = Client::firstOrCreate(
                 ['Phone_Number' => $request->Phone_Number,
                  'Last_Name' => $request->Last_Name,
                  'First_Name' => $request->First_Name]);
@@ -131,10 +135,12 @@ class AppointmentController extends Controller
         }
 
         $appt->Client_ID = $client->Client_ID;
-
-        //I have a second validate here because these tests require models, 
-        //and those models require validated data
-        return redirect()->back()->withInput()->with('scheduleError', 'closed');
+        
+        $dc = new DayConfiguration();
+        $dcResult = $dc->validateAppointment($appt);
+        if (!($dcResult == 'validated')) {
+            return redirect()->back()->withInput()->with('scheduleError', $dcResult);
+        }
 
         $client->save();
         $appt->save();

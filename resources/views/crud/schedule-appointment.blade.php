@@ -89,7 +89,7 @@ LAST UPDATE: 11/05/2018-->
       <!--These errors are produced after the appointment is checked against the schedule for the day.-->
       @if(session()->has('scheduleError'))
         @if(session('scheduleError') == 'closed')
-            <p style='color:orangered;'>Least of These will be closed at this time. Please pick another time slot.</p>
+            <p style='color:orangered;'>Least of These is closed this day. Please schedule this appointment for another day.</p>
         @endif
 
         @if(session('scheduleError') == 'beforeOpen')
