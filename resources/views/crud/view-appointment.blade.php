@@ -39,6 +39,7 @@ LAST UPDATE: 11/05/2018-->
         style="width: 139px;"
         value="{{ $appt->Client->First_Name }}"/>
         <br><br>
+
         <!--Last Name Textbox-->
         <b>Last Name: </b>
         <input type = "text"
@@ -46,21 +47,22 @@ LAST UPDATE: 11/05/2018-->
         id = "Last_Name"
         value="{{ $appt->Client->Last_Name }}"/>
         <br><br>
+
         <!--Phone Number Textbox-->
         <b>Phone Number: </b>
         <input type = "text"
         id = "Phone_Number"
         disabled
         style="width: 110px;"
-        value="{{ $appt->client->Phone_Number }}"/>
+        value="{{ $appt->Client->Phone_Number }}"/>
         <br><br>
 
-        <!--Senior Box Eligibility-->
         <b>Senior Box?</b>
         <br>
-        <input type="text" id="SB_Eligibility" style="width: 100px" disabled />
+        <!--Senior Box Radio buttons-->
+        <input type="radio" name="SB_Eligibility" id="yes" value="1" @if($appt->Client->SB_Eligibility == true) checked @endif> Yes<br>
+        <input type="radio" name="SB_Eligibility" id="no" value="0" @if($appt->Client->SB_Eligibility == false) checked @endif> No<br>
         <br><br>
-
 
         <!--buttons-->
         <input type="submit" value="Reschedule Appointment">

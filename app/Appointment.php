@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Appointment extends Model
 {
+    public static $PendingStatus = 1;
     public static $CompletedStatus = 2;
     public static $CancelledStatus = 3;
 

@@ -82,8 +82,7 @@ class AppointmentController extends Controller
     }
 
     public function cancelPendingAppointment(Request $request) {
-        session()->forget('pendingAppointment');
-        session()->save();
+        $this->clearPendingAppointment();
         return redirect('/');
     }
 
@@ -95,11 +94,60 @@ class AppointmentController extends Controller
 
     public function createAppointment(Request $request) {
         $validatedData = $request->validate([
-            'date' => 'required|date',
-            'firstName' => 'required|alpha',
-            'lastName' => 'required|alpha',
-            'phone' => 'required|regex:/^[0-9]{10}$/',
-            'SB_Eligibility' => 'required|bool'
+            'Appointment_Date' => 'required|date',
+            'First_Name' => 'required|alpha',
+            'Last_Name' => 'required|alpha',
+            'Phone_Number' => 'required|regex:/^[0-9]{10}$/',
+            'SB_Eligibility' => 'required|bool',
+
+            'hour' => 'required|between:1,12',
+            'minute' => 'required|in:00,15,30,45',
+            'ampm' => 'required|in:am,pm'
         ]);
+
+        $fullTime = new DateTime($request->hour.":".$request->minute.$request->ampm);
+        $FCTime = $fullTime->format(FCEvent::$FCTimeDisplayFormat);
+        
+        $appt = new Appointment();
+        $appt->Status_ID = Appointment::$PendingStatus;
+        $appt->Appointment_Date = $request->Appointment_Date;
+        $appt->Appointment_Time = $FCTime;
+        $appt->Appointment_Note = "";
+
+        //It's weird that we still get client input even if we have the ID, but having all the client
+        //fields always visible makes it easier for the volunteers to use the software.
+
+        //It would be a pain to render the information, but only submit it when we don't have a Client_ID,
+        //so we just ignore the input when we do.
+        if (session('pendingAppointment', false)) {
+            $client = session('pendingAppointment')->client;
+        } else {
+            // dd($request->First_Name);
+            $client = Client::firstOrNew(
+                ['Phone_Number' => $request->Phone_Number,
+                 'Last_Name' => $request->Last_Name,
+                 'First_Name' => $request->First_Name]);
+            $client->SB_Eligibility = $request->SB_Eligibility;
+        }
+
+        $appt->Client_ID = $client->Client_ID;
+
+        //I have a second validate here because these tests require models, 
+        //and those models require validated data
+        return redirect()->back()->withInput()->with('scheduleError', 'closed');
+
+        $client->save();
+        $appt->save();
+
+        if (session('pendingAppointment', false)) {
+            $this->clearPendingAppointment();
+        }
+        
+        return redirect('/');
+    }
+
+    private function clearPendingAppointment() {
+        session()->forget('pendingAppointment');
+        session()->save();
     }
 }

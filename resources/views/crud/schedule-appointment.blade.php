@@ -75,13 +75,45 @@ LAST UPDATE: 11/05/2018-->
 
       <form name="frm" method="POST" action='/appointments/create-appointment'>
         @csrf
-      <b>Appointment Date: </b><input type="text" id="date" name="date" value="{{ $date }}" readonly/>
+      
+        <b>Appointment Date: </b><input type="text" id="date" name="Appointment_Date" value="{{ $date }}" readonly/>
       <br><br>
 
 
       <!--Appointment time-->
+      @if( $errors->first('hour') || $errors->first('minute') || $errors->first('ampm'))
+          <p style='color:orangered;'>Select a valid time.</p>
+      @endif
+
+      <!--This is bad practice. It's on my todo list to fix.-->
+      <!--These errors are produced after the appointment is checked against the schedule for the day.-->
+      @if(session()->has('scheduleError'))
+        @if(session('scheduleError') == 'closed')
+            <p style='color:orangered;'>Least of These will be closed at this time. Please pick another time slot.</p>
+        @endif
+
+        @if(session('scheduleError') == 'beforeOpen')
+            <p style='color:orangered;'>This time slot is scheduled before Least of These opens. Please pick another time slot.</p>
+        @endif
+
+        @if(session('scheduleError') == 'afterClose')
+            <p style='color:orangered;'>This time slot is scheduled after Least of These closes. Please pick another time slot.</p>
+        @endif
+
+        @if(session('scheduleError') == 'slotFull')
+            <p style='color:orangered;'>This time slot is already full of appointments. Please pick another time slot.</p>
+        @endif
+      @endif
+
       <b>Appointment Time: </b>
-      <select>
+      <select name='hour'>
+        @if( old('hour'))
+          <!-- Cleaner then checking each option to determine which should be selected. -->
+          <option value="{{old('hour')}}" hidden selected>{{old('hour')}}</option>
+        @else
+          <!-- Invalidates time field by default. Ensures volunteers manually set field. -->
+          <option value="" selected disabled hidden>0</option>
+        @endif
         <option value="1">1</option>
         <option value="2">2</option>
         <option value="3">3</option>
@@ -96,62 +128,71 @@ LAST UPDATE: 11/05/2018-->
         <option value="12">12</option>
       </select>
       <b>:</b>
-      <select>
+      <select name='minute' value="">
+        @if( old('minute'))
+          <option value="{{old('minute')}}" hidden selected>{{old('minute')}}</option>
+        @endif
+
         <option value="00">00</option>
         <option value="15">15</option>
         <option value="30">30</option>
         <option value="45">45</option>
       </select>
-      <select>
-        <option value="AM">AM</option>
-        <option value="PM">PM</option>
+      <select name='ampm' value="">
+        @if( old('ampm'))
+          <option value="{{old('ampm')}}" hidden selected>{{old('ampm')}}</option>
+        @endif
+
+        <option value="am">am</option>
+        <option value="pm">pm</option>
       </select>
       <br><br>
 
         <!-- First Name Textbox-->
-        @if( $errors->first('firstName'))
+        @if( $errors->first('First_Name'))
           <p style='color:orangered;'>First name can only include letters. Example: Matthew</p>
         @endif
         <b>First Name: </b>
         <input type = "text"
         id="First_Name"
-        name="firstName"
+        name="First_Name"
         style="width: 139px;"
         
         @if($hasPending)
           value="{{ $pendingClient->First_Name }}"
           readonly
         @else
-          value="{{ old('firstName') }}"
+          value="{{ old('First_Name') }}"
         @endif
-        
+        />
+
         <br><br>
         <!--Last Name Textbox-->
-        @if( $errors->first('lastName'))
+        @if( $errors->first('Last_Name'))
           <p style='color:orangered;'>Last name can only include letters. Example: Smith</p>
         @endif
         <b>Last Name: </b>
         <input type = "text"
         id = "Last_Name"
-        name = "lastName"
+        name = "Last_Name"
         
         @if($hasPending)
           value="{{ $pendingClient->Last_Name }}"
           readonly
         @else
-          value="{{ old('lastName') }}"
+          value="{{ old('Last_Name') }}"
         @endif 
         
         />
         <br><br>
         <!--Phone Number Textbox-->
-        @if( $errors->first('phone'))
-          <p style='color:orangered;'>Phone number must be standard 10 digit phone number. Can include only numbers. Do not include formating. Example: 4178654545</p>
+        @if( $errors->first('Phone_Number'))
+          <p style='color:orangered;'>Phone number must be standard 10 digit phone number. It can only include numbers. Do not include formating. Example: 4178654545</p>
         @endif
         <b>Phone Number: </b>
         <input type = "text"
         id="Phone_Number"
-        name="phone"
+        name="Phone_Number"
         placeholder="(xxx) xxx-xxxx"
         style="width: 110px;"
 
@@ -159,7 +200,7 @@ LAST UPDATE: 11/05/2018-->
           value="{{ $pendingClient->Phone_Number }}"
           readonly
         @else
-          value="{{ old('phone') }}"
+          value="{{ old('Phone_Number') }}"
         @endif 
         
         />
@@ -167,15 +208,20 @@ LAST UPDATE: 11/05/2018-->
         <b>Senior Box?</b>
         <br>
         <!--Senior Box Radio buttons-->
-        <input type="radio" name="SB_Eligibility" id="yes" value="1" @if( old('SB_Eligibility') == true ) checked @endif> Yes<br>
-        <input type="radio" name="SB_Eligibility" id="no" value="0" @if( old('SB_Eligibility') == false ) checked @endif> No<br>
+        <?php
+          $sbTrue = (old('SB_Eligibility') == true) || ($hasPending == true && $pendingClient->SB_Eligibility == true);
+        ?>
+
+        <input type="radio" name="SB_Eligibility" id="yes" value="1" @if($sbTrue) checked @endif> Yes<br>
+        <input type="radio" name="SB_Eligibility" id="no" value="0" @if(!$sbTrue) checked @endif> No<br>
         <br><br>
 
         <!--buttons-->
         <input type="submit" value="Submit" onclick="return val();"/>
-        <input type="submit" value="Reset">
-        <input type="submit" value="Cancel">
       </form>
+
+      <input type="submit" value="Reset">
+      <input type="submit" value="Cancel">
     </div>
   </div>
 </body>
