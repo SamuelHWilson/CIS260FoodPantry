@@ -64,3 +64,10 @@ div.Appointment_Form{
   border-radius: 15px;
   padding: 10px;
 }
+
+h1.defaultconfig_h1{
+  border-bottom: solid;
+}
+.ui-datepicker{
+  background: #F2EEEE;
+}
