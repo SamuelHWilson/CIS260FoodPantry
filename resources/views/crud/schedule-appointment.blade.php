@@ -110,43 +110,43 @@ LAST UPDATE: 11/05/2018-->
 
         <!-- First Name Textbox-->
         @if( $errors->first('firstName'))
-          <p style='color:orangered;'>First name can only include letters. Example: Matthew</p>
+          <p style='color:orangered;'><font face="Helvetica"><b>First name can only include letters. Example: Matthew</font></b></p>
         @endif
         <b>First Name: </b>
         <input type = "text"
         id="First_Name"
         name="firstName"
         style="width: 139px;"
-        
+
         @if($hasPending)
           value="{{ $pendingClient->First_Name }}"
           readonly
         @else
           value="{{ old('firstName') }}"
         @endif
-        
+
         <br><br>
         <!--Last Name Textbox-->
         @if( $errors->first('lastName'))
-          <p style='color:orangered;'>Last name can only include letters. Example: Smith</p>
+          <p style='color:orangered;'><font face="Helvetica"><b>Last name can only include letters. Example: Smith</font></b></p>
         @endif
         <b>Last Name: </b>
         <input type = "text"
         id = "Last_Name"
         name = "lastName"
-        
+
         @if($hasPending)
           value="{{ $pendingClient->Last_Name }}"
           readonly
         @else
           value="{{ old('lastName') }}"
-        @endif 
-        
+        @endif
+
         />
         <br><br>
         <!--Phone Number Textbox-->
         @if( $errors->first('phone'))
-          <p style='color:orangered;'>Phone number must be standard 10 digit phone number. Can include only numbers. Do not include formating. Example: 4178654545</p>
+          <p style='color:orangered;'><font face="Helvetica"><b>Phone number must be standard 10 digit phone number. Can include only numbers. Do not include formating. Example: 4178654545</font></b></p>
         @endif
         <b>Phone Number: </b>
         <input type = "text"
@@ -160,8 +160,8 @@ LAST UPDATE: 11/05/2018-->
           readonly
         @else
           value="{{ old('phone') }}"
-        @endif 
-        
+        @endif
+
         />
         <br><br>
         <b>Senior Box?</b>
