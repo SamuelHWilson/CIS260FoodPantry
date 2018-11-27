@@ -136,7 +136,7 @@ class AppointmentController extends Controller
 
         $appt->Client_ID = $client->Client_ID;
         
-        $dc = new DayConfiguration();
+        $dc = new DayConfiguration('3000-10-20');
         $dcResult = $dc->validateAppointment($appt);
         if (!($dcResult == 'validated')) {
             return redirect()->back()->withInput()->with('scheduleError', $dcResult);

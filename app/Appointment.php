@@ -10,6 +10,7 @@ class Appointment extends Model
     public static $PendingStatus = 1;
     public static $CompletedStatus = 2;
     public static $CancelledStatus = 3;
+    public static $MissedStatus = 5;
 
     public function Client() {
         return $this->belongsTo('App\Client', 'Client_ID');
