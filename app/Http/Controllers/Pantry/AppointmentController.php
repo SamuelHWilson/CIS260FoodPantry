@@ -48,11 +48,15 @@ class AppointmentController extends Controller
         $nextDate = date(FCEvent::$FCDateFormat, strtotime($date.' +1 month'));
         $prevDate = date(FCEvent::$FCDateFormat, strtotime($date.' -1 month'));
 
+        //TODO: Do something about this. Month view does not logically use dayConfig, but will crash without it.
+        $dayConfig = new DayConfiguration($liveDate);
+
         return view('appointment-calendar', ['view' => 'month', 
                                              'currentDate'=> $date, 
                                              'nextDate' => $nextDate, 
                                              'prevDate' => $prevDate,
-                                             'appointments' => '[]']);
+                                             'appointments' => '[]',
+                                             'dayConfig' => $dayConfig]);
     }
 
     public function checkIn(Request $request) {
@@ -74,7 +78,7 @@ class AppointmentController extends Controller
         }
 
         $penappt = new PendingAppointment($client, $appt);
-        session(['pendingAppointment' => $penappt]);
+        $penappt->float();
 
         //Jumps forward from today's date because appointments will always be checked in today.
         $redirectDate = new DateTime();
@@ -85,8 +89,8 @@ class AppointmentController extends Controller
         return redirect('/appointments/day-view/'.$redirectDate->format(FCEvent::$FCDateFormat));
     }
 
-    public function cancelPendingAppointment(Request $request) {
-        $this->clearPendingAppointment();
+    public function cancelPendingAppointment() {
+        PendingAppointment::get()->close();
         return redirect('/');
     }
 
@@ -123,8 +127,8 @@ class AppointmentController extends Controller
 
         //It would be a pain to render the information, but only submit it when we don't have a Client_ID,
         //so we just ignore the input when we do.
-        if (session('pendingAppointment', false)) {
-            $client = session('pendingAppointment')->client;
+        if (PendingAppointment::exists()) {
+            $client = PendingAppointment::get()->client;
         } else {
             // dd($request->First_Name);
             $client = Client::firstOrCreate(
@@ -145,15 +149,10 @@ class AppointmentController extends Controller
         $client->save();
         $appt->save();
 
-        if (session('pendingAppointment', false)) {
-            $this->clearPendingAppointment();
+        if (PendingAppointment::exists()) {
+            PendingAppointment::get()->close();
         }
         
         return redirect('/');
-    }
-
-    private function clearPendingAppointment() {
-        session()->forget('pendingAppointment');
-        session()->save();
     }
 }

@@ -10,6 +10,7 @@ class Appointment extends Model
     public static $PendingStatus = 1;
     public static $CompletedStatus = 2;
     public static $CancelledStatus = 3;
+    public static $RescheduledStatus = 4;
     public static $MissedStatus = 5;
 
     public function Client() {
@@ -36,6 +37,11 @@ class Appointment extends Model
 
     public function Cancel() {
         $this->Status_ID = Appointment::$CancelledStatus;
+        $this->save();
+    }
+
+    public function Reschedule() {
+        $this->Status_ID = Appointment::$RescheduledStatus;
         $this->save();
     }
 

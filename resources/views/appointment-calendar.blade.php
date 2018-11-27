@@ -54,6 +54,11 @@
                         }
                     }
                 },
+                @if ($view == 'month')
+                    dayClick: function(date, jsEvent, view) {
+                        window.location = '../day-view/' + date.format()
+                    },
+                @endif
                 defaultView: '{{ $view == "day" ? "agendaDay" : "month" }}',
                 defaultDate: '{{ $currentDate }}',
                 allDaySlot: false,

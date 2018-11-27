@@ -14,11 +14,36 @@ use App\Scheduling\DailyConfiguration;
 class PendingAppointment {
     public $client;
     public $quickName;
-    public $appointment;
+    public $appt;
 
-    public function __construct($client, $appointment = null) {
+    public function __construct($client, $appt = null) {
         $this->client = $client;
         $this->quickName = $client->First_Name." ".$client->Last_Name;
-        $this->appointment = $appointment;
+        $this->appt = $appt;
+    }
+
+    public function float() {
+        session(['pendingAppointment' => $this]);
+    }
+
+    public function close() {
+        session()->forget('pendingAppointment');
+        session()->save();
+
+        if ($this->appt != null) {
+            $this->appt->Reschedule();
+        }
+    }
+
+    public static function exists() {
+        if (session('pendingAppointment', false)){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public static function get() {
+        return session('pendingAppointment');
     }
 }

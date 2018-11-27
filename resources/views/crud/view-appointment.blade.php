@@ -22,6 +22,11 @@ LAST UPDATE: 11/05/2018-->
     @csrf
     <input type='hidden' name='id' value='{{ $appt->Appointment_ID }}'>
   </form>
+  <form id='reschedule' method='POST' action='/appointments/create-pending'>
+    @csrf
+    <input type='hidden' name='clientID' value="{{ $appt->client->Client_ID }}">
+    <input type='hidden' name='apptID' value="{{ $appt->Appointment_ID }}">
+  </form>
 
   <div class="Appointment_Body">
     <h1 class="Appointment_Header"><font face="Helvetica">APPOINTMENT INFORMATION</font></h1>
@@ -65,11 +70,11 @@ LAST UPDATE: 11/05/2018-->
         <br><br>
 
         <!--buttons-->
-        <input type="submit" value="Reschedule Appointment">
         <input type="submit" value="Go Back">
       </form>
 
       <button onclick="document.forms.namedItem('checkIn').submit()">Check-In</button>
+      <button onclick="document.forms.namedItem('reschedule').submit()">Reschedule</button>
       <button onclick="document.forms.namedItem('cancel').submit()">Cancel</button>
     </div>
   </div>
