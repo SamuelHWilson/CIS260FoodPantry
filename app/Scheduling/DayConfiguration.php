@@ -11,6 +11,7 @@ use App\Scheduling\TimeSlot;
 use App\Scheduling\DailyConfiguration;
 
 class DayConfiguration {
+    public $date;
     public $open;
     public $startTime;
     public $FCMinTime;
@@ -19,6 +20,7 @@ class DayConfiguration {
     public $volunteerCount;
 
     public function __construct($date) {
+        $this->date = $date;
         $this->open = true;
         $this->startTime = new DateTime('8:00am');
         $this->FCMinTime = $this->startTime->format(FCEvent::$FCTimeFormat);
@@ -32,7 +34,7 @@ class DayConfiguration {
             return 'closed';
         }
 
-        $apptCount = Appointment::where('Appointment_Time', $appt->Appointment_Time)->count();
+        $apptCount = Appointment::where(['Appointment_Date' => $this->date, 'Appointment_Time' => $appt->Appointment_Time])->count();
         if (($apptCount + 1) > $this->volunteerCount) {
             return 'slotFull';
         }

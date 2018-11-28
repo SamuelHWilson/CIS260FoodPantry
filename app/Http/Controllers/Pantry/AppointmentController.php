@@ -20,7 +20,10 @@ class AppointmentController extends Controller
     }
 
     public function viewAppointment($id) {
-        $appt = Appointment::with('Client')->where('Appointment_ID', $id)->first();
+        $now = new DateTime();
+        $appt = Appointment::with(['Client', 'Client.Flags' => function($query) use ($now) {
+            $query->where('Flag_EXP', '>', $now);
+        }])->where('Appointment_ID', $id)->first();
         return view('crud.view-appointment', ['appt' => $appt]);
     }
 
@@ -70,7 +73,12 @@ class AppointmentController extends Controller
     }
 
     public function createPendingAppointment(Request $request) {
-        $client = Client::findOrFail($request->input('clientID'));
+        $now = new DateTime();
+
+        $client = Client::where('Client_ID', $request->input('clientID'))->with(['Flags' => function($query) use($now) {
+            $query->where('Flag_EXP', '>', $now);
+        }])->first();
+
         if ($request->input('apptID', false)) {
             $appt = Appointment::findOrFail($request->input('apptID'));
         } else {
@@ -90,7 +98,7 @@ class AppointmentController extends Controller
     }
 
     public function cancelPendingAppointment() {
-        PendingAppointment::get()->close();
+        PendingAppointment::get()->cancel();
         return redirect('/');
     }
 
@@ -140,7 +148,7 @@ class AppointmentController extends Controller
 
         $appt->Client_ID = $client->Client_ID;
         
-        $dc = new DayConfiguration('3000-10-20');
+        $dc = new DayConfiguration($appt->Appointment_Date);
         $dcResult = $dc->validateAppointment($appt);
         if (!($dcResult == 'validated')) {
             return redirect()->back()->withInput()->with('scheduleError', $dcResult);

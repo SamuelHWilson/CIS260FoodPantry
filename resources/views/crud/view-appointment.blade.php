@@ -30,6 +30,17 @@ LAST UPDATE: 11/05/2018-->
 
   <div class="Appointment_Body">
     <h1 class="Appointment_Header"><font face="Helvetica">APPOINTMENT INFORMATION</font></h1>
+
+    @if($appt->Client->Flags != null)
+      @if($appt->Client->Flags->contains('Flag_DES', Flag::$NoShowDesc))
+        <p>This client habitually misses appointments.</p>
+      @endif
+
+      @if($appt->Client->Flags->contains('Flag_DES', Flag::$RescheduleDesc))
+        <p>This client habitually reschedules appointments.</p>
+      @endif
+    @endif
+
     <div class="Appointment_Form">
 
     <b>Appointment Date: </b><b class="Appointment_Time"><input type="text" id="date" name="date" value='{{ $appt->Appointment_Date }}' readonly /></b>

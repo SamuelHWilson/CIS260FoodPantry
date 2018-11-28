@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Flag extends Model
 {
+    public static $NoShowDesc = 'Habitual No-Show';
+    public static $RescheduleDesc = 'Habitual Reschedule';
+
     public function Appointment() {
         return $this->hasMany('App\Appointment', 'Status_ID');
     }

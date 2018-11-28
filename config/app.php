@@ -208,7 +208,8 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-        'PendingAppointment' => App\Scheduling\PendingAppointment::class
+        'PendingAppointment' => App\Scheduling\PendingAppointment::class,
+        'Flag' => App\Flag::class
     ],
 
 ];

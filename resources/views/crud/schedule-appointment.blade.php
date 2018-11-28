@@ -71,6 +71,19 @@ LAST UPDATE: 11/05/2018-->
   @include('partials.cancel-pending-appointment')
   <div class="Appointment_Body">
     <h1 class="Appointment_Header"><font face="Helvetica">CLIENT INFORMATION</font></h1>
+
+    @if($hasPending)
+      @if($pendingClient->Flags != null)
+        @if($pendingClient->Flags->contains('Flag_DES', Flag::$NoShowDesc))
+          <p>This client habitually misses appointments.</p>
+        @endif
+
+        @if($pendingClient->Flags->contains('Flag_DES', Flag::$RescheduleDesc))
+          <p>This client habitually reschedules appointments.</p>
+        @endif
+      @endif
+    @endif
+
     <div class="Appointment_Form">
 
       <form name="frm" method="POST" action='/appointments/create-appointment'>
@@ -89,19 +102,19 @@ LAST UPDATE: 11/05/2018-->
       <!--These errors are produced after the appointment is checked against the schedule for the day.-->
       @if(session()->has('scheduleError'))
         @if(session('scheduleError') == 'closed')
-            <p style='color:orangered;'>Least of These is closed this day. Please schedule this appointment for another day.</p>
+            <p style='color:orangered;'><b>Least of These is closed this day. Please schedule this appointment for another day.</b></p>
         @endif
 
         @if(session('scheduleError') == 'beforeOpen')
-            <p style='color:orangered;'>This time slot is scheduled before Least of These opens. Please pick another time slot.</p>
+            <p style='color:orangered;'><b>This time slot is scheduled before Least of These opens. Please pick another time slot.</b></p>
         @endif
 
         @if(session('scheduleError') == 'afterClose')
-            <p style='color:orangered;'>This time slot is scheduled after Least of These closes. Please pick another time slot.</p>
+            <p style='color:orangered;'><b>This time slot is scheduled after Least of These closes. Please pick another time slot.</b></p>
         @endif
 
         @if(session('scheduleError') == 'slotFull')
-            <p style='color:orangered;'>This time slot is already full of appointments. Please pick another time slot.</p>
+            <p style='color:orangered;'><b>This time slot is already full of appointments. Please pick another time slot.</b></p>
         @endif
       @endif
 

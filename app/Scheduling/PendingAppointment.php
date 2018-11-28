@@ -26,6 +26,11 @@ class PendingAppointment {
         session(['pendingAppointment' => $this]);
     }
 
+    public function cancel() {
+        session()->forget('pendingAppointment');
+        session()->save();
+    }
+
     public function close() {
         session()->forget('pendingAppointment');
         session()->save();

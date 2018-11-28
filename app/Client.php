@@ -10,6 +10,10 @@ class Client extends Model
         return $this->hasMany('App\Appointment', 'Client_ID');
     }
 
+    public function Flags() {
+        return $this->hasMany('App\Flag', 'Client_ID');
+    }
+
     /**
      * The attributes that are mass assignable.
      *
