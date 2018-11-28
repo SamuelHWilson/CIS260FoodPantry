@@ -36,7 +36,7 @@ div.Index_mainDiv{
   border-width: 2px;
   border-radius: 15px;
   height: auto;
-  width: 450px;
+  width: auto;
 
 }
 div.Appointment_Body{
@@ -65,9 +65,24 @@ div.Appointment_Form{
   padding: 10px;
 }
 
+
 h1.defaultconfig_h1{
   border-bottom: solid;
 }
 .ui-datepicker{
   background: #F2EEEE;
+}
+
+.config{
+  width: 400px;
+}
+label.date_range{
+  margin-bottom: 10px;
+}
+table, th, td{
+  border: 1px solid black;
+border-collapse: collapse;
+}
+th{
+      background-color: #E1E1E1;
 }
