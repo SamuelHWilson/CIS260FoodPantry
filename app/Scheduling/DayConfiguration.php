@@ -18,6 +18,7 @@ class DayConfiguration {
     public $endTime;
     public $FCMaxTime;
     public $volunteerCount;
+    public $seniorBoxCutoffDay;
 
     public function __construct($date) {
         $this->date = $date;
@@ -27,6 +28,7 @@ class DayConfiguration {
         $this->endTime = new DateTime('3:00pm');
         $this->FCMaxTime = $this->endTime->format(FCEvent::$FCTimeFormat);
         $this->volunteerCount = 4;
+        $this->SBCutoffDay = 19;
     }
 
     public function validateAppointment($appt) {
@@ -48,6 +50,15 @@ class DayConfiguration {
         $apptEndTime->modify('+15 minutes');
         if ($apptEndTime > $this->endTime) {
             return 'afterClose';
+        }
+
+        if ($appt->Client->SB_Eligibility == true) {
+           $apptDate = new DateTime($appt->Appointment_Date);
+           $apptDay = $apptDate->format('d');
+
+           if ($apptDay > $this->SBCutoffDay) {
+               return 'lateSeniorBox';
+           }
         }
 
         return 'validated';

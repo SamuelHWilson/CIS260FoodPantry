@@ -79,14 +79,12 @@ LAST UPDATE: 11/05/2018-->
         <input type="radio" name="SB_Eligibility" id="yes" value="1" @if($appt->Client->SB_Eligibility == true) checked @endif> Yes<br>
         <input type="radio" name="SB_Eligibility" id="no" value="0" @if($appt->Client->SB_Eligibility == false) checked @endif> No<br>
         <br><br>
-
-        <!--buttons-->
-        <input type="submit" value="Go Back">
       </form>
 
       <button onclick="document.forms.namedItem('checkIn').submit()">Check-In</button>
       <button onclick="document.forms.namedItem('reschedule').submit()">Reschedule</button>
       <button onclick="document.forms.namedItem('cancel').submit()">Cancel</button>
+      <button onclick="window.location = '{{ url()->previous() }}'">Go Back</button>
     </div>
   </div>
 </body>

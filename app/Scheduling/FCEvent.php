@@ -12,7 +12,8 @@ class FCEvent {
     public static $FCDateFormat = "Y-m-d";
     public static $FCTimeFormat = "H:i:s";
     public static $FCTimeDisplayFormat = "h:ia";
-    public static $pendingColor = "#03cc00";
+    public static $pendingColor = "#3333ff";
+    public static $defaultColor = "#808080";
     
     public $title;
     public $start;
@@ -23,8 +24,9 @@ class FCEvent {
         $this->start = $appt->GetDateTime()->format(FCEvent::$FCStartFormat);
         $this->id = $appt->Appointment_ID;
 
-        // switch($appt->status->Status_Name) {
-        //     case "Pending": $this->color = FCEvent::$pendingColor;
-        // }
+        switch($appt->status->Status_Name) {
+            case "Pending": $this->color = FCEvent::$pendingColor; break;
+            default: $this->color = FCEvent::$defaultColor; break;
+        }
     }
 }

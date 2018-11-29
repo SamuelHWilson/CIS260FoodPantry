@@ -88,6 +88,7 @@ LAST UPDATE: 11/05/2018-->
 
       <form name="frm" method="POST" action='/appointments/create-appointment'>
         @csrf
+        <input type='hidden' id='overrideScheduleError' name='overrideScheduleError' value='0'>
       
         <b>Appointment Date: </b><input type="text" id="date" name="Appointment_Date" value="{{ $date }}" readonly/>
       <br><br>
@@ -116,6 +117,18 @@ LAST UPDATE: 11/05/2018-->
         @if(session('scheduleError') == 'slotFull')
             <p style='color:orangered;'><b>This time slot is already full of appointments. Please pick another time slot.</b></p>
         @endif
+
+        @if(session('scheduleError') == 'lateSeniorBox')
+            <p style='color:orangered;'><b>This client usually recives a senior box. Please schedule their appointment before the senior box cuttoff day.</b></p>
+        @endif
+
+        <script>
+          function submitWithOverride() {
+            document.getElementById('overrideScheduleError').value = 1;
+            document.forms[0].submit();
+          }
+        </script>
+        <button onclick='submitWithOverride()'>Schedule Appointment Anyway</button><br><br>
       @endif
 
       <b>Appointment Time: </b>
@@ -225,8 +238,8 @@ LAST UPDATE: 11/05/2018-->
           $sbTrue = (old('SB_Eligibility') == true) || ($hasPending == true && $pendingClient->SB_Eligibility == true);
         ?>
 
-        <input type="radio" name="SB_Eligibility" id="yes" value="1" @if($sbTrue) checked @endif> Yes<br>
-        <input type="radio" name="SB_Eligibility" id="no" value="0" @if(!$sbTrue) checked @endif> No<br>
+        <input type="radio" name="SB_Eligibility" id="yes" value="1" @if($hasPending && !$sbTrue) disabled @endif @if($sbTrue) checked @endif> Yes<br>
+        <input type="radio" name="SB_Eligibility" id="no" value="0" @if($hasPending && $sbTrue) disabled @endif @if(!$sbTrue) checked @endif> No<br>
         <br><br>
 
         <!--buttons-->
@@ -235,6 +248,7 @@ LAST UPDATE: 11/05/2018-->
 
       <input type="submit" value="Reset">
       <input type="submit" value="Cancel">
+      <button onclick="window.location = '{{ url()->previous() }}'">Go Back</button>
     </div>
   </div>
 </body>
