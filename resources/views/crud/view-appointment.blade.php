@@ -76,8 +76,8 @@ LAST UPDATE: 11/05/2018-->
         <b>Senior Box?</b>
         <br>
         <!--Senior Box Radio buttons-->
-        <input type="radio" name="SB_Eligibility" id="yes" value="1" @if($appt->Client->SB_Eligibility == true) checked @endif> Yes<br>
-        <input type="radio" name="SB_Eligibility" id="no" value="0" @if($appt->Client->SB_Eligibility == false) checked @endif> No<br>
+        <input type="radio" name="SB_Eligibility" id="yes" value="1" disabled @if($appt->Client->SB_Eligibility == true) checked @endif> Yes<br>
+        <input type="radio" name="SB_Eligibility" id="no" value="0" disabled @if($appt->Client->SB_Eligibility == false) checked @endif> No<br>
         <br><br>
       </form>
 

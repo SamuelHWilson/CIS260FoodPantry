@@ -24,7 +24,7 @@
                 },
                 height: "auto",
                 header: {
-                    left: 'previous addAppointment',
+                    left: 'previous addAppointment today',
                     center: 'title',
                     right: 'nextView forward'
                 },
@@ -51,6 +51,12 @@
                         text: 'Next  {{ ucfirst($view) }}',
                         click: function(){
                             window.location = '../{{ $view }}-view/{{ $nextDate }}'                            
+                        }
+                    },
+                    today: {
+                        text: 'Today',
+                        click: function() {
+                            window.location = '{{ $currentDate }}';
                         }
                     }
                 },

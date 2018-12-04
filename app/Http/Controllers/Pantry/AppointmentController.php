@@ -9,8 +9,10 @@ use App\Client;
 use App\Http\Controllers\Controller;
 use App\Scheduling\DayMap;
 use App\Scheduling\FCEvent;
+use App\Scheduling\FCDayInfo;
 use App\Scheduling\PendingAppointment;
 use App\Scheduling\DayConfiguration;
+use Illuminate\Support\Facades\DB;
 
 class AppointmentController extends Controller
 {
@@ -54,11 +56,23 @@ class AppointmentController extends Controller
         //TODO: Do something about this. Month view does not logically use dayConfig, but will crash without it.
         $dayConfig = new DayConfiguration($liveDate);
 
+        $results = DB::table('Appointment')
+                        ->select('Appointment_Date', DB::raw('count(*) as total'))
+                        ->groupBy('Appointment_Date')
+                        ->whereYear('Appointment_Date', $liveDate->format('Y'))
+                        ->whereMonth('Appointment_Date', $liveDate->format('m'))
+                        ->get();
+
+        $daySummaries = [];      
+        foreach($results as $result) {
+            $daySummaries[] = new FCDayInfo($result->Appointment_Date, $result->total);
+        }
+
         return view('appointment-calendar', ['view' => 'month', 
                                              'currentDate'=> $date, 
                                              'nextDate' => $nextDate, 
                                              'prevDate' => $prevDate,
-                                             'appointments' => '[]',
+                                             'appointments' => json_encode($daySummaries, true),
                                              'dayConfig' => $dayConfig]);
     }
 

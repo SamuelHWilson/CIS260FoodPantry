@@ -29,4 +29,6 @@ class FCEvent {
             default: $this->color = FCEvent::$defaultColor; break;
         }
     }
+
+    
 }
