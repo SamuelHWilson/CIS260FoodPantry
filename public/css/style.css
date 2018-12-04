@@ -41,3 +41,50 @@ body {
     .active {
         background-color: #4CAF50;
     }
+
+    body.Index_body{
+        background-color: #D3D3D3;
+      }
+    
+      div.Index_container{
+        text-align: center;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        padding-bottom: 20px;
+      }
+
+      div.Index_mainDiv{
+        background-color: #FFFFFF;
+        margin: 0 auto;
+        margin-top: 20px;
+        border-style: solid;
+        border-width: 2px;
+        border-radius: 15px;
+        height: auto;
+        width: auto;
+      
+      }
+
+      h1.defaultconfig_h1{
+        border-bottom: solid;
+      }
+
+      .button{
+          background-color: white; 
+          color: black; 
+          border: 2px solid #555555; 
+          font-size: 20px;
+      }
+
+      .left{
+          float: left;
+          width: 50%;
+      }
+
+      .clear{
+          float: clear;
+      }
+
+      .ui-datepicker{
+        background: #F2EEEE;
+      }

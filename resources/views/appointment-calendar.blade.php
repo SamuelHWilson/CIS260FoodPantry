@@ -26,11 +26,17 @@
                 header: {
                     left: 'previous addAppointment today',
                     center: 'title',
-                    right: 'nextView forward'
+                    right: 'currentDate nextView forward'
                 },
                 customButtons: {
+                    currentDate: {
+                        text: 'Today',
+                        click: function(){
+                            // go to current date
+                        }
+                    },
                     addAppointment: {
-                        text: 'add appointment',
+                        text: 'Add Appointment',
                         click: function() {
                             window.location = '/appointments/create-appointment/{{ $currentDate }}'
                         }
