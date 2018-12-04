@@ -50,7 +50,7 @@ class DayMap {
             $eventObjects[] = new FCEvent($appointment);
         }
 
-        return ;
+        return $eventObjects;
     }
 
     public function getTimeSlots() {

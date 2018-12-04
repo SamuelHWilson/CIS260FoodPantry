@@ -88,8 +88,12 @@ LAST UPDATE: 11/05/2018-->
 
       <form name="frm" method="POST" action='/appointments/create-appointment'>
         @csrf
+
+        <!-- Used to make sure the back button returns to the calendar, not this page, when the form was submitted and sent back -->
+        <input type='hidden' name='entryPoint' value="{{ old('entryPoint') ? old('entryPoint') : url()->previous() }}">
+
         <input type='hidden' id='overrideScheduleError' name='overrideScheduleError' value='0'>
-      
+        
         <b>Appointment Date: </b><input type="text" id="date" name="Appointment_Date" value="{{ $date }}" readonly/>
       <br><br>
 
@@ -248,7 +252,7 @@ LAST UPDATE: 11/05/2018-->
 
       <input type="submit" value="Reset">
       <input type="submit" value="Cancel">
-      <button onclick="window.location = '{{ url()->previous() }}'">Go Back</button>
+      <button onclick="window.location = '{{ old('entryPoint') ? old('entryPoint') : url()->previous() }}'">Go Back</button>
     </div>
   </div>
 </body>

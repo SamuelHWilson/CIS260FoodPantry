@@ -43,7 +43,7 @@ class AppointmentController extends Controller
                                              'currentDate'=> $date, 
                                              'nextDate' => $nextDate, 
                                              'prevDate' => $prevDate,
-                                             'appointments' => $appointments,
+                                             'appointments' => json_encode($appointments),
                                              'dayConfig' => $dayConfig]);
     }
     

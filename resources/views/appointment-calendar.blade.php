@@ -24,17 +24,11 @@
                 },
                 height: "auto",
                 header: {
-                    left: 'previous addAppointment today',
+                    left: 'previous forward currentDate nextView',
                     center: 'title',
-                    right: 'currentDate nextView forward'
+                    right: 'addAppointment'
                 },
                 customButtons: {
-                    currentDate: {
-                        text: 'Today',
-                        click: function(){
-                            // go to current date
-                        }
-                    },
                     addAppointment: {
                         text: 'Add Appointment',
                         click: function() {
@@ -42,7 +36,7 @@
                         }
                     },
                     nextView: {
-                        text: 'Go to {{ $view == "day" ? "Month" : "Day" }} View',
+                        text: '{{ $view == "day" ? "Month" : "Day" }} View',
                         click: function(){
                             window.location = '../{{ $view == "day" ? "month" : "day" }}-view/{{ $currentDate }}'
                         }
@@ -59,7 +53,7 @@
                             window.location = '../{{ $view }}-view/{{ $nextDate }}'                            
                         }
                     },
-                    today: {
+                    currentDate: {
                         text: 'Today',
                         click: function() {
                             window.location = '{{ $currentDate }}';
