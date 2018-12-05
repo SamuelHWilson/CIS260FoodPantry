@@ -49,6 +49,9 @@ Route::middleware(['check-edit'])->group(function() {
     Route::post('/appointments/create-pending', 'Pantry\AppointmentController@createPendingAppointment');
     Route::post('/appointments/cancel-pending', 'Pantry\AppointmentController@cancelPendingAppointment');
     Route::post('/appointments/cancel', 'Pantry\AppointmentController@cancel');
+
+    Route::get('/testing/default-configuration', 'Pantry\ConfigController@showDefault');
+    Route::get('/testing/special-configuration', 'Pantry\ConfigController@showSpecial');
 });
 
 // Maintenance only.
