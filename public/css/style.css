@@ -3,88 +3,112 @@ body {
     padding: 0;
     font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
     font-size: 14px;
-    }
+}
 
-    #calendar {
-        margin: 12px auto;
-    }
-    
-    ul {
-        list-style-type: none;
-        margin: 0;
-        padding: 0;
-        overflow: hidden;
-        background-color: #333;
-    }
+#calendar {
+    margin: 12px auto;
+}
 
-    li {
-        float: left;
-        border-right:1px solid #bbb;
-    }
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
 
-    li:last-child {
-        border-right: none;
-    }
+li {
+    float: left;
+    border-right:1px solid #bbb;
+}
 
-    li a {
-        display: block;
-        color: white;
-        text-align: center;
-        padding: 14px 16px;
-        text-decoration: none;
-    }
+li:last-child {
+    border-right: none;
+}
 
-    li a:hover:not(.active) {
-        background-color: #111;
-    }
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
 
-    .active {
-        background-color: #4CAF50;
-    }
+li a:hover:not(.active) {
+    background-color: #111;
+}
 
-    body.Index_body{
-        background-color: #D3D3D3;
-      }
-    
-      div.Index_container{
-        text-align: center;
-        margin-top: 20px;
-        margin-bottom: 20px;
-        padding-bottom: 20px;
-      }
+.active {
+    background-color: #4CAF50;
+}
 
-      div.Index_mainDiv{
-        background-color: #FFFFFF;
-        margin: 0 auto;
-        margin-top: 20px;
-        border-style: solid;
-        border-width: 2px;
-        border-radius: 15px;
-        height: auto;
-        width: auto;
-      
-      }
+body.Index_body{
+    background-color: #D3D3D3;
+}
 
-      h1.defaultconfig_h1{
-        border-bottom: solid;
-      }
+div.Index_container{
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+}
 
-      .button{
-          background-color: white; 
-          color: black; 
-          border: 2px solid #555555; 
-          font-size: 20px;
-      }
+div.Index_mainDiv{
+    background-color: #FFFFFF;
+    margin: 0 auto;
+    margin-top: 20px;
+    border-style: solid;
+    border-width: 2px;
+    border-radius: 15px;
+    height: auto;
+    width: auto;
+}
 
-      .left{
-          float: left;
-          width: 50%;
-      }
+h1.defaultconfig_h1{
+    border-bottom: solid;
+}
 
-      .clear{
-          float: clear;
-      }
+.button{
+    background-color: white; 
+    color: black; 
+    border: 2px solid #555555; 
+    font-size: 20px;
+}
 
-      .ui-datepicker{
-        background: #F2EEEE;
-      }
+.left{
+    float: left;
+    width: 50%;
+}
+
+.clear{
+    float: clear;
+}
+
+.ui-datepicker{
+    background: #F2EEEE;
+}
+
+div.page{
+	width: 21cm;
+	margin: auto;
+}
+
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+	page-break-after:auto
+}
+
+td, tr{
+	page-break-inside:avoid;
+}
+
+th, td {
+    padding: 5px;
+    text-align: left;
+	text-align: center;
+}
+
+h2.center{
+	text-align: center;
+}
