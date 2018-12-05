@@ -52,6 +52,10 @@ Route::middleware(['check-edit'])->group(function() {
 
     Route::get('/testing/default-configuration', 'Pantry\ConfigController@showDefault');
     Route::get('/testing/special-configuration', 'Pantry\ConfigController@showSpecial');
+
+    Route::get('/reporting/reports', 'Pantry\ReportController@showReports');
+    Route::get('/reporting/no-shows', 'Pantry\ReportController@showNoShowReport');
+    Route::get('/reporting/daily/{date}', 'Pantry\ReportController@showDailyReport');
 });
 
 // Maintenance only.

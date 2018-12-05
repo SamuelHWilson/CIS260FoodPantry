@@ -6,7 +6,7 @@
 	</head>
 	<body>
 		<div class="page">
-			<h2 style="text-align: center;">APPOINTMENTS FOR 12-20-2018</h2>
+			<h2 style="text-align: center;">APPOINTMENTS FOR {{ $date }}</h2>
 			<table style = "width: 100%">
 				<tr>
 					<th>APPOINTMENT TIME</th>
@@ -14,19 +14,16 @@
 					<th>PHONE NUMBER</th>
 					<th>SENIOR BOX</th>
 				</tr>
+				@foreach($appointments as $appt)
 				<tr>
-					<td>08:00 AM</td>
-					<td>Richard Test</td>
-					<td>4175550000</td>
-					<td>NO</td>
+					<td>{{ date_format(new DateTime($appt->Appointment_Time),'g:ia') }}</td>
+					<td>{{ $appt->Client->First_Name.' '.$appt->Client->Last_Name }}</td>
+					<td>{{ $appt->Client->Phone_Number }}</td>
+					<td>{{ $appt->Client->SB_Eligibility ? 'YES' : 'NO' }}</td>
 				</tr>
-				<tr>
-					<td>08:00 AM</td>
-					<td>Richard Test</td>
-					<td>4175550000</td>
-					<td>NO</td>
-				</tr>
+				@endforeach
 			</table>
+			<button onclick='window.print()'>Print</button>
 		</div>
 	</body>
 </html>

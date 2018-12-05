@@ -13,17 +13,15 @@
 					<th>PHONE NUMBER</th>
 					<th>SENIOR BOX</th>
 				</tr>
+				@foreach($clients as $client)
 				<tr>
-					<td>Richard Test</td>
-					<td>4175550000</td>
-					<td>NO</td>
+					<td>{{ $client->First_Name.' '.$client->Last_Name }}</td>
+					<td>{{ $client->Phone_Number }}</td>
+					<td>{{ $client->SB_Eligibility ? 'YES' : 'NO' }}</td>
 				</tr>
-				<tr>
-					<td>Richard Test</td>
-					<td>4175550000</td>
-					<td>NO</td>
-				</tr>
+				@endforeach
 			</table>
+			<button onclick='window.print()'>Print</button>
 		</div>
 	</body>
 </html>
