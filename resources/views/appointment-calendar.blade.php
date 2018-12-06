@@ -56,7 +56,9 @@
                     currentDate: {
                         text: 'Today',
                         click: function() {
-                            window.location = '{{ $currentDate }}';
+                            //TODO: Remove this bad php. Pipe it in from outside or something.
+                            <?php $today = new DateTime() ?>
+                            window.location = '{{ $today->format("Y-m-d") }}';
                         }
                     }
                 },
