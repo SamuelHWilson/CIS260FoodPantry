@@ -10,8 +10,8 @@ class ClientController extends Controller
 {
     
     //Show all clients.
-    public function index()
+    public function showClient()
     {
-        return view('testing.client-dump', ['clients' => Client::with('Appointment')->get()]);
+        return view('crud.editclient');
     }
 }
