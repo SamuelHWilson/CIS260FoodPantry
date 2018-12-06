@@ -38,10 +38,6 @@ li a:hover:not(.active) {
     background-color: #111;
 }
 
-.active {
-    background-color: #4CAF50;
-}
-
 body.Index_body{
     background-color: #D3D3D3;
 }

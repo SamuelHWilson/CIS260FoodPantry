@@ -88,12 +88,7 @@
         <form method="POST" action="{{ route('logout') }}" id='logout'>
             @csrf
         </form>
-        <ul>
-            <li><a class="active" href="#calendar">Calendar</a></li>
-            <li><a href="/reporting/reports">Reports</a></li>
-            <li><a href="#settings">Settings</a></li>
-            <li style="float:right" onclick='document.forms.namedItem("logout").submit()'><a href="#lock">Lock Page</a></li>
-        </ul>
+        @include('partials.navigation-bar')
         @include('partials.cancel-pending-appointment')
             <div id='calendar'></div>
     </body>

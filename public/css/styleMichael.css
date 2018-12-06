@@ -97,3 +97,28 @@ div.client_edit_search{
   border-radius: 15px;
   padding: 10px;
 }
+
+ul.navList{
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
+}
+li.navItem{
+  float: left;
+  border-right:1px solid #bbb;
+}
+li.navItem:last-child{
+  border-right: none;
+}
+li.navItem a.navBar{
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+li.navItem a.navBar:hover{
+  background-color: #111;
+}

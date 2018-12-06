@@ -11,6 +11,10 @@
 	  </script>
     </head>
 	<body class = "Index_body">
+		<form method="POST" action="{{ route('logout') }}" id='logout'>
+            @csrf
+    	</form>
+		@include('partials.navigation-bar')
 		<div class = "Index_mainDiv">
 			<div class = "Index_container clearfix">
 			
