@@ -24,7 +24,7 @@ class ReportController extends Controller
     }
 
     public function showDailyReport($date) {
-        $appointments = Appointment::whereDate('Appointment_Date', '=', $date)->with('client')->get();
+        $appointments = Appointment::whereDate('Appointment_Date', '=', $date)->with('client')->orderBy('Appointment_Time')->get();
         // dd($appointments[0]->Client);
         // dd($appointments);
 

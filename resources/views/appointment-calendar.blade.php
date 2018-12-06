@@ -64,6 +64,7 @@
                     dayClick: function(date, jsEvent, view) {
                         window.location = '../day-view/' + date.format()
                     },
+                    displayEventTime: false,
                 @endif
                 defaultView: '{{ $view == "day" ? "agendaDay" : "month" }}',
                 defaultDate: '{{ $currentDate }}',
@@ -73,8 +74,13 @@
                 slotEventOverlap: false,
                 aspectRatio: 2,
                 slotDuration: '00:15:00',
-                minTime: '{{ $dayConfig->FCMinTime }}',
-                maxTime: '{{ $dayConfig->FCMaxTime }}',
+                @if($dayConfig->open)
+                    minTime: '{{ $dayConfig->FCMinTime }}',
+                    maxTime: '{{ $dayConfig->FCMaxTime }}',
+                @else
+                    minTime: '00:00:00',
+                    maxTime: '00:00:00',
+                @endif
                 slotLabelInterval: '01:00',
                 defaultTimedEventDuration: '00:15:00',
                 allDayDefault: false,
@@ -90,6 +96,10 @@
         </form>
         @include('partials.navigation-bar')
         @include('partials.cancel-pending-appointment')
-            <div id='calendar'></div>
+        <div id='calendar'></div>
+        
+        @if(!$dayConfig->open)
+            <h1>Least of These is closed this day.</h1>
+        @endif
     </body>
 </html>

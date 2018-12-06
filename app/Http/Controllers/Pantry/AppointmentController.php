@@ -37,7 +37,7 @@ class AppointmentController extends Controller
         $daymap = new DayMap($liveDate);
         $appointments = $daymap->getFCEventJSON();
 
-        $dayConfig = new DayConfiguration($liveDate);
+        $dayConfig = new DayConfiguration($date);
 
         return view('appointment-calendar', ['view' => 'day', 
                                              'currentDate'=> $date, 
@@ -54,7 +54,7 @@ class AppointmentController extends Controller
         $prevDate = date(FCEvent::$FCDateFormat, strtotime($date.' -1 month'));
 
         //TODO: Do something about this. Month view does not logically use dayConfig, but will crash without it.
-        $dayConfig = new DayConfiguration($liveDate);
+        $dayConfig = new DayConfiguration($date);
 
         $results = DB::table('Appointment')
                         ->select('Appointment_Date', DB::raw('count(*) as total'))

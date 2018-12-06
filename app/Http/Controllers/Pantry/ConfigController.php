@@ -20,6 +20,7 @@ class ConfigController extends Controller
     }
 
     public function setDefault(Request $request) {
+        // dd($request);
         $validatedData = $request->validate([
             'dayNum.*' => 'required|integer|min:0|max:6',
             'openHour.*' => 'required|integer|min:1|max:12',
@@ -31,6 +32,20 @@ class ConfigController extends Controller
             'numOfVol.*' => 'required|integer|min:1|max:255',
             'isOpen.*' => 'required|bool'
         ]);
+        // dd($validatedData);
+        
+        $timeLogicErrors = [];
+        foreach($validatedData['dayNum'] as $dayNum) {
+            $openTime = new DateTime($validatedData['openHour'][$dayNum].':'.$validatedData['openMinute'][$dayNum].$validatedData['openAmpm'][$dayNum]);
+            $closeTime = new DateTime($validatedData['closeHour'][$dayNum].':'.$validatedData['closeMinute'][$dayNum].$validatedData['closeAmpm'][$dayNum]);
+
+            if($openTime >= $closeTime) {
+                $timeLogicErrors[] = $dayNum;
+            }
+        }
+        if (count($timeLogicErrors) > 0) {
+            return redirect()->back()->withInput()->with('timeLogicErrors', $timeLogicErrors);
+        }
 
         for($dayNum = 0; $dayNum < 7; $dayNum++) {
             $defCon = DefaultConfig::firstOrNew(['day' => $dayNum]);

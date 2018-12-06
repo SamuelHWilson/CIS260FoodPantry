@@ -17,7 +17,7 @@ class DefaultConfig extends Model
     }
 
     public function formatCloseTime($formatString) {
-        return date_format(new DateTime($this->openTime), $formatString);
+        return date_format(new DateTime($this->closeTime), $formatString);
     }
 
     /**

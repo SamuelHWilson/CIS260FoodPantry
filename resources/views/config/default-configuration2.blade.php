@@ -8,9 +8,19 @@ LAST UPDATE: 11/05/2018-->
 <head>
   <title>Default Configurations</title>
   <link rel = "stylesheet" href = "{{ asset('css/styleMichael.css') }}">
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 </head>
 <!--Beginning of body-->
 <body class = "Index_body">
+  <?php
+    if(session()->has('timeLogicErrors')) {
+      $hasTle = true;
+    } else {
+      $hasTle = false;
+    }
+
+    if(session())
+  ?>
   <form method="POST" action="{{ route('logout') }}" id='logout'>
     @csrf
   </form>
@@ -22,7 +32,6 @@ LAST UPDATE: 11/05/2018-->
       <div class = "header">
         <h1 class="defaultconfig_h1"><font face="Helvetica">DEFAULT CONFIGURATIONS</font></h1>
         <br>
-        {{ $errors }}
       </div>
 
 
@@ -44,10 +53,12 @@ LAST UPDATE: 11/05/2018-->
             @foreach(['Sunday', 'Monday', 'Tuesday', 'Wednessday', 'Thursday', 'Friday', 'Saturday'] as $weekday)
               <?php $day = $defCons[$dayNum]; ?>
               <tr>
-                <input type='hidden' name='dayNum' value='{{ $dayNum }}'>
+                <input type='hidden' name='dayNum[{{$dayNum}}]' value='{{ $dayNum }}'>
                 <td>{{$weekday}}</td>
+
                 <td>
-                <select name='openHour[{{ $dayNum }}]'>
+                @if($hasTle && in_array($dayNum, session('timeLogicErrors'))) <p>This time might be incorrect.</p> @endif
+                <select name='openHour[{{ $dayNum }}]' class='dayInput{{$dayNum}}'>
                   <option value="1">1</option>
                   <option value="2">2</option>
                   <option value="3">3</option>
@@ -60,23 +71,26 @@ LAST UPDATE: 11/05/2018-->
                   <option value="10">10</option>
                   <option value="11">11</option>
                   <option value="12">12</option>
+                  
                   <option value='{{ $day->formatOpenTime("g") }}' selected hidden>{{ $day->formatOpenTime("g") }}</option>
                 </select>
+
                 <b>:</b>
-                <select name='openMinute[{{ $dayNum }}]'>
+                <select name='openMinute[{{ $dayNum }}]' class='dayInput{{$dayNum}}'>
                   <option value="00">00</option>
                   <option value="15">15</option>
                   <option value="30">30</option>
                   <option value="45">45</option>
                   <option value='{{ $day->formatOpenTime("i") }}' selected hidden >{{ $day->formatOpenTime("i") }}</option>
                 </select>
-                <select name='openAmpm[{{ $dayNum }}]'>
+                <select name='openAmpm[{{ $dayNum }}]' class='dayInput{{$dayNum}}'>
                   <option value="AM">AM</option>
                   <option value="PM">PM</option>
                   <option value='{{ $day->formatOpenTime("A") }}' selected hidden>{{ $day->formatOpenTime("A") }}</option>
                 </select></td>
                 <td>
-                  <select name='closeHour[{{ $dayNum }}]'>
+                @if($hasTle && in_array($dayNum, session('timeLogicErrors'))) <p>This time might be incorrect.</p> @endif                    
+                  <select name='closeHour[{{ $dayNum }}]' class='dayInput{{$dayNum}}' class='dayInput{{$dayNum}}'>
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
@@ -92,32 +106,45 @@ LAST UPDATE: 11/05/2018-->
                     <option value='{{ $day->formatCloseTime("g") }}' selected hidden>{{ $day->formatCloseTime("g") }}</option>  
                   </select>
                     <b>:</b>
-                    <select name='closeMinute[{{ $dayNum }}]'>
+                    <select name='closeMinute[{{ $dayNum }}]' class='dayInput{{$dayNum}}'>
                       <option value="00">00</option>
                       <option value="15">15</option>
                       <option value="30">30</option>
                       <option value="45">45</option>
                       <option value='{{ $day->formatCloseTime("i") }}' selected hidden>{{ $day->formatCloseTime("i") }}</option>  
                     </select>
-                    <select name='closeAmpm[{{ $dayNum }}]'>
+                    <select name='closeAmpm[{{ $dayNum }}]' class='dayInput{{$dayNum}}'>
                       <option value="AM">AM</option>
                       <option value="PM">PM</option>
                       <option value='{{ $day->formatCloseTime("A") }}' selected hidden>{{ $day->formatCloseTime("A") }}</option>  
                     </select>
                   </td>
                   <td>
-                    <input type="text" placeholder="Enter Amount" name="numOfVol[{{ $dayNum }}]" value='{{ $day->numOfVol }}' required>
+                    <input type="text" placeholder="Enter Amount" name="numOfVol[{{ $dayNum }}]" value='{{ $day->numOfVol }}' class='dayInput{{$dayNum}}' required>
                   </td>
                   <td>
                     <input type="radio" name="isOpen[{{ $dayNum }}]" @if($day->isOpen) checked @endif value="1"> Open<br>
                     <input type="radio" name="isOpen[{{ $dayNum }}]" @if(!$day->isOpen) checked @endif value="0"> Closed<br>
                   </td>
+                  <script>
+                    //TODO: Fix this unholy mess.
+                    $('.dayInput{{$dayNum}}').prop('disabled', ($("input[name='isOpen[{{$dayNum}}]']:checked").val() == 0))
+                    $("input[name='isOpen[{{$dayNum}}]']").on('change', function() {
+                      $('.dayInput{{$dayNum}}').prop('disabled', ($("input[name='isOpen[{{$dayNum}}]']:checked").val() == 0))
+                    })
+                  </script>
               </tr>
               <?php $dayNum+=1 ?>
             @endforeach
           </form>
         </table>
-        <button type="submit" onclick='forms.namedItem("config").submit()'>Submit</button>
+        <script>
+          function workaround() {
+            $(':disabled').prop('disabled', false);
+            document.forms.namedItem("config").submit()
+          }
+        </script>
+        <button type="submit" onclick='workaround()'>Submit</button>
        <br><br>
        <input type="Submit" value="Cancel">
        <br><br>
