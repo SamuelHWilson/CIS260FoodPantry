@@ -51,6 +51,7 @@ Route::middleware(['check-edit'])->group(function() {
     Route::post('/appointments/cancel', 'Pantry\AppointmentController@cancel');
 
     Route::get('/testing/default-configuration', 'Pantry\ConfigController@showDefault');
+    Route::post('/testing/default-configuration', 'Pantry\ConfigController@setDefault');
     Route::get('/testing/special-configuration', 'Pantry\ConfigController@showSpecial');
 
     Route::get('/reporting/reports', 'Pantry\ReportController@showReports');
