@@ -23,7 +23,7 @@ class CheckEdit
         }
 
         if (!(Auth::user()->id == CheckEdit::$editID)) {
-            return redirect('/testing/not-edit');
+            return redirect('/access-denied');
         }
 
         return $next($request);

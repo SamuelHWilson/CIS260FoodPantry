@@ -29,9 +29,9 @@ Route::get('/login', function () {
 })->name('login');
 Route::post('/login', 'Auth\LoginController@login');
 Route::post('/logout', 'Auth\LoginController@logout')->name('logout');
-Route::get('/testing/not-edit', function() {
-    return view('auth.not-edit');
-})->name('not-edit');
+Route::get('/access-denied', function() {
+    return view('auth.accessdenied');
+})->name('access-denied');
 
 Route::middleware(['auth.basic'])->group(function() {
     
