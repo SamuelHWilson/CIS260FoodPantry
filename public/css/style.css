@@ -9,34 +9,30 @@ body {
     margin: 12px auto;
 }
 
-ul {
+ul.navList{
     list-style-type: none;
     margin: 0;
     padding: 0;
     overflow: hidden;
     background-color: #333;
-}
-
-li {
+  }
+  li.navItem{
     float: left;
     border-right:1px solid #bbb;
-}
-
-li:last-child {
+  }
+  li.navItem:last-child{
     border-right: none;
-}
-
-li a {
+  }
+  li.navItem a.navBar{
     display: block;
     color: white;
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
-}
-
-li a:hover:not(.active) {
+  }
+  li.navItem a.navBar:hover{
     background-color: #111;
-}
+  }
 
 body.Index_body{
     background-color: #D3D3D3;
@@ -69,6 +65,14 @@ h1.defaultconfig_h1{
     color: black; 
     border: 2px solid #555555; 
     font-size: 20px;
+}
+
+.repButton{
+    background-color: white; 
+    color: black; 
+    border: 2px solid #555555; 
+    font-size: 14px;
+    margin: 2px;
 }
 
 .left{

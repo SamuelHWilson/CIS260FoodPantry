@@ -23,7 +23,10 @@
 				</tr>
 				@endforeach
 			</table>
-			<button onclick='window.print()'>Print</button>
+			<div style="text-align: center">
+				<button class="repButton" onclick='window.print()'>Print</button>
+				<button class="repButton" onclick='location.href="/reporting/reports"'>Go Back</button>
+			</div>
 		</div>
 	</body>
 </html>
