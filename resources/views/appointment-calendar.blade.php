@@ -25,8 +25,8 @@
                 height: "auto",
                 header: {
                     left: 'previous forward currentDate nextView',
-                    center: 'title',
-                    right: 'addAppointment'
+                    //center: 'title',
+                    right: 'title addAppointment'
                 },
                 customButtons: {
                     addAppointment: {
