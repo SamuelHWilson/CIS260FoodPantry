@@ -86,3 +86,14 @@ border-collapse: collapse;
 th{
       background-color: #E1E1E1;
 }
+
+//To be added after Edit Client page is complete.
+
+div.client_edit_search{
+  background-color: #DCDCDC;
+  border-style: solid;
+  border-width: 1px;
+  box-shadow: 2px 2px;
+  border-radius: 15px;
+  padding: 10px;
+}
