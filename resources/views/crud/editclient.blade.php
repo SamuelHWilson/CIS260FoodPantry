@@ -38,6 +38,10 @@ LAST UPDATE: 11/05/2018-->
 </head>
 <!--Beginning of body-->
 <body class = "Index_body">
+  <form method="POST" action="{{ route('logout') }}" id='logout'>
+    @csrf
+  </form>
+  @include('partials.navigation-bar')
   <div class="Appointment_Body">
     <h1 class="Appointment_Header"><font face="Helvetica">EDIT CLIENT</font></h1>
 <br>
