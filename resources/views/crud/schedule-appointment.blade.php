@@ -186,6 +186,7 @@ LAST UPDATE: 11/05/2018-->
         <input type = "text"
         id="First_Name"
         name="First_Name"
+        placeholder = "John"
         style="width: 139px;"
 
         @if($hasPending)
@@ -205,6 +206,7 @@ LAST UPDATE: 11/05/2018-->
         <input type = "text"
         id = "Last_Name"
         name = "Last_Name"
+        placeholder = "Smith"
         
         @if($hasPending)
           value="{{ $pendingClient->Last_Name }}"
@@ -234,10 +236,24 @@ LAST UPDATE: 11/05/2018-->
         @endif 
         
         />
+
         <br><br>
+        <!--Notes Textbox-->
+        @if( $errors->first('Appointment_Note'))
+          <p style='color:orangered;'><font face="Helvetica"><b>Notes can only include standard letters, numbers, and punctuation.</font></b></p>
+        @endif
+        <b>Notes: </b><br>
+        <textarea
+        id="Appointment_Note"
+        name="Appointment_Note"
+        placeholder="Add anything noteworthy about the appointment here."
+        style="width: 80%;"
+        rows="3">{{ old('Appointment_Note') }}</textarea>
+
+        <br><br>
+        <!--Senior Box Radio buttons-->
         <b>Senior Box?</b>
         <br>
-        <!--Senior Box Radio buttons-->
         <?php
           $sbTrue = (old('SB_Eligibility') == true) || ($hasPending == true && $pendingClient->SB_Eligibility == true);
         ?>

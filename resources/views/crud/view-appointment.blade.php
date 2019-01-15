@@ -73,6 +73,14 @@ LAST UPDATE: 11/05/2018-->
         value="{{ $appt->Client->Phone_Number }}"/>
         <br><br>
 
+        <!--Notes Textbox-->
+        <b>Phone Number: </b><br>
+        <textarea
+        id = "Phone_Number"
+        disabled
+        style="width: 80%;">{{ $appt->Appointment_Note }}</textarea>
+        <br><br>
+
         <b>Senior Box?</b>
         <br>
         <!--Senior Box Radio buttons-->

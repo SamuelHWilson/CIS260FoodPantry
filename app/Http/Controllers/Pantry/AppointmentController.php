@@ -129,6 +129,7 @@ class AppointmentController extends Controller
             'Last_Name' => 'required|alpha',
             'Phone_Number' => 'required|regex:/^[0-9]{10}$/',
             'SB_Eligibility' => 'required|bool',
+            'Appointment_Note' => "regex:/^[A-Za-z0-9!?, \.\']*$/|nullable",
 
             'hour' => 'required|between:1,12',
             'minute' => 'required|in:00,15,30,45',
@@ -142,7 +143,7 @@ class AppointmentController extends Controller
         $appt->Status_ID = Appointment::$PendingStatus;
         $appt->Appointment_Date = $request->Appointment_Date;
         $appt->Appointment_Time = $FCTime;
-        $appt->Appointment_Note = "";
+        $appt->Appointment_Note = $request->Appointment_Note;
 
         //It's weird that we still get client input even if we have the ID, but having all the client
         //fields always visible makes it easier for the volunteers to use the software.
