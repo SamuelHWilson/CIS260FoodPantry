@@ -13,10 +13,6 @@ use App\Scheduling\DailyConfiguration;
 class DayMap {
     var $dateToMap;
 
-    var $volunteerCount;
-    var $openningHours;
-    var $closingHours;
-
     var $allAppointments;
 
     var $fifteenMinuteInterval;
@@ -29,14 +25,7 @@ class DayMap {
         }
 
         $this->fifteenMinuteInterval = new DateInterval('PT15M');
-        $this->setConfigruation();
         $this->queryAppointments();
-    }
-
-    private function setConfigruation() {
-        $this->volunteerCount = 4;
-        $this->openningHours = new DateTime('08:00:00');
-        $this->closingHours = new DateTime('14:00:00');
     }
 
     private function queryAppointments() {

@@ -18,7 +18,7 @@ class AppointmentController extends Controller
 {
     public function showCreateForm($date) {
         $dayMap = new DayMap(new DateTime($date));
-        return view('crud.schedule-appointment')->with(['date' => $date, 'timeSlots' => $dayMap->getTimeSlots()]);
+        return view('crud.schedule-appointment')->with(['date' => $date]);
     }
 
     public function viewAppointment($id) {

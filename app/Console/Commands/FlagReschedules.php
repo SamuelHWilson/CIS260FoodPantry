@@ -27,8 +27,6 @@ class FlagReschedules extends Command
     private $checkUntil = '-3 months';
     private $flagExpires = '+3 months';
 
-    private $Flag_DES = 'Habitual Reschedule';
-
     /**
      * Create a new command instance.
      *
