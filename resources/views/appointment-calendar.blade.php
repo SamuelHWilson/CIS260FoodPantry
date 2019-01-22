@@ -76,13 +76,8 @@
                 slotEventOverlap: false,
                 aspectRatio: 2,
                 slotDuration: '00:15:00',
-                @if($dayConfig->open)
-                    minTime: '{{ $dayConfig->FCMinTime }}',
-                    maxTime: '{{ $dayConfig->FCMaxTime }}',
-                @else
-                    minTime: '00:00:00',
-                    maxTime: '00:00:00',
-                @endif
+                minTime: '{{ $minTime }}',
+                maxTime: '{{ $maxTime }}',
                 slotLabelInterval: '01:00',
                 defaultTimedEventDuration: '00:15:00',
                 allDayDefault: false,

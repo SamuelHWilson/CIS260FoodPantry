@@ -14,19 +14,24 @@ class FCEvent {
     public static $FCTimeDisplayFormat = "h:ia";
     public static $pendingColor = "#3333ff";
     public static $defaultColor = "#808080";
+    public static $problemColor = "#e51616";
     
     public $title;
     public $start;
     // public $color;
 
-    public function __construct($appt) {
-        $this->title = $appt->GetFullName()." - ".$appt->status->Status_Name;
-        $this->start = $appt->GetDateTime()->format(FCEvent::$FCStartFormat);
+    public function __construct($appt, $problem = false) {
+        $this->title = $appt->GetFullName()." - ".($problem ? "Problem" : $appt->status->Status_Name);
+        $this->start = $appt->GetDateTime()->format(FCEvent::$FCTimeFormat);
         $this->id = $appt->Appointment_ID;
 
-        switch($appt->status->Status_Name) {
-            case "Pending": $this->color = FCEvent::$pendingColor; break;
-            default: $this->color = FCEvent::$defaultColor; break;
+        if ($problem == false) {
+            switch($appt->status->Status_Name) {
+                case "Pending": $this->color = FCEvent::$pendingColor; break;
+                default: $this->color = FCEvent::$defaultColor; break;
+            }
+        } else {
+            $this->color = FCEvent::$problemColor;
         }
     }
 

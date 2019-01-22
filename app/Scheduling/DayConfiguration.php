@@ -29,21 +29,25 @@ class DayConfiguration {
         $dc = DefaultConfig::findOrFail($this->liveDate->format('w'));
 
         $this->open = $dc->isOpen;
-        $this->startTime = new DateTime($dc->openTime);
+        $this->startTime = $this->open ? new DateTime($dc->openTime) : new DateTime("00:00:00");
         $this->FCMinTime = $this->startTime->format(FCEvent::$FCTimeFormat);
-        $this->endTime = new DateTime($dc->closeTime);
+        $this->endTime = $this->open ? new DateTime($dc->endTime) : new DateTime("00:00:00");
         $this->FCMaxTime = $this->endTime->format(FCEvent::$FCTimeFormat);
         $this->volunteerCount = $dc->numOfVol;
         $this->SBCutoffDay = 19;
+
+        $this->appointments = null;
     }
 
-    public function validateAppointment($appt) {
+    public function validateAppointment($appt, $isNew = true) {
         if ($this->open == false) {
             return 'closed';
         }
 
-        $apptCount = Appointment::where(['Appointment_Date' => $this->date, 'Appointment_Time' => $appt->Appointment_Time])->count();
-        if (($apptCount + 1) > $this->volunteerCount) {
+        $appointments = $this->getAppointments();
+        $apptCount = $appointments->where('Appointment_Time', $appt->Appointment_Time)->count();
+        //+1 because we are counting the new appointment being validated.
+        if (($apptCount + ($isNew ? 1 : 0)) > $this->volunteerCount) {
             return 'slotFull';
         }
 
@@ -68,5 +72,14 @@ class DayConfiguration {
         }
 
         return 'validated';
+    }
+
+    private function getAppointments() {
+        if ($this->appointments != null) {
+            return $this->appointments;
+        } else {
+            $this->appointments = Appointment::where('Appointment_Date', $this->date)->get();
+            return $this->appointments;
+        }
     }
 }

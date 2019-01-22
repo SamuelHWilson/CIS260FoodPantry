@@ -33,18 +33,42 @@ class AppointmentController extends Controller
         $liveDate = new DateTime($date);
         $nextDate = date(FCEvent::$FCDateFormat, strtotime($date.' +1 day'));
         $prevDate = date(FCEvent::$FCDateFormat, strtotime($date.' -1 day'));
-
-        $daymap = new DayMap($liveDate);
-        $appointments = $daymap->getFCEventJSON();
-
         $dayConfig = new DayConfiguration($date);
+        $overrideMinTime = null;
+        $overrideMaxTime = null;
 
+        $appointments = Appointment::where('Appointment_Date', $liveDate)->get();
+
+        $fcEvents = [];
+        foreach ($appointments as $appt) {
+            $status = $dayConfig->validateAppointment($appt, false);
+
+            if ($status == "beforeOpen" || $status == "afterClose" || $status == "closed" || $status == "slotFull") {
+                $problem = true;
+            } else {
+                $problem = false;
+            }
+
+            $fcEvent = new FCEvent($appt, $problem);
+
+            if (($status == "beforeOpen" || "closed") && ($fcEvent->start < $overrideMinTime)) {
+                $overrideMinTime = $fcEvent->start;
+            }
+            if (($status == "afterClose" || "closed") && ($fcEvent->start > $overrideMaxTime)) {
+                $overrideMaxTime = $fcEvent->start;
+            } 
+
+            $fcEvents[] = $fcEvent;
+        }
+        // dd($overrideMaxTime ? $overrideMaxTime : $dayConfig->FCMaxTime);
         return view('appointment-calendar', ['view' => 'day', 
                                              'currentDate'=> $date, 
                                              'nextDate' => $nextDate, 
                                              'prevDate' => $prevDate,
-                                             'appointments' => json_encode($appointments),
-                                             'dayConfig' => $dayConfig]);
+                                             'appointments' => json_encode($fcEvents),
+                                             'dayConfig' => $dayConfig,
+                                             'minTime' => $overrideMinTime ? $overrideMinTime : $dayConfig->FCMinTime,
+                                             'maxTime' => $overrideMaxTime ? $overrideMaxTime : $dayConfig->FCMaxTime]);
     }
     
     public function showMonth($date) {
