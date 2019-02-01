@@ -26,8 +26,8 @@ class DayConfiguration {
         $this->date = $date;
         $this->liveDate = new DateTime($date);
 
-        $dc = DefaultConfig::findOrFail($this->liveDate->format('w'));
-
+        $dc = DefaultConfig::find($this->liveDate->format('w'));
+        
         $this->open = $dc->isOpen;
         $this->startTime = $this->open ? new DateTime($dc->openTime) : new DateTime("00:00:00");
         $this->FCMinTime = $this->startTime->format(FCEvent::$FCTimeFormat);
