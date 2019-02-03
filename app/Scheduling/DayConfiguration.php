@@ -31,7 +31,7 @@ class DayConfiguration {
         $this->open = $dc->isOpen;
         $this->startTime = $this->open ? new DateTime($dc->openTime) : new DateTime("00:00:00");
         $this->FCMinTime = $this->startTime->format(FCEvent::$FCTimeFormat);
-        $this->endTime = $this->open ? new DateTime($dc->endTime) : new DateTime("00:00:00");
+        $this->endTime = $this->open ? new DateTime($dc->closeTime) : new DateTime("00:00:00");
         $this->FCMaxTime = $this->endTime->format(FCEvent::$FCTimeFormat);
         $this->volunteerCount = $dc->numOfVol;
         $this->SBCutoffDay = 19;
@@ -57,6 +57,7 @@ class DayConfiguration {
         }
 
         $apptEndTime = new DateTime($appt->Appointment_Time);
+        //+15 because the appointmnt can't start right at closing time.
         $apptEndTime->modify('+15 minutes');
         if ($apptEndTime > $this->endTime) {
             return 'afterClose';
