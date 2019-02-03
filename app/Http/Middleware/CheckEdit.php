@@ -14,7 +14,7 @@ class CheckEdit
      * @param  \Closure  $next
      * @return mixed
      */
-    private static $editID = 5;
+    private static $editID = 2;
 
     public function handle($request, Closure $next)
     {
