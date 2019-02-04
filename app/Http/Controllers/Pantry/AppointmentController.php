@@ -17,7 +17,6 @@ use Illuminate\Support\Facades\DB;
 class AppointmentController extends Controller
 {
     public function showCreateForm($date) {
-        $dayMap = new DayMap(new DateTime($date));
         return view('crud.schedule-appointment')->with(['date' => $date]);
     }
 
