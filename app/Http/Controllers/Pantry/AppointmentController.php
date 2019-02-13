@@ -51,17 +51,27 @@ class AppointmentController extends Controller
             $status = $dayConfig->validateAppointment($appt, false);
             $problem = ($status != "validated");
 
-            $fcEvent = new FCEvent($appt, $problem);
+            $fcEvent = FCEvent::createFromAppt($appt, $problem);
 
             if ($status == "beforeOpen") { $earlyTimes[] = $fcEvent->start; };
             if ($status == "afterClose") { $lateTimes[] = $fcEvent->start; };
-            if ($status == "closed") { $isClosed = true; };
+            if ($status == "closed") { $earlyTimes[] = $fcEvent->start; $lateTimes[] = $fcEvent->start; $isClosed = true; };
 
             $fcEvents[] = $fcEvent;
         }
         
-        $overrideMinTime = !empty($earlyTimes) ? min($earlyTimes) : null;
-        $overrideMaxTime = !empty($lateTimes) ? date_format(new DateTime(max($lateTimes)."+15 minutes"), FCEvent::$FCTimeFormat) : null;
+        $overrideMinTime = null;
+        if(!empty($earlyTimes)) {
+            $overrideMinTime = min($earlyTimes);
+            //TODO: This is terrible practice. This line needs to be way shorter.
+            $fcEvents[] = FCEvent::createMarker('Openning time.', date_format(new DateTime($liveDate->format(FCEvent::$FCDateFormat)." ".$dayConfig->FCMinTime),FCEvent::$FCStartFormat));
+        }
+        $overrideMaxTime = null;
+        if(!empty($earlyTimes)) {
+            $overrideMaxTime = date_format(new DateTime(max($lateTimes)." +15 minutes"),FCEvent::$FCTimeFormat);
+            //TODO: This is terrible practice. This line needs to be way shorter.
+            $fcEvents[] = FCEvent::createMarker('Closing time.', date_format(new DateTime($liveDate->format(FCEvent::$FCDateFormat)." ".$dayConfig->FCMaxTime),FCEvent::$FCStartFormat));
+        }
         
         return view('appointment-calendar', 
                         ['view' => 'day', 
@@ -80,7 +90,7 @@ class AppointmentController extends Controller
         $nextDate = date(FCEvent::$FCDateFormat, strtotime($date.' +1 month'));
         $prevDate = date(FCEvent::$FCDateFormat, strtotime($date.' -1 month'));
 
-        //TODO: Do something about this. Month view does not logically use dayConfig, but will crash without it.
+        //TODO: Do something about this. Month view does not logically use dayConfig, minTime, or maxTime, but will crash without them.
         $dayConfig = new DayConfiguration($date);
 
         $results = DB::table('Appointment')
@@ -100,7 +110,9 @@ class AppointmentController extends Controller
                                              'nextDate' => $nextDate, 
                                              'prevDate' => $prevDate,
                                              'appointments' => json_encode($daySummaries, true),
-                                             'dayConfig' => $dayConfig]);
+                                             'dayConfig' => $dayConfig,
+                                             'minTime' => "00:00:00",
+                                             'maxTime' => "00:00:00"]);
     }
 
     public function checkIn(Request $request) {

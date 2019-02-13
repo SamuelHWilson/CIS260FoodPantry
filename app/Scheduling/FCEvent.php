@@ -20,20 +20,29 @@ class FCEvent {
     public $start;
     // public $color;
 
-    public function __construct($appt, $problem = false) {
-        $this->title = $appt->GetFullName()." - ".($problem ? "Problem" : $appt->status->Status_Name);
-        $this->start = $appt->GetDateTime()->format(FCEvent::$FCTimeFormat);
-        $this->id = $appt->Appointment_ID;
+    private function __construct($title, $start, $color, $problem = false) {
+        $this->title = $title;
+        $this->start = $start;
+        $this->color = $color;
+    }
+
+    public static function createFromAppt($appt, $problem = false) {
+        $title = $appt->GetFullName()." - ".($problem ? "Problem" : $appt->status->Status_Name);
+        $start = $appt->GetDateTime()->format(FCEvent::$FCTimeFormat);
 
         if ($problem == false) {
             switch($appt->status->Status_Name) {
-                case "Pending": $this->color = FCEvent::$pendingColor; break;
-                default: $this->color = FCEvent::$defaultColor; break;
+                case "Pending": $color = FCEvent::$pendingColor; break;
+                default: $color = FCEvent::$defaultColor; break;
             }
         } else {
-            $this->color = FCEvent::$problemColor;
+            $color = FCEvent::$problemColor;
         }
+
+        return new FCEvent($title, $start, $color);
     }
 
-    
+    public static function createMarker($text, $start) {
+        return new FCEvent($text, $start, FCEvent::$defaultColor);
+    }
 }

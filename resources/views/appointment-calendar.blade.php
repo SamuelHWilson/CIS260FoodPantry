@@ -93,10 +93,9 @@
         </form>
         @include('partials.navigation-bar')
         @include('partials.cancel-pending-appointment')
-        <div id='calendar'></div>
-        
         @if(!$dayConfig->open)
             <h1>Least of These is closed this day.</h1>
         @endif
+        <div id='calendar'></div>
     </body>
 </html>
