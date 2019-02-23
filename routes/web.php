@@ -53,7 +53,7 @@ Route::middleware(['check-edit'])->group(function() {
     Route::get('/clients/edit', 'Pantry\ClientController@showClient');
 
     Route::get('/testing/default-configuration', 'Pantry\ConfigController@showDefault');
-    Route::post('/testing/default-configuration', 'Pantry\ConfigController@setDefault');
+    Route::post('/testing/default-configuration', 'Pantry\AvailabilityController@setDefault');
     Route::get('/testing/special-configuration', 'Pantry\ConfigController@showSpecial');
 
     Route::get('/reporting/reports', 'Pantry\ReportController@showReports');
