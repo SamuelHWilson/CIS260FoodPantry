@@ -7,4 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class AvailabilityDay extends Model
 {
     //
+
+    public $timestamps = false;
+
 }

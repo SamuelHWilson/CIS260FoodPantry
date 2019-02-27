@@ -40,8 +40,9 @@ LAST UPDATE: 11/05/2018-->
         <table style="width:100%">
           <form id='config' method='POST'>
             @csrf
-            <label for="date_range"><b>Starting date for new hours:</b></label><br>
-            <b>Beginning: </b><input id="effective_date" type="text" />
+            @if ($errors->has('effective_date')) <p>There is something wrong with this date.</p> @endif
+            <label for="effective_date"><b>Starting date for new hours:</b></label><br>
+            <b>Beginning: </b><input id="effective_date" name="effective_date" type="text" />
             <br><br>
 
             <tr>
