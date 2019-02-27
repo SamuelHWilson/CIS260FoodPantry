@@ -10,5 +10,9 @@ class Availability extends Model
         return $this->hasMany('App\AvailabilityDate');
     }
 
-    public $timestamps = false;
+    public function availability_days() {
+        return $this->hasMany('App\AvailabilityDay');
+    }
+
+    // public $timestamps = false;
 }

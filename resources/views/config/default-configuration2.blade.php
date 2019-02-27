@@ -15,7 +15,6 @@ LAST UPDATE: 11/05/2018-->
   <?php
     if(session()->has('timeLogicErrors')) {
       $hasTle = true;
-      dump(session('timeLogicErrors'));
     } else {
       $hasTle = false;
     }
@@ -42,15 +41,15 @@ LAST UPDATE: 11/05/2018-->
             @csrf
             @if ($errors->has('effective_date')) <p>There is something wrong with this date.</p> @endif
             <label for="effective_date"><b>Starting date for new hours:</b></label><br>
-            <b>Beginning: </b><input id="effective_date" name="effective_date" type="text" />
+            <b>Beginning: </b><input id="effective_date" name="effective_date" type="text" value="{{old('effective_date') ?: ''}}" />
             <br><br>
 
             <tr>
               <th>WEEKDAY</th>
-              <th>OPEN</th>
-              <th>CLOSE</th>
+              <th>OPEN/CLOSE</th>
+              <th>OPENING TIME</th>
+              <th>CLOSEING TIME</th>
               <th>AVAILABLE INTERVIEWERS</th>
-              <th>OTHER</th>
             </tr>
             <?php $day_number = 0;
                   //$availability_days = $availability_days->keyBy('day'); --}} ?>
@@ -61,39 +60,43 @@ LAST UPDATE: 11/05/2018-->
                 <td>{{$weekday}}</td>
 
                 <td>
-                @if($hasTle && in_array($day_number, session('timeLogicErrors'))) <p>This time might be incorrect.</p> @endif
-                <select name='openHour[{{ $day_number }}]' class='dayInput{{$day_number}}'>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                  <option value="5">5</option>
-                  <option value="6">6</option>
-                  <option value="7">7</option>
-                  <option value="8">8</option>
-                  <option value="9">9</option>
-                  <option value="10">10</option>
-                  <option value="11">11</option>
-                  <option value="12">12</option>
-                  
-                  {{-- <option value='{{ $day->formatOpenTime("g") }}' selected hidden>{{ $day->formatOpenTime("g") }}</option> --}}
-                </select>
-
-                <b>:</b>
-                <select name='openMinute[{{ $day_number }}]' class='dayInput{{$day_number}}'>
-                  <option value="00">00</option>
-                  <option value="15">15</option>
-                  <option value="30">30</option>
-                  <option value="45">45</option>
-                  {{-- <option value='{{ $day->formatOpenTime("i") }}' selected hidden >{{ $day->formatOpenTime("i") }}</option> --}}
-                </select>
-                <select name='openAmpm[{{ $day_number }}]' class='dayInput{{$day_number}}'>
-                  <option value="AM">AM</option>
-                  <option value="PM">PM</option>
-                  {{-- <option value='{{ $day->formatOpenTime("A") }}' selected hidden>{{ $day->formatOpenTime("A") }}</option> --}}
-                </select></td>
+                  <input type="radio" name="is_open[{{ $day_number }}]" @if(old('is_open')[$day_number] === "1") checked @endif value="1">Open<br>
+                  <input type="radio" name="is_open[{{ $day_number }}]" @if(old('is_open')[$day_number] === "0") checked @endif value="0">Closed<br>
+                </td>
                 <td>
-                @if($hasTle && in_array($day_number, session('timeLogicErrors'))) <p>This time might be incorrect.</p> @endif                    
+                  @if($hasTle && in_array($day_number, session('timeLogicErrors'))) <p>This time might be incorrect.</p> @endif
+                  <select name='openHour[{{ $day_number }}]' class='dayInput{{$day_number}}'>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                    @if(old("openHour")[$day_number] != null) <option selected hidden>{{old('openHour')[$day_number]}}</option>@endif
+                  </select>
+
+                  <b>:</b>
+                  <select name='openMinute[{{ $day_number }}]' class='dayInput{{$day_number}}'>
+                    <option value="00">00</option>
+                    <option value="15">15</option>
+                    <option value="30">30</option>
+                    <option value="45">45</option>
+                    @if(old("openMinute")[$day_number] != null) <option selected hidden>{{old('openMinute')[$day_number]}}</option>@endif                  
+                  </select>
+                  <select name='openAmpm[{{ $day_number }}]' class='dayInput{{$day_number}}'>
+                    <option value="AM">AM</option>
+                    <option value="PM">PM</option>
+                    @if(old("openAmpm")[$day_number] != null) <option selected hidden>{{old('openAmpm')[$day_number]}}</option>@endif                  
+                  </select>
+                </td>
+                <td>
+                  @if($hasTle && in_array($day_number, session('timeLogicErrors'))) <p>This time might be incorrect.</p> @endif                    
                   <select name='closeHour[{{ $day_number }}]' class='dayInput{{$day_number}}' class='dayInput{{$day_number}}'>
                     <option value="1">1</option>
                     <option value="2">2</option>
@@ -107,7 +110,7 @@ LAST UPDATE: 11/05/2018-->
                     <option value="10">10</option>
                     <option value="11">11</option>
                     <option value="12">12</option>
-                    {{-- <option value='{{ $day->formatCloseTime("g") }}' selected hidden>{{ $day->formatCloseTime("g") }}</option>   --}}
+                    @if(old("closeHour")[$day_number] != null) <option selected hidden>{{old('closeHour')[$day_number]}}</option>@endif
                   </select>
                     <b>:</b>
                     <select name='closeMinute[{{ $day_number }}]' class='dayInput{{$day_number}}'>
@@ -115,20 +118,16 @@ LAST UPDATE: 11/05/2018-->
                       <option value="15">15</option>
                       <option value="30">30</option>
                       <option value="45">45</option>
-                      {{-- <option value='{{ $day->formatCloseTime("i") }}' selected hidden>{{ $day->formatCloseTime("i") }}</option>   --}}
+                      @if(old("closeMinute")[$day_number] != null) <option selected hidden>{{old('closeMinute')[$day_number]}}</option>@endif
                     </select>
                     <select name='closeAmpm[{{ $day_number }}]' class='dayInput{{$day_number}}'>
                       <option value="AM">AM</option>
                       <option value="PM">PM</option>
-                      {{-- <option value='{{ $day->formatCloseTime("A") }}' selected hidden>{{ $day->formatCloseTime("A") }}</option>   --}}
+                      @if(old("closeAmpm")[$day_number] != null) <option selected hidden>{{old('closeAmpm')[$day_number]}}</option>@endif
                     </select>
                   </td>
                   <td>
-                    <input type="text" placeholder="Enter Amount" name="available_staff[{{ $day_number }}]" value='1' class='dayInput{{$day_number}}' required>
-                  </td>
-                  <td>
-                    <input type="radio" name="is_open[{{ $day_number }}]" {{-- @if($day->is_open) checked @endif --}} value="1">Open<br>
-                    <input type="radio" name="is_open[{{ $day_number }}]" {{-- @if(!$day->is_open) checked @endif --}} value="0">Closed<br>
+                    <input type="text" placeholder="Enter Amount" name="available_staff[{{ $day_number }}]" value="{{old('available_staff')[$day_number] ?: '1'}}" class='dayInput{{$day_number}}' required>
                   </td>
                   <script>
                     //TODO: Fix this unholy mess.
