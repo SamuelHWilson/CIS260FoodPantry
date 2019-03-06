@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\AvailabilityDate;
 
 class Availability extends Model
 {
@@ -15,4 +16,9 @@ class Availability extends Model
     }
 
     // public $timestamps = false;
+
+    public static function findByDate($date) {
+        $aDate = AvailabilityDate::findByDate($date);
+        return $aDate->availability;
+    }
 }

@@ -11,20 +11,24 @@ use App\Scheduling\FCEvent;
 use App\Scheduling\TimeSlot;
 use App\Scheduling\DailyConfiguration;
 
+use App\AvailabilityDay;
+
 class DayConfiguration {
-    public $date;
     public $liveDate;
+    public $seniorBoxCutoffDay;
+    public $aDay;
+
     public $open;
     public $startTime;
     public $FCMinTime;
     public $endTime;
     public $FCMaxTime;
     public $volunteerCount;
-    public $seniorBoxCutoffDay;
 
     public function __construct($date) {
-        $this->date = $date;
         $this->liveDate = new DateTime($date);
+        $this->SBCutoffDay = 19;
+        $this->aDay = AvailabilityDay::findByDate($date);
 
         $dc = DefaultConfig::find($this->liveDate->format('w'));
         
@@ -34,25 +38,24 @@ class DayConfiguration {
         $this->endTime = $this->open ? new DateTime($dc->closeTime) : new DateTime("00:00:00");
         $this->FCMaxTime = $this->endTime->format(FCEvent::$FCTimeFormat);
         $this->volunteerCount = $dc->numOfVol;
-        $this->SBCutoffDay = 19;
 
         $this->appointments = null;
     }
 
     public function validateAppointment($appt, $isNew = true) {
-        if ($this->open == false) {
+        if ($this->aDay->is_open == false) {
             return 'closed';
         }
 
         $appointments = $this->getAppointments();
         $apptCount = $appointments->where('Appointment_Time', $appt->Appointment_Time)->count();
         //+1 because we are counting the new appointment being validated.
-        if (($apptCount + ($isNew ? 1 : 0)) > $this->volunteerCount) {
+        if (($apptCount + ($isNew ? 1 : 0)) > $this->aDay->available_staff) {
             return 'slotFull';
         }
 
-        $apptStartTime = new DateTime($appt->Appointment_Time);
-        if ($apptStartTime < $this->startTime) {
+        dd($this->aDay->getFCOpenTime());
+        if ($appt->Appointment_Time < $this->aDay->getFCOpenTime()) {
             return 'beforeOpen';
         }
 
@@ -79,7 +82,7 @@ class DayConfiguration {
         if ($this->appointments != null) {
             return $this->appointments;
         } else {
-            $this->appointments = Appointment::where('Appointment_Date', $this->date)->get();
+            $this->appointments = Appointment::where('Appointment_Date', $this->liveDate->format('Y-m-d'))->get();
             return $this->appointments;
         }
     }
