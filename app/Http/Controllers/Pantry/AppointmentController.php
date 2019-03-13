@@ -176,12 +176,12 @@ class AppointmentController extends Controller
         ]);
 
         $fullTime = new DateTime($request->hour.":".$request->minute.$request->ampm);
-        $FCTime = $fullTime->format(FCEvent::$FCTimeDisplayFormat);
+        $FCTime = $fullTime->format(FCEvent::$FCTimeFormat);
         
         $appt = new Appointment();
         $appt->Status_ID = Appointment::$PendingStatus;
         $appt->Appointment_Date = $request->Appointment_Date;
-        $appt->Appointment_Time = $FCTime;
+        $appt->Appointment_Time = $FCTime; //I changed this recently. If everything breaks, this is why.
         $appt->Appointment_Note = $request->Appointment_Note;
 
         //It's weird that we still get client input even if we have the ID, but having all the client

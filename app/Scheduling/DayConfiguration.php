@@ -14,32 +14,15 @@ use App\Scheduling\DailyConfiguration;
 use App\AvailabilityDay;
 
 class DayConfiguration {
-    public $liveDate;
-    public $seniorBoxCutoffDay;
-    public $aDay;
+    public static $seniorBoxCutoffDay = 19;
 
-    public $open;
-    public $startTime;
-    public $FCMinTime;
-    public $endTime;
-    public $FCMaxTime;
-    public $volunteerCount;
+    public $liveDate;
+    public $aDay;
+    private $appointments = null;
 
     public function __construct($date) {
         $this->liveDate = new DateTime($date);
-        $this->SBCutoffDay = 19;
         $this->aDay = AvailabilityDay::findByDate($date);
-
-        $dc = DefaultConfig::find($this->liveDate->format('w'));
-        
-        $this->open = $dc->isOpen;
-        $this->startTime = $this->open ? new DateTime($dc->openTime) : new DateTime("00:00:00");
-        $this->FCMinTime = $this->startTime->format(FCEvent::$FCTimeFormat);
-        $this->endTime = $this->open ? new DateTime($dc->closeTime) : new DateTime("00:00:00");
-        $this->FCMaxTime = $this->endTime->format(FCEvent::$FCTimeFormat);
-        $this->volunteerCount = $dc->numOfVol;
-
-        $this->appointments = null;
     }
 
     public function validateAppointment($appt, $isNew = true) {
@@ -54,15 +37,11 @@ class DayConfiguration {
             return 'slotFull';
         }
 
-        dd($this->aDay->getFCOpenTime());
         if ($appt->Appointment_Time < $this->aDay->getFCOpenTime()) {
             return 'beforeOpen';
         }
 
-        $apptEndTime = new DateTime($appt->Appointment_Time);
-        //+15 because the appointmnt can't start right at closing time.
-        $apptEndTime->modify('+15 minutes');
-        if ($apptEndTime > $this->endTime) {
+        if ($appt->getEndTime() > $this->aDay->getFCCloseTime()) {
             return 'afterClose';
         }
 
@@ -70,7 +49,7 @@ class DayConfiguration {
            $apptDate = new DateTime($appt->Appointment_Date);
            $apptDay = $apptDate->format('d');
 
-           if ($apptDay > $this->SBCutoffDay) {
+           if ($apptDay > DayConfiguration::$seniorBoxCutoffDay) {
                return 'lateSeniorBox';
            }
         }

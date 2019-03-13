@@ -4,6 +4,7 @@ namespace App;
 
 use DateTime;
 use Illuminate\Database\Eloquent\Model;
+use App\Scheduling\FCEvent;
 
 class Appointment extends Model
 {
@@ -67,4 +68,8 @@ class Appointment extends Model
     protected $table = 'Appointment';
     protected $primaryKey = 'Appointment_ID';
     public $timestamps = false;
+
+    public function getEndTime() {
+        return date_format(new DateTime($this->Appointment_Time." +15 minutes"), FCEvent::$FCTimeFormat);
+    }
 }
