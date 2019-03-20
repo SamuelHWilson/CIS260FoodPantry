@@ -60,7 +60,7 @@ LAST UPDATE: 11/05/2018-->
                 <td>{{$weekday}}</td>
 
                 <td>
-                  <input type="radio" name="is_open[{{ $day_number }}]" @if(old('is_open')[$day_number] === "1") checked @endif value="1">Open<br>
+                  <input type="radio" name="is_open[{{ $day_number }}]" @if(old('is_open')[$day_number] != "0") checked @endif value="1">Open<br>
                   <input type="radio" name="is_open[{{ $day_number }}]" @if(old('is_open')[$day_number] === "0") checked @endif value="0">Closed<br>
                 </td>
                 <td>
@@ -127,6 +127,7 @@ LAST UPDATE: 11/05/2018-->
                     </select>
                   </td>
                   <td>
+                    @if ($errors->has('available_staff'.'.'.$day_number)) <p>There is something wrong with this number.</p> @endif
                     <input type="text" placeholder="Enter Amount" name="available_staff[{{ $day_number }}]" value="{{old('available_staff')[$day_number] ?: '1'}}" class='dayInput{{$day_number}}' required>
                   </td>
                   <script>
