@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Pantry;
 
 use DateTime;
-use App\DefaultConfig;
 use App\Availability;
 use App\AvailabilityDate;
 use App\AvailabilityDay;
@@ -14,8 +13,7 @@ use App\Http\Controllers\Controller;
 class AvailabilityController extends Controller
 {
     public function showDefault() {
-        $defCons = DefaultConfig::all();
-        return view('config.default-configuration2')->with('defCons', $defCons);
+        return view('config.default-configuration2');
     }
 
     public function showSpecial() {
