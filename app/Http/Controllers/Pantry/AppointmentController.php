@@ -6,12 +6,12 @@ use DateTime;
 use Illuminate\Http\Request;
 use App\Appointment;
 use App\Client;
+use App\AvailabilityDay;
 use App\Http\Controllers\Controller;
-use App\Scheduling\DayMap;
 use App\Scheduling\FCEvent;
 use App\Scheduling\FCDayInfo;
 use App\Scheduling\PendingAppointment;
-use App\Scheduling\DayConfiguration;
+use App\Scheduling\AppointmentValidator;
 use Illuminate\Support\Facades\DB;
 
 class AppointmentController extends Controller
@@ -29,59 +29,55 @@ class AppointmentController extends Controller
     }
 
     public function showDay($date) {
-        //Easier to do date math in php, so I pass dates to the page from here.
-        $nextDate = date(FCEvent::$FCDateFormat, strtotime($date.' +1 day'));
-        $prevDate = date(FCEvent::$FCDateFormat, strtotime($date.' -1 day'));
-
         $liveDate = new DateTime($date);
         $appointments = Appointment::where('Appointment_Date', $liveDate)->get();
-
-        $dayConfig = new DayConfiguration($date);
-
-        $overrideMinTime = null;
-        $overrideMaxTime = null;
+        $aDay = AvailabilityDay::findByDate($date);
 
         //Unfortunatly, it is a requirement that I validate appointments here.
         //This way, I can display erroneous appointments in the day view.
+        $validator = new AppointmentValidator($date);
         $fcEvents = [];
         $earlyTimes = [];
         $lateTimes = [];
-        $isClosed = false;
         foreach ($appointments as $appt) {
-            $status = $dayConfig->validateAppointment($appt, false);
+            $status = $validator->validateAppointment($appt, false);
             $problem = ($status != "validated");
 
             $fcEvent = FCEvent::createFromAppt($appt, $problem);
 
             if ($status == "beforeOpen") { $earlyTimes[] = $fcEvent->start; };
             if ($status == "afterClose") { $lateTimes[] = $fcEvent->start; };
-            if ($status == "closed") { $earlyTimes[] = $fcEvent->start; $lateTimes[] = $fcEvent->start; $isClosed = true; };
+            if ($status == "closed") { $earlyTimes[] = $fcEvent->start; $lateTimes[] = $fcEvent->start; };
 
             $fcEvents[] = $fcEvent;
         }
-        
+
         $overrideMinTime = null;
         if(!empty($earlyTimes)) {
             $overrideMinTime = min($earlyTimes);
             //TODO: This is terrible practice. This line needs to be way shorter.
-            $fcEvents[] = FCEvent::createMarker('Openning time.', date_format(new DateTime($liveDate->format(FCEvent::$FCDateFormat)." ".$dayConfig->FCMinTime),FCEvent::$FCStartFormat));
+            $fcEvents[] = FCEvent::createMarker('Openning time.', date_format(new DateTime($liveDate->format(FCEvent::$FCDateFormat)." ".$aDay->getFCOpenTime()),FCEvent::$FCStartFormat));
         }
         $overrideMaxTime = null;
-        if(!empty($earlyTimes)) {
+        if(!empty($lateTimes)) {
             $overrideMaxTime = date_format(new DateTime(max($lateTimes)." +15 minutes"),FCEvent::$FCTimeFormat);
             //TODO: This is terrible practice. This line needs to be way shorter.
-            $fcEvents[] = FCEvent::createMarker('Closing time.', date_format(new DateTime($liveDate->format(FCEvent::$FCDateFormat)." ".$dayConfig->FCMaxTime),FCEvent::$FCStartFormat));
+            $fcEvents[] = FCEvent::createMarker('Closing time.', date_format(new DateTime($liveDate->format(FCEvent::$FCDateFormat)." ".$aDay->getFCCloseTime()),FCEvent::$FCStartFormat));
         }
         
+        //Easier to do date math in php, so I pass dates to the page from here.
+        $nextDate = date(FCEvent::$FCDateFormat, strtotime($date.' +1 day'));
+        $prevDate = date(FCEvent::$FCDateFormat, strtotime($date.' -1 day'));
+
         return view('appointment-calendar', 
                         ['view' => 'day', 
                          'currentDate'=> $date, 
                          'nextDate' => $nextDate, 
                          'prevDate' => $prevDate,
                          'appointments' => json_encode($fcEvents),
-                         'dayConfig' => $dayConfig,
-                         'minTime' => $overrideMinTime ? $overrideMinTime : $dayConfig->FCMinTime,
-                         'maxTime' => $overrideMaxTime ? $overrideMaxTime : $dayConfig->FCMaxTime]);
+                         'isOpen' => $aDay->is_open,
+                         'minTime' => $overrideMinTime ? $overrideMinTime : $aDay->getFCOpenTime(),
+                         'maxTime' => $overrideMaxTime ? $overrideMaxTime : $aDay->getFCCloseTime()]);
     }
     
     public function showMonth($date) {
@@ -89,9 +85,6 @@ class AppointmentController extends Controller
         $liveDate = new DateTime($date);
         $nextDate = date(FCEvent::$FCDateFormat, strtotime($date.' +1 month'));
         $prevDate = date(FCEvent::$FCDateFormat, strtotime($date.' -1 month'));
-
-        //TODO: Do something about this. Month view does not logically use dayConfig, minTime, or maxTime, but will crash without them.
-        $dayConfig = new DayConfiguration($date);
 
         $results = DB::table('Appointment')
                         ->select('Appointment_Date', DB::raw('count(*) as total'))
@@ -105,12 +98,13 @@ class AppointmentController extends Controller
             $daySummaries[] = new FCDayInfo($result->Appointment_Date, $result->total);
         }
 
+        //Do something about this. Month view does not logically use isOpen, minTime, or maxTime, but will crash without them.
         return view('appointment-calendar', ['view' => 'month', 
                                              'currentDate'=> $date, 
                                              'nextDate' => $nextDate, 
                                              'prevDate' => $prevDate,
                                              'appointments' => json_encode($daySummaries, true),
-                                             'dayConfig' => $dayConfig,
+                                             'isOpen' => true,
                                              'minTime' => "00:00:00",
                                              'maxTime' => "00:00:00"]);
     }
@@ -176,7 +170,8 @@ class AppointmentController extends Controller
         ]);
 
         $fullTime = new DateTime($request->hour.":".$request->minute.$request->ampm);
-        $FCTime = $fullTime->format(FCEvent::$FCTimeFormat);
+        //TODO: Why did I use time(7) in the DB. Who cares about miliseconds? Oh well. Adding .0000000 to the string will work for now.
+        $FCTime = $fullTime->format(FCEvent::$FCTimeFormat).'.0000000';
         
         $appt = new Appointment();
         $appt->Status_ID = Appointment::$PendingStatus;
@@ -203,10 +198,10 @@ class AppointmentController extends Controller
         $appt->Client_ID = $client->Client_ID;
         
         if($request->overrideScheduleError != true) {
-            $dc = new DayConfiguration($appt->Appointment_Date);
-            $dcResult = $dc->validateAppointment($appt);
-            if (!($dcResult == 'validated')) {
-                return redirect()->back()->withInput()->with('scheduleError', $dcResult);
+            $validator = new AppointmentValidator($appt->Appointment_Date);
+            $result = $validator->validateAppointment($appt);
+            if (!($result == 'validated')) {
+                return redirect()->back()->withInput()->with('scheduleError', $result);
             }
         }
 
