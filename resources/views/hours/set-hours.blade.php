@@ -28,7 +28,7 @@ LAST UPDATE: 11/05/2018-->
 
       <!--Div for Title and Image-->
       <div class = "header">
-        <h1 class="defaultconfig_h1"><font face="Helvetica">DEFAULT CONFIGURATIONS</font></h1>
+        <h1 class="defaultconfig_h1"><font face="Helvetica">Set Hours and Availability</font></h1>
         <br>
       </div>
 
@@ -39,16 +39,22 @@ LAST UPDATE: 11/05/2018-->
         <table style="width:100%">
           <form id='config' method='POST'>
             @csrf
+
             @if ($errors->has('effective_date')) <p>There is something wrong with this date.</p> @endif
-            <label for="effective_date"><b>Starting date for new hours:</b></label><br>
-            <b>Beginning: </b><input id="effective_date" name="effective_date" type="text" value="{{old('effective_date') ?: ''}}" />
+            <label for="effective_date"><b>Start date for new hours:</b></label><br>
+            <b>Beginning: </b><input id="effective_date" name="effective_date" type="text" value="{{old('effective_date') ?: ''}}" placeholder="2019-03-23" />
+            <br><br>
+
+            @if ($errors->has('end_date')) <p>There is something wrong with this date.</p> @endif
+            <label for="end_date">End date for new hours (optional):</label><br>
+            Beginning: <input id="end_date" name="end_date" type="text" value="{{old('end_date') ?: ''}}" placeholder="2019-03-26"/>
             <br><br>
 
             <tr>
               <th>WEEKDAY</th>
               <th>OPEN/CLOSE</th>
-              <th>OPENING TIME</th>
-              <th>CLOSEING TIME</th>
+              <th>OPEN TIME</th>
+              <th>CLOSE TIME</th>
               <th>AVAILABLE INTERVIEWERS</th>
             </tr>
             <?php $day_number = 0;
@@ -151,9 +157,6 @@ LAST UPDATE: 11/05/2018-->
         <button type="submit" onclick='workaround()'>Submit</button>
        <br><br>
        <input type="Submit" value="Cancel">
-       <br><br>
-        <br><br>
-        <a href="url">Customize Configurations</a>
       </div>
     </div>
   </div>

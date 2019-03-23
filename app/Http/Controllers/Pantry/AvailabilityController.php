@@ -13,11 +13,7 @@ use App\Http\Controllers\Controller;
 class AvailabilityController extends Controller
 {
     public function showDefault() {
-        return view('config.default-configuration2');
-    }
-
-    public function showSpecial() {
-        return view('config.custom-configuration2');
+        return view('hours.set-hours');
     }
 
     public function setDefault(Request $request) {
