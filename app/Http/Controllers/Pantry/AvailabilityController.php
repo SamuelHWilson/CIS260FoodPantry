@@ -27,7 +27,8 @@ class AvailabilityController extends Controller
             'closeAmpm.*' => 'required|in:AM,PM',
             'available_staff.*' => 'required|integer|min:1|max:255',
             'is_open.*' => 'required|bool',
-            'effective_date' => 'required|date'
+            'effective_date' => 'required|date',
+            'end_date' => 'nullable|date'
         ]);
         
         $timeLogicErrors = [];
@@ -41,6 +42,9 @@ class AvailabilityController extends Controller
                 }
             }
         }
+        if (($validatedData["end_date"] != null) && ($validatedData["effective_date"] > $validatedData["end_date"])) {
+            $timeLogicErrors[] = "end_date";
+        }
         if (count($timeLogicErrors) > 0) {
             return redirect()->back()->withInput()->with('timeLogicErrors', $timeLogicErrors);
         }
@@ -48,6 +52,15 @@ class AvailabilityController extends Controller
         $availability = new Availability();
         $availability->save();
         
+        //TODO: Finish this.
+        //TODO: There is no logical validation in this module. They could easily make conflicting AvaialbilityDates.
+        if($validatedData["end_date"] != null) {
+            $oldADate = AvailabilityDate::findByDate($validatedData['effective_date']);
+            $aDateRepeat = new AvailabilityDate();
+            $aDateRepeat->availability_id = $oldADate->availability_id;
+            $aDateRepeat->effective_date = date('Y-m-d', strtotime($validatedData["end_date"].'+1 day'));
+            $aDateRepeat->save();
+        }
         $availability->availability_dates()->create([
             'effective_date' => $validatedData['effective_date']
         ]);
@@ -62,6 +75,6 @@ class AvailabilityController extends Controller
             ]);
         }
 
-        return redirect('/testing/default-configuration');
+        return redirect('/hours/set-hours');
     }
 }

@@ -39,12 +39,12 @@ LAST UPDATE: 11/05/2018-->
         <table style="width:100%">
           <form id='config' method='POST'>
             @csrf
-
             @if ($errors->has('effective_date')) <p>There is something wrong with this date.</p> @endif
             <label for="effective_date"><b>Start date for new hours:</b></label><br>
             <b>Beginning: </b><input id="effective_date" name="effective_date" type="text" value="{{old('effective_date') ?: ''}}" placeholder="2019-03-23" />
             <br><br>
 
+            @if($hasTle && in_array("end_date", session('timeLogicErrors'))) <p>This date might be incorrect.</p> @endif
             @if ($errors->has('end_date')) <p>There is something wrong with this date.</p> @endif
             <label for="end_date">End date for new hours (optional):</label><br>
             Beginning: <input id="end_date" name="end_date" type="text" value="{{old('end_date') ?: ''}}" placeholder="2019-03-26"/>
