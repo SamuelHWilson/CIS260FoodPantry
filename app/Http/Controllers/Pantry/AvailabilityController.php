@@ -12,11 +12,11 @@ use App\Http\Controllers\Controller;
 
 class AvailabilityController extends Controller
 {
-    public function showDefault() {
+    public function createAvailability() {
         return view('hours.set-hours');
     }
 
-    public function setDefault(Request $request) {
+    public function saveAvailability(Request $request) {
         $validatedData = $request->validate([
             'day_number.*' => 'required|integer|min:0|max:6',
             'openHour.*' => 'required|integer|min:1|max:12',
@@ -76,5 +76,15 @@ class AvailabilityController extends Controller
         }
 
         return redirect('/hours/set-hours');
+    }
+
+    public function viewAvailability() {
+        $liveDate = new DateTime();
+        $date = date_format($liveDate, 'Y-m-d');
+        $currentADate = AvailabilityDate::findByDate($date)->load('availability.availability_days');
+
+        $aDates = AvailabilityDate::with('availability.availability_days')->orderBy('effective_date', 'desc')->take(100)->get();
+
+        return view("hours.view-hours", ['currentADate'=>$currentADate, 'allADates' => $aDates]);
     }
 }

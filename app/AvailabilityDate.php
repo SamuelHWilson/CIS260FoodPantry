@@ -15,6 +15,6 @@ class AvailabilityDate extends Model
     public $timestamps = false;
 
     public static function findByDate($date) {
-        return AvailabilityDate::where("effective_date", "<=", $date)->orderBy("effective_date", "desc")->take(1)->first();
+        return AvailabilityDate::where("effective_date", "<=", $date)->orderBy("effective_date", "desc")->first();
     }
 }

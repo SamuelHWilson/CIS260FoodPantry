@@ -122,3 +122,8 @@ li.navItem a.navBar{
 li.navItem a.navBar:hover{
   background-color: #111;
 }
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
+}
