@@ -15,6 +15,12 @@ class Availability extends Model
         return $this->hasMany('App\AvailabilityDay');
     }
 
+    public function delete() {
+        $this->availability_dates()->delete();
+        $this->availability_days()->delete();
+        return parent::delete();
+    }
+
     // public $timestamps = false;
 
     public static function findByDate($date) {

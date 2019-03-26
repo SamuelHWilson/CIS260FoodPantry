@@ -55,6 +55,8 @@ Route::middleware(['check-edit'])->group(function() {
     Route::get('/hours/set-hours', 'Pantry\AvailabilityController@createAvailability');
     Route::post('/hours/set-hours', 'Pantry\AvailabilityController@saveAvailability');
     Route::get('/hours/view-hours', 'Pantry\AvailabilityController@viewAvailability');
+    Route::get('/hours/delete-change/{id}', 'Pantry\AvailabilityController@confirmDelete');
+    Route::post('/hours/delete-change', 'Pantry\AvailabilityController@deleteChange');
 
     Route::get('/reporting/reports', 'Pantry\ReportController@showReports');
     Route::get('/reporting/no-shows', 'Pantry\ReportController@showNoShowReport');

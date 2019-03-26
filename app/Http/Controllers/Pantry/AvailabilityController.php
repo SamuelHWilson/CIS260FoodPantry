@@ -87,4 +87,22 @@ class AvailabilityController extends Controller
 
         return view("hours.view-hours", ['currentADate'=>$currentADate, 'allADates' => $aDates]);
     }
+
+    public function confirmDelete($id) {
+        $aDate = AvailabilityDate::with('availability.availability_days')->find($id);
+        return view("hours.confirm-delete", ['aDate' => $aDate]);
+    }
+
+    public function deleteChange(Request $request) {
+        $aDate = AvailabilityDate::with('availability.availability_days')->find($request->id);
+        $aDateCount = $aDate->availability->availability_dates->count();
+        
+        if($aDateCount > 1) {
+            $aDate->delete();
+        } else {
+            $aDate->availability->delete();
+        }
+
+        return redirect('hours/view-hours');
+    }
 }

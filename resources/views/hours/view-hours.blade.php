@@ -40,7 +40,7 @@
             <div style="width:100%;margin-bottom:3em;" class='clearfix'>
               <div style="width:20%;float:left;">
                   <p style="margin-top:0px;">Availability and hours starting on <b>{{$aDate->effective_date}}</b></p>
-                  <button>Delete</button>
+                  <button onclick="window.location='delete-change/{{$aDate->id}}'">Delete</button>
               </div>
               <div style="width:78%;float:right;">
                   @component('components.hours-summary', ['a' => $aDate->availability]); @endcomponent
