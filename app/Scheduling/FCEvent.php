@@ -18,11 +18,13 @@ class FCEvent {
     
     public $title;
     public $start;
-    // public $color;
+    public $id;
+    public $color;
 
-    private function __construct($title, $start, $color, $problem = false) {
+    private function __construct($title, $start, $id, $color, $problem = false) {
         $this->title = $title;
         $this->start = $start;
+        $this->id = $id;
         $this->color = $color;
     }
 
@@ -39,10 +41,10 @@ class FCEvent {
             $color = FCEvent::$problemColor;
         }
 
-        return new FCEvent($title, $start, $color);
+        return new FCEvent($title, $start, $appt->Appointment_ID, $color);
     }
 
     public static function createMarker($text, $start) {
-        return new FCEvent($text, $start, FCEvent::$defaultColor);
+        return new FCEvent($text, $start, 0, FCEvent::$defaultColor);
     }
 }
