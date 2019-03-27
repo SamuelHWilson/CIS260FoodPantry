@@ -155,6 +155,12 @@ class AppointmentController extends Controller
         return redirect('/appointments/day-view/'.$appt->Appointment_Date);
     }
 
+    public function restore(Request $request) {
+        $appt = Appointment::findOrFail($request->id);
+        $appt->Restore();
+        return redirect('/appointments/day-view/'.$appt->Appointment_Date);
+    }
+
     public function createAppointment(Request $request) {
         $validatedData = $request->validate([
             'Appointment_Date' => 'required|date',

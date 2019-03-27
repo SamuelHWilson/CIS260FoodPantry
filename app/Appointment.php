@@ -41,6 +41,15 @@ class Appointment extends Model
         $this->save();
     }
 
+    public function isCancelled() {
+        return ($this->Status_ID == Appointment::$CancelledStatus);
+    }
+
+    public function Restore() {
+        $this->Status_ID = Appointment::$PendingStatus;
+        $this->save();
+    }
+
     public function Reschedule() {
         $this->Status_ID = Appointment::$RescheduledStatus;
         $this->save();

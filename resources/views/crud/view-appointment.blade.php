@@ -22,6 +22,10 @@ LAST UPDATE: 11/05/2018-->
     @csrf
     <input type='hidden' name='id' value='{{ $appt->Appointment_ID }}'>
   </form>
+  <form id='restore' method='POST' action='/appointments/restore'>
+    @csrf
+    <input type='hidden' name='id' value='{{ $appt->Appointment_ID }}'>
+  </form>
   <form id='reschedule' method='POST' action='/appointments/create-pending'>
     @csrf
     <input type='hidden' name='clientID' value="{{ $appt->client->Client_ID }}">
@@ -91,7 +95,8 @@ LAST UPDATE: 11/05/2018-->
 
       <button onclick="document.forms.namedItem('checkIn').submit()">Check-In</button>
       <button onclick="document.forms.namedItem('reschedule').submit()">Reschedule</button>
-      <button onclick="document.forms.namedItem('cancel').submit()">Cancel</button>
+      @if(!$appt->isCancelled()) <button onclick="document.forms.namedItem('cancel').submit()">Cancel</button>
+      @else <button onclick="document.forms.namedItem('restore').submit()">Restore</button> @endif
       <button onclick="window.location = '{{ url()->previous() }}'">Go Back</button>
     </div>
   </div>
