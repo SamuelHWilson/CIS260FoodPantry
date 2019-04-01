@@ -127,3 +127,7 @@ li.navItem a.navBar:hover{
   clear: both;
   display: table;
 }
+p.val-error {
+  color:orangered;
+  margin-bottom:1px;
+}

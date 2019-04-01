@@ -88,9 +88,6 @@
         </script>
     </head>
     <body>
-        <form method="POST" action="{{ route('logout') }}" id='logout'>
-            @csrf
-        </form>
         @include('partials.navigation-bar')
         @include('partials.cancel-pending-appointment')
         @if($isOpen == false)

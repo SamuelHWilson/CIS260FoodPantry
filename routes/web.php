@@ -62,6 +62,9 @@ Route::middleware(['check-edit'])->group(function() {
     Route::get('/reporting/reports', 'Pantry\ReportController@showReports');
     Route::get('/reporting/no-shows', 'Pantry\ReportController@showNoShowReport');
     Route::get('/reporting/daily/{date}', 'Pantry\ReportController@showDailyReport');
+
+    Route::get('/password/change', 'Pantry\PasswordController@viewChangePassword');
+    Route::post('/password/change', 'Pantry\PasswordController@changePassword');
 });
 
 // Maintenance only.
