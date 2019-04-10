@@ -70,7 +70,7 @@ Route::middleware(['check-edit'])->group(function() {
 });
 
 // Maintenance only.
-// Route::get('/register', function () {
-//     return view('auth.register');
-// })->name('register');
-// Route::post('register', 'Auth\RegisterController@register');
+Route::get('/register', function () {
+    return view('auth.register');
+})->name('register');
+Route::post('register', 'Auth\RegisterController@register');

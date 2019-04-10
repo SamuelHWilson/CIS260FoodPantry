@@ -204,7 +204,7 @@ class AppointmentController extends Controller
         $appt->Client_ID = $client->Client_ID;
         
         if($request->overrideScheduleError != true) {
-            $validator = new AppointmentValidator($appt->Appointment_Date);
+            $validator = new AppointmentValidator($appt->Appointment_Date, true);
             $result = $validator->validateAppointment($appt);
             if (!($result == 'validated')) {
                 return redirect()->back()->withInput()->with('scheduleError', $result);

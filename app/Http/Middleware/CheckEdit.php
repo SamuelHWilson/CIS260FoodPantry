@@ -14,7 +14,7 @@ class CheckEdit
      * @param  \Closure  $next
      * @return mixed
      */
-    private static $editID = 2;
+    private static $editName = "edit";
 
     public function handle($request, Closure $next)
     {
@@ -22,7 +22,7 @@ class CheckEdit
             return redirect('login');
         }
 
-        if (!(Auth::user()->id == CheckEdit::$editID)) {
+        if (!(Auth::user()->name == CheckEdit::$editName)) {
             return redirect('/access-denied');
         }
 
