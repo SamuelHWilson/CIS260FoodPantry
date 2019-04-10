@@ -20,7 +20,11 @@
         $(document).ready(function() {
             $('#calendar').fullCalendar({
                 eventClick: function(eventObj) {
-                    window.location = '/appointments/view-appointment/' +  eventObj.id
+                    @if($view == "day")
+                        window.location = '/appointments/view-appointment/' +  eventObj.id
+                    @else
+                        window.location = '/appointments/day-view/' + eventObj.date
+                    @endif
                 },
                 height: "auto",
                 header: {

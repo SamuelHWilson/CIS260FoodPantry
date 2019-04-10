@@ -44,6 +44,8 @@ class FlagNoShows extends Command
      */
     public function handle()
     {
+        $today = new DateTime();
+
         $checkDate = new DateTime();
         $checkDate->modify($this->checkUntil);
 
@@ -53,6 +55,7 @@ class FlagNoShows extends Command
         $results = Appointment::select('Client_ID', \DB::raw('count(Appointment_ID)'))
             ->where([
             ['Appointment_Date', '>=', $checkDate],
+            ['Appointment_Date', '<=', $today],
             ['Status_ID', Appointment::$MissedStatus]])
             ->groupBy('Client_ID')
             ->having(\DB::raw('count(Appointment_ID)'), '>=', $this->flagThreshold)

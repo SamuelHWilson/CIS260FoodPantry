@@ -47,7 +47,7 @@ class MarkMissedAppointments extends Command
         $checkDate->modify($this->checkUntil);
 
         $missedAppointments = Appointment::where([
-            ['Appointment_Date', '<', $today],
+            ['Appointment_Date', '<=', $today],
             ['Appointment_Date', '>=', $checkDate],
             ['Status_ID', Appointment::$PendingStatus]
         ])->get();

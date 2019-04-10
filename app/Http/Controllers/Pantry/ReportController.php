@@ -20,14 +20,27 @@ class ReportController extends Controller
             $query->where('Flag_DES', Flag::$NoShowDesc);
         })->get();
 
-        return view('reporting.no-show-report')->with('clients', $clients);
+        return view('reporting.client-list-report')->with(['reportTitle' => 'FREQUENT NO-SHOWS', 'clients' => $clients]);
     }
 
-    public function showDailyReport($date) {
-        $appointments = Appointment::whereDate('Appointment_Date', '=', $date)->with('client')->orderBy('Appointment_Time')->get();
-        // dd($appointments[0]->Client);
-        // dd($appointments);
+    public function showRescheduleReport() {
+        $clients = Client::whereHas('Flags', function($query){
+            $query->where('Flag_DES', Flag::$RescheduleDesc);
+        })->get();
 
-        return view('reporting.daily-schedule-report')->with(['appointments' => $appointments, 'date' => $date]);
+        return view('reporting.client-list-report')->with(['reportTitle' => 'FREQUENT APPOINTMENT RESCHEDULERS', 'clients' => $clients]);
+    }
+
+    public function showDailyClientsReport($date) {
+        $appointments = Appointment::whereDate('Appointment_Date', '=', $date)->with('client')->get();
+        $clients = $appointments->pluck('client');
+        $clients = $clients->sortBy('First_Name')->sortBy('Last_Name');
+
+        return view('reporting.daily-clients-report')->with(['clients' => $clients, 'date' => $date]);
+    }
+
+    public function showDailyAppointmentsReport($date) {
+        $appointments = Appointment::whereDate('Appointment_Date', '=', $date)->with('client')->orderBy('Appointment_Time')->get();
+        return view('reporting.daily-appointments-report')->with(['appointments' => $appointments, 'date' => $date]);
     }
 }

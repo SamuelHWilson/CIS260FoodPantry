@@ -8,6 +8,9 @@
 			$( function() {
 				$( "#date" ).datepicker({ dateFormat: 'yy-mm-dd' });
 			} );
+			$( function() {
+				$( "#date2" ).datepicker({ dateFormat: 'yy-mm-dd' });
+			} );
 	  </script>
     </head>
 	<body class = "Index_body">
@@ -27,12 +30,23 @@
 					<div style = "text-align: center;">
 						<button class = "button" onclick='location.href="/reporting/no-shows"'>View Frequent No-Shows</button>
 					</div>
+					<br><br>
+					<h2>FREQUENT RESCHEDULE REPORT</h2>
+					<div style = "text-align: center;">
+						<button class = "button" onclick='location.href="/reporting/reschedules"'>View Frequent Appointment Reschedulers</button>
+					</div>
 				</div>
 				<div class = "right">
 					<h2>CLIENTS BY DAY REPORT</h2>								
 					<div style = "text-align: center;">
 						<b>Date: </b><input id="date" type="text" />
-						<button class = "button" onclick='location.href="/reporting/daily/" + document.getElementById("date").value'>View Daily Schedule</button>
+						<button class = "button" onclick='location.href="/reporting/daily-clients/" + document.getElementById("date").value'>View Daily Schedule</button>
+					</div>
+					<br><br>
+					<h2>APPOINTMENTS BY DAY REPORT</h2>								
+					<div style = "text-align: center;">
+						<b>Date: </b><input id="date2" type="text" />
+						<button class = "button" onclick='location.href="/reporting/daily-appointments/" + document.getElementById("date2").value'>View Daily Schedule</button>
 					</div>
 				</div>
 			</div>

@@ -13,6 +13,7 @@ LAST UPDATE: 11/05/2018-->
 </head>
 <!--Beginning of body-->
 <body class = "Index_body">
+  @include('partials.navigation-bar')
   <!--Autosubmited forms-->
   <form id='checkIn' method='POST' action='/appointments/check-in'>
     @csrf

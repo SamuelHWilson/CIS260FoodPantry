@@ -68,6 +68,7 @@ LAST UPDATE: 11/05/2018-->
 </head>
 <!--Beginning of body-->
 <body class = "Index_body">
+  @include('partials.navigation-bar')
   @include('partials.cancel-pending-appointment')
   <div class="Appointment_Body">
     <h1 class="Appointment_Header"><font face="Helvetica">CLIENT INFORMATION</font></h1>

@@ -13,8 +13,11 @@ class FCDayInfo {
     
     public $title;
     public $start;
+    public $date;
 
     public function __construct($date, $apptNumber) {
+        $this->date = $date;
+        
         $this->title = $apptNumber.' Appointments';
         $liveDate = new DateTime($date);
         $this->start = $liveDate->format(FCEvent::$FCDateFormat);
