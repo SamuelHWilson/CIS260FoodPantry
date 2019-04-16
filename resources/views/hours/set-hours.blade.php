@@ -59,7 +59,7 @@ LAST UPDATE: 11/05/2018-->
             </tr>
             <?php $day_number = 0;
                   //$availability_days = $availability_days->keyBy('day'); --}} ?>
-            @foreach(['Sunday', 'Monday', 'Tuesday', 'Wednessday', 'Thursday', 'Friday', 'Saturday'] as $weekday)
+            @foreach(['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'] as $weekday)
               <?php // $day = $availability_days[$day_number]; ?>
               <tr>
                 <input type='hidden' name='day_number[{{$day_number}}]' value='{{ $day_number }}'>
@@ -134,7 +134,7 @@ LAST UPDATE: 11/05/2018-->
                   </td>
                   <td>
                     @if ($errors->has('available_staff'.'.'.$day_number)) <p>There is something wrong with this number.</p> @endif
-                    <input type="text" placeholder="Enter Amount" name="available_staff[{{ $day_number }}]" value="{{old('available_staff')[$day_number] ?: '1'}}" class='dayInput{{$day_number}}' required>
+                    <input type="text" placeholder="Enter Amount" name="available_staff[{{ $day_number }}]" value="{{old('available_staff')[$day_number] ?: '4'}}" class='dayInput{{$day_number}}' required>
                   </td>
                   <script>
                     //TODO: Fix this unholy mess.

@@ -31,7 +31,11 @@
 
       <!--Input Elements-->
       <div class="config_div">
-        <div style="width:60%;margin:auto;">
+        <div style='width:30%;margin:auto;'>
+          <button style='width:94%;padding:3%;font-size:1.3em;' onclick='window.location="set-hours"'>Change Hours and Availability</button>
+        </div>
+
+        <div style="width:60%;margin:auto;margin-top:2em;">
           <h2>Current hours and availability as of {{$currentADate->effective_date}}</h2>
           @component('components.hours-summary', ['a' => $currentADate->availability]); @endcomponent
 
