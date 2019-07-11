@@ -177,7 +177,8 @@ class AppointmentController extends Controller
 
         $fullTime = new DateTime($request->hour.":".$request->minute.$request->ampm);
         //TODO: Why did I use time(7) in the DB. Who cares about miliseconds? Oh well. Adding .0000000 to the string will work for now.
-        $FCTime = $fullTime->format(FCEvent::$FCTimeFormat).'.0000000';
+        //Addendum: I HAVE REMOVED THE MILISECONDS, BECAUSE THE DATABASE WASN'T RETURNING THEM. WATCH OUT FOR ISSUES.
+        $FCTime = $fullTime->format(FCEvent::$FCTimeFormat);
         
         $appt = new Appointment();
         $appt->Status_ID = Appointment::$PendingStatus;
@@ -204,8 +205,8 @@ class AppointmentController extends Controller
         $appt->Client_ID = $client->Client_ID;
         
         if($request->overrideScheduleError != true) {
-            $validator = new AppointmentValidator($appt->Appointment_Date, true);
-            $result = $validator->validateAppointment($appt);
+            $validator = new AppointmentValidator($appt->Appointment_Date);
+            $result = $validator->validateAppointment($appt, true);
             if (!($result == 'validated')) {
                 return redirect()->back()->withInput()->with('scheduleError', $result);
             }
