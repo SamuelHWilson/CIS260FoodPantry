@@ -56,8 +56,20 @@ div.Index_mainDiv{
     width: auto;
 }
 
-h1.defaultconfig_h1{
+h1.defaultconfig_h1{ /*Depreciated*/
     border-bottom: solid;
+}
+
+div.header-box {
+    border-bottom: solid; }
+div.header-box h1 {
+    margin: 0px 0px .5em 0px;
+}
+
+.shy-index-filler {
+    font-size: 2em;
+    color: grey;
+    margin: 6em 0px;
 }
 
 .button{

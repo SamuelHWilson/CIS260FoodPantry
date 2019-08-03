@@ -221,4 +221,23 @@ class AppointmentController extends Controller
         
         return redirect('/');
     }
+
+    public function showBulkCreate($date) {
+        $liveDate = new DateTime($date);
+        $aDay = AvailabilityDay::findByDate($date);
+
+        $apptDateTimes = [];
+
+        $liveOpenTime = new DateTime($aDay->open_time);
+        $liveOpenTime->setDate($liveDate->format('Y'), $liveDate->format('m'), $liveDate->format('d'));
+        $liveCloseTime = new DateTime($aDay->close_time);
+        $liveCloseTime->setDate($liveDate->format('Y'), $liveDate->format('m'), $liveDate->format('d'));
+
+        while ($liveOpenTime < $liveCloseTime) {
+            $apptDateTimes[] = clone $liveOpenTime;
+            $liveOpenTime->modify('+ 15 minutes');
+        }
+
+        return view('crud/create-bulk/create', ['apptDateTime' => $apptDateTimes, 'slotCount' => $aDay->available_staff]);
+    }
 }
