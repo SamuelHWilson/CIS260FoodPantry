@@ -19,13 +19,13 @@
 			<div class = "Index_container">
 				<div class="header-box clearfix">
 					<div class="left"><h1><font face="Helvetica">Create Apointments in Bulk</font></h1></div>
-					<div class="right">
-						<input id="date" name="date" type="text" display="inline">
-						<button onclick="window.location+='/' + document.getElementById('date').value">Submit</button>
-					</div>
 				</div>
-
-				<p class='shy-index-filler'>Select a date to get started...</p>
+				
+				<div class='index-filler'>
+					<p>Select a date to get started.</p>
+					<input id="date" name="date" type="text" display="inline">
+					<button onclick="window.location+='/' + document.getElementById('date').value">Submit</button>
+				</div>
 			</div>
 		</div>
     </body>
