@@ -18,7 +18,7 @@
 		<div class = "Index_mainDiv">
 			<div class = "Index_container">
 				<div class="header-box clearfix">
-					<div class="left"><h1><font face="Helvetica">Create Apointments in Bulk</font></h1></div>
+					<h1><font face="Helvetica">Create Apointments in Bulk</font></h1>
 				</div>
 				
 				<div class='index-filler'>
