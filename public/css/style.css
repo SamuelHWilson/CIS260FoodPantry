@@ -13,6 +13,10 @@ a {
     text-decoration: none;
 }
 
+.fc-content {
+    text-align: center;
+}
+
 #calendar {
     margin: 12px auto;
 }
