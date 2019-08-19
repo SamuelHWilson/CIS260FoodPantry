@@ -18,6 +18,7 @@
 					<div class="center-box">
 						<h2 class="success">Success!</h2>
 						<p class="success"><strong>All appointments were created successfully.</strong></p>
+						<p class='fluffy-button'><a href='{{ url('/') }}'>Go Home</a></p>
 					</div>
 				</div>
 			</div>
