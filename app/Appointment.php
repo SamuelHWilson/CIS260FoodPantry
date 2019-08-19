@@ -55,13 +55,8 @@ class Appointment extends Model
         $this->save();
     }
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $fillable = [
-        
+    protected $guarded = [
+        'Appointment_ID'
     ];
 
     /**

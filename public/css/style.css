@@ -8,6 +8,10 @@ p {
     margin-top: 0px;
     margin-bottom: .5em;
 }
+a {
+    color: black;
+    text-decoration: none;
+}
 
 #calendar {
     margin: 12px auto;
@@ -48,6 +52,9 @@ div.Index_container{
     margin-bottom: 20px;
     padding: 0em 2em 4em 2em;
 }
+div.Index_container.nocenter {
+    text-align: left;
+}
 
 div.Index_mainDiv{
     background-color: #FFFFFF;
@@ -76,9 +83,6 @@ div.header-box h1 {
 div.index-filler {
     margin: 6em 0px;
 }
-.index-filler > p  {
-    font-size: 2em;
-}
 
 div.tab {
     padding-left: 2em;
@@ -98,10 +102,43 @@ table.spacing-table input[type=text] {
     width: 95%;
 }
 
-p.error {
+div.blurb {
+    background-color: #D3D3D3;
+    padding: 10px 20px 5px 20px;
+    border: 2px solid black;
+    border-radius: 15px;
+    display: inline-block;
+}
+div.blurb h1, div.blurb h2, div.blurb h3, div.blurb p {
+    margin: 0px 0px 5px 0px;
+}
+
+.fluffy-button {
+    border: 1px solid rgb(148, 148, 148);
+    border-radius: 10px;
+    padding: 4px 7px;
+    box-shadow: rgb(216, 216, 216) 2px 2px 3px;
+    display: inline-block;
+}
+.fluffy-button:hover {
+    box-shadow: none;
+}
+.fluffy-button:active {
+    background-color: rgb(216, 216, 216);
+}
+.fluffy-button-holder {
+    display: inline-block;
+}
+.fluffy-button-holder p {
+    float: left;
+    margin-top: 3px;
+    padding-right: 5px;  
+}
+
+.error {
     color: rgb(172, 54, 0);
 }
-p.success {
+.success {
     color: rgb(0, 109, 0);
 }
 
@@ -109,8 +146,12 @@ p.success {
     border-bottom: 1px solid black;
 }
 
-.center{
+div.center-box{
 	text-align: center;
+} .center {
+    text-align: center;
+} .left {
+    text-align: left;
 }
 
 .button{

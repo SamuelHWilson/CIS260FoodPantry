@@ -10,10 +10,18 @@
     	</form>
 		@include('partials.navigation-bar')
 		<div class = "Index_mainDiv">
-			<div class = "Index_container" style='text-align:left;'>
+			<div class = "Index_container nocenter">
 				<div class="header-box clearfix">
-					<h1><font face="Helvetica">Create Apointments for {{$apptDateTimes[0]->format('Y-m-d')}}</font></h1>
+					<h1><font face="Helvetica">Create Apointments for {{$date}}</font></h1>
 				</div>
+
+				@if (count($apptDateTimes) == 0)
+					<div class="index-filler center-box">
+						<h2>Least of These is closed this day.</h2>
+						<p style='margin: 40px 0px 10px 0px;'>But that's ok! You can go back and pick a new date.</p>
+						<p class='fluffy-button'><a href="{{ url()->previous()}}">Go Back</a></p>
+					</div>
+				@else
 
 				@if (session()->has('validationErrors'))
 					<p class="success center">There were problems with some of your appointments. But don't worry, they are easy to fix! </p>
@@ -56,7 +64,7 @@
 										<input type="checkbox" name="Senior_Box[{{$slotNum}}]" @if (array_key_exists($slotNum, old("Senior_Box", []))) checked @endif>
 									</td>
 									<input type="hidden" name="Appointment_Date[{{$slotNum}}]" value="{{$adt->format('Y-m-d')}}">
-									<input type="hidden" name="Appointment_Time[{{$slotNum}}]" value="{{$adt->format('h:gi')}}">
+									<input type="hidden" name="Appointment_Time[{{$slotNum}}]" value="{{$adt->format('H:i:s')}}">
 									<input type="hidden" name="True_Slot_Number[{{$slotNum}}]" value="{{$slotNum}}">
 								</tr>
 								<?php $slotNum += 1; ?>
@@ -65,8 +73,15 @@
 						</table>
 					</div>
 					@endforeach
-					<input type="Submit" value="Submit">
+					<div class="center-box">
+						<div class='fluffy-button-holder' style='margin-top: 30px;'>
+							<p>Click here, when you are finished:</p>
+							<input type="Submit" value="Submit" class="fluffy-button">
+						</div>
+					</div>
 				</form>
+
+				@endif
 			</div>
 		</div>
     </body>

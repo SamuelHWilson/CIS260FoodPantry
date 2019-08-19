@@ -238,10 +238,13 @@ class AppointmentController extends Controller
             $liveOpenTime->modify('+ 15 minutes');
         }
 
-        return view('crud/create-bulk/create', ['apptDateTimes' => $apptDateTimes, 'apptsPerSlot' => $aDay->available_staff]);
+        return view('crud/create-bulk/create', ['apptDateTimes' => $apptDateTimes, 'apptsPerSlot' => $aDay->available_staff, 'date' => $liveDate->format('Y-m-d')]);
     }
 
     public function bulkCreate(Request $re) {
+        if (max($re->First_Name) == null) return back();
+
+        $apptValidator = new AppointmentValidator(max($re->Appointment_Date));
         isset($re->Senior_Box) || $re->Senior_Box = [];
         $validationErrors = [];
         $apptsToSave = [];
@@ -254,32 +257,39 @@ class AppointmentController extends Controller
             if (!preg_match("/^[A-Za-z]+$/",trim($re->Last_Name[$ro]))) array_push($currentValidationErrors,"The client's last name can only contain letters and cannot have any spaces in it.");
             if (!preg_match("/^\d{10}$/",trim($re->Phone_Number[$ro]))) array_push($currentValidationErrors,"The client's phone number has to be 10 digits, with no formating. (Example: 4178325698)");
             if (!preg_match("/^[\d\w\.?!,&'\s]*$/",$re->Appointment_Note[$ro])) array_push($currentValidationErrors,"The notes field can only contain the following punctuation marks: . ? ! , & '");   
-            
             if (count($currentValidationErrors) > 0) {
                 $validationErrors[$re->True_Slot_Number[$ro]] = $currentValidationErrors;
-            } else {
-                $c = Client::firstOrCreate(
-                    ['Phone_Number' => $re->Phone_Number[$ro],
-                     'Last_Name' => $re->Last_Name[$ro],
-                     'First_Name' => $re->First_Name[$ro]]);
-                $c->SB_Eligibility = array_key_exists($ro, $re->Senior_Box);
-                $c->save();
-
-                dd($c);
-
-                $a = Appointment::create(
-                    ['Client_ID' => $c->Client_ID,
-                    'Status_ID' => Appointment::$PendingStatus,
-                    'Appointment_Date' => $re->Appointment_Date[$ro],
-                    'Appointment_Time' => $re->Appointment_Time[$ro],
-                    'Appointment_Note' => $re->Appointment_Note[$ro]]
-                );
-                dump($a);
+                continue;
             }
+
+            $c = Client::firstOrCreate(
+                ['Phone_Number' => $re->Phone_Number[$ro],
+                    'Last_Name' => $re->Last_Name[$ro],
+                    'First_Name' => $re->First_Name[$ro]]);
+            $c->SB_Eligibility = array_key_exists($ro, $re->Senior_Box);
+            $c->save();
+            
+            $a = new Appointment;
+            $a->fill(
+                ['Client_ID' => $c->Client_ID,
+                'Status_ID' => Appointment::$PendingStatus,
+                'Appointment_Date' => $re->Appointment_Date[$ro],
+                'Appointment_Time' => $re->Appointment_Time[$ro],
+                'Appointment_Note' => $re->Appointment_Note[$ro]]
+            );
+            $result = $apptValidator->validateAppointment($a, true);
+            if (!($result == 'validated')) {
+                $validationErrors[$re->True_Slot_Number[$ro]] = [AppointmentValidator::$messages[$result]];
+                continue;
+            }
+
+            $a->save();
         }
 
-        dd("end");
-
-        return back()->withInput()->with('validationErrors', $validationErrors);
+        if (count($validationErrors) > 0) {
+            return back()->withInput()->with('validationErrors', $validationErrors);
+        } else {
+            return view('crud/create-bulk/success');
+        }
     }
 }

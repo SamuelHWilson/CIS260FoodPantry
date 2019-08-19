@@ -50,9 +50,11 @@ Route::middleware(['check-edit'])->group(function() {
     Route::post('/appointments/cancel-pending', 'Pantry\AppointmentController@cancelPendingAppointment');
     Route::post('/appointments/cancel', 'Pantry\AppointmentController@cancel');
     Route::post('/appointments/restore', 'Pantry\AppointmentController@restore');
+    Route::view('/appointments/create-bulk/success', 'crud/create-bulk/success');
     Route::view('/appointments/create-bulk', 'crud/create-bulk/pick-day');
     Route::get('/appointments/create-bulk/{date}', 'Pantry\AppointmentController@showBulkCreate');
     Route::post('/appointments/create-bulk/{date}', 'Pantry\AppointmentController@bulkCreate');
+
 
     Route::get('/clients/edit', 'Pantry\ClientController@showClient');
 

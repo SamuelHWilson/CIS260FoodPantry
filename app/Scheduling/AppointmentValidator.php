@@ -14,6 +14,13 @@ use App\AvailabilityDay;
 
 class AppointmentValidator {
     public static $seniorBoxCutoffDay = 19;
+    public static $messages = [
+        'closed' => "Least of These is closed this day.",
+        'slotFull' => "This time slot is already full of appointments.",
+        'beforeOpen' => "This appointment is scheduled to start before Least of These opens.",
+        'afterClose' => "This appointment is scheduled to start after Least of These closes.",
+        'lateSeniorBox' => "This client recives a Senior Box, and this appointment is scheduled after the Senior Box cutoff date.",
+    ];
 
     public $liveDate;
     public $aDay;
