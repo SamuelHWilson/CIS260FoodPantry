@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Pantry;
 
 use Validator;
 use Hash;
+use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -15,7 +16,7 @@ class PasswordController extends Controller
     }
 
     public function changePassword(Request $request) {
-        $user = \Auth::user();
+        $user = User::where('name', $request->name)->first();
 
         $validator = Validator::make($request->all(), [
             'oldPassword' => ['required','string','different:newPassword',
@@ -37,6 +38,6 @@ class PasswordController extends Controller
         $user->password = Hash::make($validatedData['newPassword']);
         $user->save();
         
-        return redirect('/password/change')->with('status', true);
+        return redirect('/password/change')->with('status', true)->withInput();
     }
 }

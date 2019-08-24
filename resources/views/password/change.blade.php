@@ -17,6 +17,11 @@
             <form method="POST" action="">
                 @csrf
 
+                <p>Choose an access level.</p>
+                <input type="radio" name="name" id="admin" value="admin" @if(old('name') == 'admin') checked @endif> Manage Business<br>
+                <input type="radio" name="name" id="read_write" value="edit" @if(old('name') == 'edit') checked @endif> View and Modify Appointments<br>
+                <input type="radio" name="name" id="ready_only" value="view" @if(old('name') == 'view') checked @endif> View Appointments Only<br>
+
                 <p>Enter your current password.</p>
                 @foreach($errors->get('oldPassword') as $message)
                     <p class='val-error'>{{$message}}</p>
