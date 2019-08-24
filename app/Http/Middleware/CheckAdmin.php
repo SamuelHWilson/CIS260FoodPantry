@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Support\Facades\Auth;
 
-class CheckEdit
+class CheckAdmin
 {
     /**
      * Handle an incoming request.
@@ -14,7 +14,6 @@ class CheckEdit
      * @param  \Closure  $next
      * @return mixed
      */
-    private static $editName = "edit";
     private static $adminName = "admin";
 
     public function handle($request, Closure $next)
@@ -23,7 +22,7 @@ class CheckEdit
             return redirect('login');
         }
 
-        if (!(Auth::user()->name == CheckEdit::$editName || CheckEdit::$adminName)) {
+        if (!(Auth::user()->name == CheckAdmin::$adminName)) {
             return redirect('/access-denied');
         }
 

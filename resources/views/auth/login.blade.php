@@ -26,6 +26,7 @@ LAST UPDATE: 11/05/2018-->
         <form method="POST" action="/login">
           @csrf
         <label for="uname"><b>Account: </b></label><br>
+        <input type="radio" name="name" id="admin" value="admin"> Manage Appointments and Business Information<br>
         <input type="radio" name="name" id="read_write" value="edit"> View and Modify Appointments<br>
         <input type="radio" name="name" id="ready_only" value="view"> View Appointments Only<br>
         <br><br>

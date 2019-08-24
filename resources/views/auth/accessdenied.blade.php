@@ -21,9 +21,9 @@ LAST UPDATE: 11/05/2018-->
     <h1 class="Appointment_Header"><font face="Helvetica">ACCESS DENIED</font></h1>
     <div class="Appointment_Form">
 
-      <p><b>Changes cannot be make while you are logged in under "View Only".</b></p>
-      <p>In order to make changes you will need to select "Logout" below and log in under "View and Modify Appointments".</p>
-      <p>If you have reached this page in error, please select "Cancel" below.</p><br>
+      <p><b>You don't have permission to do that.</b></p>
+      <p>In order to make the changes you want, log in under another account with more permissions.</p>
+      <p>If you have accidentally reached this page, please select "Cancel" below.</p><br>
       <button onclick='document.forms.namedItem("logout").submit()'>Logout</button>
       <button onclick='window.location = "{{ url()->previous() }}"'>Cancel</button>
     </div>
