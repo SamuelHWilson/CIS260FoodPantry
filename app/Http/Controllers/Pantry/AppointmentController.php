@@ -197,8 +197,8 @@ class AppointmentController extends Controller
             // dd($request->First_Name);
             $client = Client::firstOrCreate(
                 ['Phone_Number' => $request->Phone_Number,
-                 'Last_Name' => $request->Last_Name,
-                 'First_Name' => $request->First_Name]);
+                 'Last_Name' => ucfirst($request->Last_Name),
+                 'First_Name' => ucfirst($request->First_Name)]);
             $client->SB_Eligibility = $request->SB_Eligibility;
         }
 
@@ -264,8 +264,8 @@ class AppointmentController extends Controller
 
             $c = Client::firstOrCreate(
                 ['Phone_Number' => $re->Phone_Number[$ro],
-                    'Last_Name' => $re->Last_Name[$ro],
-                    'First_Name' => $re->First_Name[$ro]]);
+                    'Last_Name' => ucfirst($re->Last_Name[$ro]),
+                    'First_Name' => ucfirst($re->First_Name[$ro])]);
             $c->SB_Eligibility = array_key_exists($ro, $re->Senior_Box);
             $c->save();
             

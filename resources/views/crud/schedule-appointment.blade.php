@@ -2,6 +2,13 @@
   if (session('pendingAppointment', false)) {
     $hasPending = true;
     $pendingClient = session('pendingAppointment')->client;
+    
+    if(session('pendingAppointment')->appt != null) {
+      $hasPendingAppt = true;
+      $pendingAppt = session('pendingAppointment')->appt;
+    } else {
+      $hasPendingAppt = false;
+    }
   } else {
     $hasPending = false;
   }
@@ -249,7 +256,7 @@ LAST UPDATE: 11/05/2018-->
         name="Appointment_Note"
         placeholder="Add anything noteworthy about the appointment here."
         style="width: 80%;"
-        rows="3">{{ old('Appointment_Note') }}</textarea>
+        rows="3">{{ old('Appointment_Note') ? old('Appointment_Note') : ($hasPendingAppt ? $pendingAppt->Appointment_Note : "") }}</textarea>
 
         <br><br>
         <!--Senior Box Radio buttons-->
@@ -259,8 +266,8 @@ LAST UPDATE: 11/05/2018-->
           $sbTrue = (old('SB_Eligibility') == true) || ($hasPending == true && $pendingClient->SB_Eligibility == true);
         ?>
 
-        <input type="radio" name="SB_Eligibility" id="yes" value="1" @if($hasPending && !$sbTrue) disabled @endif @if($sbTrue) checked @endif> Yes<br>
-        <input type="radio" name="SB_Eligibility" id="no" value="0" @if($hasPending && $sbTrue) disabled @endif @if(!$sbTrue) checked @endif> No<br>
+        <input type="radio" name="SB_Eligibility" id="yes" value="1" @if($sbTrue) checked @endif> Yes<br>
+        <input type="radio" name="SB_Eligibility" id="no" value="0" @if(!$sbTrue) checked @endif> No<br>
         <br><br>
 
         <!--buttons-->
