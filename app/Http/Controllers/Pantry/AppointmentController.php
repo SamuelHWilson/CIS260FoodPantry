@@ -166,7 +166,7 @@ class AppointmentController extends Controller
             'Appointment_Date' => 'required|date',
             'First_Name' => 'required|alpha',
             'Last_Name' => 'required|alpha',
-            'Phone_Number' => 'required|regex:/^[0-9]{10}$/',
+            'Phone_Number' => 'required|regex:/^\D*(\d\D*){10}$/',
             'SB_Eligibility' => 'required|bool',
             'Appointment_Note' => "regex:/^[A-Za-z0-9!?, \.\']*$/|nullable",
 
@@ -196,7 +196,7 @@ class AppointmentController extends Controller
         } else {
             // dd($request->First_Name);
             $client = Client::firstOrCreate(
-                ['Phone_Number' => $request->Phone_Number,
+                ['Phone_Number' => preg_replace('/\D/', '', $request->Phone_Number),
                  'Last_Name' => ucfirst($request->Last_Name),
                  'First_Name' => ucfirst($request->First_Name)]);
             $client->SB_Eligibility = $request->SB_Eligibility;
@@ -255,7 +255,7 @@ class AppointmentController extends Controller
             $currentValidationErrors = [];
             if (!preg_match("/^[A-Za-z]+$/",trim($re->First_Name[$ro]))) array_push($currentValidationErrors,"The client's first name can only contain letters and cannot have any spaces in it.");
             if (!preg_match("/^[A-Za-z]+$/",trim($re->Last_Name[$ro]))) array_push($currentValidationErrors,"The client's last name can only contain letters and cannot have any spaces in it.");
-            if (!preg_match("/^\d{10}$/",trim($re->Phone_Number[$ro]))) array_push($currentValidationErrors,"The client's phone number has to be 10 digits, with no formating. (Example: 4178325698)");
+            if (!preg_match("/^\D*(\d\D*){10}$/",trim($re->Phone_Number[$ro]))) array_push($currentValidationErrors,"The client's phone number has to be 10 digits, with no formating. (Example: 4178325698)");
             if (!preg_match("/^[\d\w\.?!,&'\s]*$/",$re->Appointment_Note[$ro])) array_push($currentValidationErrors,"The notes field can only contain the following punctuation marks: . ? ! , & '");   
             if (count($currentValidationErrors) > 0) {
                 $validationErrors[$re->True_Slot_Number[$ro]] = $currentValidationErrors;
@@ -263,7 +263,7 @@ class AppointmentController extends Controller
             }
 
             $c = Client::firstOrCreate(
-                ['Phone_Number' => $re->Phone_Number[$ro],
+                ['Phone_Number' => preg_replace('/\D/', '', $re->Phone_Number[$ro]),
                     'Last_Name' => ucfirst($re->Last_Name[$ro]),
                     'First_Name' => ucfirst($re->First_Name[$ro])]);
             $c->SB_Eligibility = array_key_exists($ro, $re->Senior_Box);

@@ -11,6 +11,7 @@
     }
   } else {
     $hasPending = false;
+    $hasPendingAppt = false;
   }
 ?>
 
@@ -51,13 +52,6 @@ LAST UPDATE: 11/05/2018-->
     if(isNaN(frm.phone.value)){
       alert("Please enter a valid phone number.")
       return false;
-    }
-    if((frm.phone.value).length < 10){
-      alert("Phone number must be 10 digits.")
-      return false;
-    }
-    if((frm.phone.value).length < 10){
-      alert("Phone number must be 10 digits.")
     }
     //Radio Boxes
     var radio1 = document.getElementById('yes').checked;
@@ -227,7 +221,7 @@ LAST UPDATE: 11/05/2018-->
         <br><br>
         <!--Phone Number Textbox-->
         @if( $errors->first('Phone_Number'))
-          <p style='color:orangered;'><font face="Helvetica"><b>Phone number must be standard 10 digit phone number. Can include only numbers. Do not include formating. Example: 4178654545</font></b></p>
+          <p style='color:orangered;'><font face="Helvetica"><b>Phone number must include exactly 10 numeric digits. Example: (417)865-4545</font></b></p>
         @endif
         <b>Phone Number: </b>
         <input type = "text"
