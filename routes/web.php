@@ -50,6 +50,9 @@ Route::middleware(['check-edit'])->group(function() {
     Route::post('/appointments/cancel-pending', 'Pantry\AppointmentController@cancelPendingAppointment');
     Route::post('/appointments/cancel', 'Pantry\AppointmentController@cancel');
     Route::post('/appointments/restore', 'Pantry\AppointmentController@restore');
+
+    Route::view('/clients/search', 'crud/clients/search');
+    Route::post('/clients/search', 'Pantry\ClientController@search');
 });
 
 Route::middleware(['check-admin'])->group(function() {

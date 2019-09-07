@@ -71,6 +71,10 @@ div.Index_mainDiv{
     width: auto;
 }
 
+p.shy {
+    color: rgb(88, 88, 88);
+}
+
 h1.defaultconfig_h1{ /*Depreciated*/
     border-bottom: solid;
 }
@@ -106,6 +110,10 @@ table.spacing-table input[type=text] {
     width: 95%;
 }
 
+.inline-form input, .inline-form p {
+    display: inline-block;
+}
+
 div.blurb {
     background-color: #D3D3D3;
     padding: 10px 20px 5px 20px;
@@ -137,6 +145,17 @@ div.blurb h1, div.blurb h2, div.blurb h3, div.blurb p {
     float: left;
     margin-top: 3px;
     padding-right: 5px;  
+}
+
+.fluffy-input {
+    border: 1px solid rgb(148, 148, 148);
+    border-radius: 10px;
+    padding: 4px 7px;
+    box-shadow: rgb(216, 216, 216) 1px 1px 2px;
+}
+.fluffy-input.invalid {
+    border-color: rgb(172, 54, 0);
+    color: rgb(172, 54, 0);
 }
 
 .error {
