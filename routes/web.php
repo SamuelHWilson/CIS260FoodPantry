@@ -52,8 +52,8 @@ Route::middleware(['check-edit'])->group(function() {
     Route::post('/appointments/restore', 'Pantry\AppointmentController@restore');
 
     Route::view('/clients/search', 'crud/clients/search');
-    Route::view('/clients/results', 'crud/clients/results');
     Route::post('/clients/search', 'Pantry\ClientController@search');
+    Route::get('/clients/info/{id}', 'Pantry\ClientController@info')->name('clientInfo');
 });
 
 Route::middleware(['check-admin'])->group(function() {

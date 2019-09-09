@@ -32,7 +32,7 @@
 								<div><p>{{$client->First_Name}}</p></div>
 								<div><p>{{$client->Last_Name}}</p></div>
 								<div><p>{{$client->Phone_Number}}</p></div>
-								<div><p class='fluffy-button'><a>View</a></p></div>
+								<div><p class='fluffy-button'><a href='{{route("clientInfo", ["id" => $client->Client_ID])}}'>View</a></p></div>
 							</div>
 						@endforeach
 

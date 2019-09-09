@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Pantry;
 
 use App\Client;
+use App\Appointment;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -23,6 +24,13 @@ class ClientController extends Controller
         $clients = Client::SimpleSearch($request->First_Name, $request->Last_Name, $request->Phone_Number);
 
         return view('crud.clients.results', ['clients' => $clients]);
+    }
+
+    public function info($id) {
+        $client = Client::findOrFail($id);
+        $appts = Appointment::GetForClientUntil($id);
+
+        return view('crud.clients.info', ['client' => $client, 'appts' => $appts]);
     }
 
     //Show all clients.

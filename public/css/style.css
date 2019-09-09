@@ -71,6 +71,10 @@ div.Index_mainDiv{
     width: auto;
 }
 
+.size-1 {
+    font-size: 1.25em;
+}
+
 .shy {
     color: rgb(88, 88, 88);
 }

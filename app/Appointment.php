@@ -55,6 +55,13 @@ class Appointment extends Model
         $this->save();
     }
 
+    public static function GetForClientUntil($id, $modify = '- 1 year') {
+        $untilDate = new DateTime;
+        $untilDate->modify($modify);
+
+        return Appointment::where([['Client_ID', '=', $id], ['Appointment_Date', '>=', $untilDate]])->get();
+    }
+
     protected $guarded = [
         'Appointment_ID'
     ];
