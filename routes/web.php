@@ -33,8 +33,7 @@ Route::get('/access-denied', function() {
     return view('auth.accessdenied');
 })->name('access-denied');
 
-Route::middleware(['auth.basic'])->group(function() {
-    
+Route::middleware(['auth.basic'])->group(function() {   
     Route::get('/appointments/day-view/{date}', 'Pantry\AppointmentController@showDay');
     Route::get('/appointments/month-view/{date}', 'Pantry\AppointmentController@showMonth');
 
@@ -44,6 +43,7 @@ Route::middleware(['auth.basic'])->group(function() {
 Route::middleware(['check-edit'])->group(function() {
     Route::get('/appointments/create-appointment/{date}', 'Pantry\AppointmentController@showCreateForm');
     Route::post('/appointments/create-appointment', 'Pantry\AppointmentController@createAppointment');
+
     Route::post('/appointments/check-in', 'Pantry\AppointmentController@checkIn');
     Route::get('/appointments/check-in/schedule-next/{id}', 'Pantry\AppointmentController@scheduleNext');
     Route::post('/appointments/create-pending', 'Pantry\AppointmentController@createPendingAppointment');
@@ -51,14 +51,13 @@ Route::middleware(['check-edit'])->group(function() {
     Route::post('/appointments/cancel', 'Pantry\AppointmentController@cancel');
     Route::post('/appointments/restore', 'Pantry\AppointmentController@restore');
 
-    Route::view('/clients/search', 'crud/clients/search');
+    Route::view('/clients/search', 'crud/clients/search')->name('searchClient');
     Route::post('/clients/search', 'Pantry\ClientController@search');
     Route::get('/clients/info/{id}', 'Pantry\ClientController@info')->name('clientInfo');
+    Route::post('/clients/edit', 'Pantry\ClientController@updateClient')->name('updateClient');
 });
 
 Route::middleware(['check-admin'])->group(function() {
-    Route::get('/clients/edit', 'Pantry\ClientController@showClient');
-
     Route::view('/appointments/create-bulk/success', 'crud/create-bulk/success');
     Route::view('/appointments/create-bulk', 'crud/create-bulk/pick-day');
     Route::get('/appointments/create-bulk/{date}', 'Pantry\AppointmentController@showBulkCreate');
@@ -81,7 +80,7 @@ Route::middleware(['check-admin'])->group(function() {
 });
 
 // Maintenance only.
-Route::get('/register', function () {
-    return view('auth.register');
-})->name('register');
-Route::post('register', 'Auth\RegisterController@register');
+// Route::get('/register', function () {
+//     return view('auth.register');
+// })->name('register');
+// Route::post('register', 'Auth\RegisterController@register');

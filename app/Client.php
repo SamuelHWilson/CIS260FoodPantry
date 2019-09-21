@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use DateTime;
 
 class Client extends Model
 {
@@ -45,6 +46,18 @@ class Client extends Model
         }
 
         return Client::where($whereArray)->get();
+    }
+
+    public static function GetNextAppt($id) {
+        $today = new DateTime();
+        
+        $apptCol = Appointment::where([['Client_ID', '=', $id], ['Appointment_Date', '>=', $today]])->with('Status')->orderBy('Appointment_Date')->take(1)->get();
+        
+        if (!$apptCol->isEmpty()) {
+            return $apptCol[0];
+        } else {
+            return null;
+        }
     }
 
     //These are here to override naming convention.

@@ -133,8 +133,11 @@ div.blurb h1, div.blurb h2, div.blurb h3, div.blurb p {
     border: 1px solid rgb(148, 148, 148);
     border-radius: 10px;
     padding: 4px 7px;
-    box-shadow: rgb(216, 216, 216) 2px 2px 3px;
+    box-shadow: rgba(61, 61, 61, 0.315) 2px 2px 3px;
     display: inline-block;
+}
+.fluffy-button.confirm {
+    background-color: rgb(184, 221, 184);
 }
 .fluffy-button:hover {
     box-shadow: none;
@@ -178,8 +181,11 @@ div.blurb h1, div.blurb h2, div.blurb h3, div.blurb p {
     margin-bottom: 10px;
 }
 .fluffy-summary p, .fluffy-summary a {
-    text-align: left;
+    text-align: center;
     margin: 2px;
+}
+.fluffy-summary.al p, .fluffy-summary.al a {
+    text-align: left;
 }
 .fluffy-summary.header {
     border: none;
@@ -188,14 +194,17 @@ div.blurb h1, div.blurb h2, div.blurb h3, div.blurb p {
 .fluffy-summary.header p {
     font-weight: bold;
 }
-.fluffy-summary div {
+.fluffy-summary > div {
     display: inline-block;
 }
-.fluffy-summary[col="3"] div{
+.fluffy-summary[col="3"] > div{
     width: 32%;
 }
-.fluffy-summary[col="4"] div{
+.fluffy-summary[col="4"] > div{
     width: 24%;
+}
+.fluffy-summary.problem {
+    background-color: rgba(248, 0, 0, 0.274);
 }
 
 .error {
