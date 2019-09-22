@@ -22,10 +22,15 @@ class AppointmentController extends Controller
 
     public function viewAppointment($id) {
         $now = new DateTime();
+
         $appt = Appointment::with(['Client', 'Client.Flags' => function($query) use ($now) {
             $query->where('Flag_EXP', '>', $now);
         }])->where('Appointment_ID', $id)->first();
-        return view('crud.view-appointment', ['appt' => $appt]);
+
+        $apptVal = new AppointmentValidator($appt->Appointment_Date);
+        $valError = $apptVal->validateAppointment($appt);
+
+        return view('crud.view-appointment', ['appt' => $appt, 'valError' => ($valError == 'validated' ? null : AppointmentValidator::$messages[$valError])]);
     }
 
     public function showDay($date) {
@@ -239,6 +244,19 @@ class AppointmentController extends Controller
         }
 
         return view('crud/create-bulk/create', ['apptDateTimes' => $apptDateTimes, 'apptsPerSlot' => $aDay->available_staff, 'date' => $liveDate->format('Y-m-d')]);
+    }
+
+    public function editNote(Request $request) {
+        $validatedData = $request->validate([
+            'Appointment_ID' => 'required|int',
+            'Appointment_Note' => "regex:/^[A-Za-z0-9!?, \.\']*$/|nullable"
+        ]);
+
+        $appt = Appointment::find($request->Appointment_ID);
+        $appt->Appointment_Note = $request->Appointment_Note;
+        $appt->save();
+
+        return redirect()->back();
     }
 
     public function bulkCreate(Request $re) {

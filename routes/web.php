@@ -50,6 +50,7 @@ Route::middleware(['check-edit'])->group(function() {
     Route::post('/appointments/cancel-pending', 'Pantry\AppointmentController@cancelPendingAppointment');
     Route::post('/appointments/cancel', 'Pantry\AppointmentController@cancel');
     Route::post('/appointments/restore', 'Pantry\AppointmentController@restore');
+    Route::post('/appointments/edit-note', 'Pantry\AppointmentController@editNote')->name('editNote');
 
     Route::view('/clients/search', 'crud/clients/search')->name('searchClient');
     Route::post('/clients/search', 'Pantry\ClientController@search');
@@ -74,6 +75,7 @@ Route::middleware(['check-admin'])->group(function() {
     Route::get('/reporting/reschedules', 'Pantry\ReportController@showRescheduleReport');
     Route::get('/reporting/daily-appointments/{date}', 'Pantry\ReportController@showDailyAppointmentsReport');
     Route::get('/reporting/daily-clients/{date}', 'Pantry\ReportController@showDailyClientsReport');
+    Route::get('/reporting/daily-clients-senior/{date}', 'Pantry\ReportController@showDailyClientsSBReport')->name('clientSBReport');
 
     Route::get('/password/change', 'Pantry\PasswordController@viewChangePassword');
     Route::post('/password/change', 'Pantry\PasswordController@changePassword');

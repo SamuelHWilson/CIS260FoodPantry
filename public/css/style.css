@@ -74,6 +74,9 @@ div.Index_mainDiv{
 .size-1 {
     font-size: 1.25em;
 }
+.size-2 {
+    font-size: 1.50em;
+}
 
 .shy {
     color: rgb(88, 88, 88);
@@ -81,6 +84,10 @@ div.Index_mainDiv{
 
 h1.defaultconfig_h1{ /*Depreciated*/
     border-bottom: solid;
+}
+
+.tac {
+    text-align: center;
 }
 
 div.header-box {
@@ -136,9 +143,6 @@ div.blurb h1, div.blurb h2, div.blurb h3, div.blurb p {
     box-shadow: rgba(61, 61, 61, 0.315) 2px 2px 3px;
     display: inline-block;
 }
-.fluffy-button.confirm {
-    background-color: rgb(184, 221, 184);
-}
 .fluffy-button:hover {
     box-shadow: none;
 }
@@ -152,6 +156,14 @@ div.blurb h1, div.blurb h2, div.blurb h3, div.blurb p {
     float: left;
     margin-top: 3px;
     padding-right: 5px;  
+}
+.fluffy-button.shy {
+    background-color: rgba(0,0,0,0);
+    padding: 2px 5px;
+    color: black;
+}
+.fluffy-button.confirm {
+    background-color: rgb(184, 221, 184);
 }
 
 .fluffy-input {

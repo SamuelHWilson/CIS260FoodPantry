@@ -38,6 +38,18 @@ class ReportController extends Controller
 
         return view('reporting.daily-clients-report')->with(['clients' => $clients, 'date' => $date]);
     }
+    
+    public function showDailyClientsSBReport($date) {
+        $appointments = Appointment::whereDate('Appointment_Date', '=', $date)->with('client')->get();
+        $clients = $appointments->pluck('client');
+        $clients = $clients->sortBy('First_Name')->sortBy('Last_Name');
+
+        $clients = $clients->reject(function($client) {
+            return $client->SB_Eligibility == 0;
+        });
+
+        return view('reporting.daily-clients-report')->with(['clients' => $clients, 'date' => $date]);
+    }
 
     public function showDailyAppointmentsReport($date) {
         $appointments = Appointment::whereDate('Appointment_Date', '=', $date)->with('client')->orderBy('Appointment_Time')->get();

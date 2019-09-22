@@ -107,7 +107,7 @@
 							<div class='fluffy-summary problem'><p>{{$flag->Flag_DES}}</p></div>
 						@endforeach
 					@else
-						<div class='fluffy-summary problem'><p>This client has no flagged behavior...</p></div>
+						<div class='fluffy-summary'><p>This client has no flagged behavior...</p></div>
 					@endif
 
 					<h2 >Recent Notes</h2>

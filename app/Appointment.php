@@ -31,6 +31,10 @@ class Appointment extends Model
         return $this->client->First_Name." ".$this->client->LastName;
     }
 
+    public function EasyTime() {
+        return $this->GetDateTime()->format('H:ia');
+    }
+
     public function CheckIn() {
         $this->Status_ID = Appointment::$CompletedStatus;
         $this->save();

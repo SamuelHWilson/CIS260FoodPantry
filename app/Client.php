@@ -60,6 +60,11 @@ class Client extends Model
         }
     }
 
+    public function PrettyPhone() {
+        $phone = $this->Phone_Number;
+        return sprintf("(%s)%s-%s", substr($phone, 0, 3), substr($phone, 3, 3), substr($phone, 6));
+    }
+
     //These are here to override naming convention.
     protected $table = 'Client';
     protected $primaryKey = 'Client_ID';

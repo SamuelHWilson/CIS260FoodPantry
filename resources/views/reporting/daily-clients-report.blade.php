@@ -20,6 +20,8 @@
 			<div style="text-align: center">
 				<button class="repButton" onclick='window.print()'>Print</button>
 				<button class="repButton" onclick='location.href="/reporting/reports"'>Go Back</button>
+				<?php $seniorURL = route("clientSBReport", ["date" => $date]) ?>
+				<button class="repButton" onclick='location.href="{{$seniorURL}}"'>Senior Box Only</button>
 			</div>
 		</div>
 	</body>
