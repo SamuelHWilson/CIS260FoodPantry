@@ -56,6 +56,13 @@ Route::middleware(['check-edit'])->group(function() {
     Route::post('/clients/search', 'Pantry\ClientController@search');
     Route::get('/clients/info/{id}', 'Pantry\ClientController@info')->name('clientInfo');
     Route::post('/clients/edit', 'Pantry\ClientController@updateClient')->name('updateClient');
+
+    Route::get('/reporting/reports', 'Pantry\ReportController@showReports');
+    Route::get('/reporting/no-shows', 'Pantry\ReportController@showNoShowReport');
+    Route::get('/reporting/reschedules', 'Pantry\ReportController@showRescheduleReport');
+    Route::get('/reporting/daily-appointments/{date}', 'Pantry\ReportController@showDailyAppointmentsReport');
+    Route::get('/reporting/daily-clients/{date}', 'Pantry\ReportController@showDailyClientsReport');
+    Route::get('/reporting/daily-clients-senior/{date}', 'Pantry\ReportController@showDailyClientsSBReport')->name('clientSBReport');
 });
 
 Route::middleware(['check-admin'])->group(function() {
@@ -69,13 +76,6 @@ Route::middleware(['check-admin'])->group(function() {
     Route::get('/hours/view-hours', 'Pantry\AvailabilityController@viewAvailability');
     Route::get('/hours/delete-change/{id}', 'Pantry\AvailabilityController@confirmDelete');
     Route::post('/hours/delete-change', 'Pantry\AvailabilityController@deleteChange');
-
-    Route::get('/reporting/reports', 'Pantry\ReportController@showReports');
-    Route::get('/reporting/no-shows', 'Pantry\ReportController@showNoShowReport');
-    Route::get('/reporting/reschedules', 'Pantry\ReportController@showRescheduleReport');
-    Route::get('/reporting/daily-appointments/{date}', 'Pantry\ReportController@showDailyAppointmentsReport');
-    Route::get('/reporting/daily-clients/{date}', 'Pantry\ReportController@showDailyClientsReport');
-    Route::get('/reporting/daily-clients-senior/{date}', 'Pantry\ReportController@showDailyClientsSBReport')->name('clientSBReport');
 
     Route::get('/password/change', 'Pantry\PasswordController@viewChangePassword');
     Route::post('/password/change', 'Pantry\PasswordController@changePassword');
